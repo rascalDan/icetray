@@ -1,0 +1,41 @@
+import testing ;
+
+lib boost_utf : : <name>boost_unit_test_framework ;
+lib boost_filesystem ;
+lib dbpp-postgresql : : : : <include>/usr/include/dbpp-postgresql ;
+
+path-constant me : . ;
+
+alias testCommon : : : :
+	<define>ROOT=\"$(me)\"
+	<library>..//adhocutil
+	<library>..//dryice
+	<library>..//icetray
+	<library>..//IceBox
+	<library>..//IceUtil
+	<library>..//Ice
+	<library>..//pthread
+	<library>boost_utf
+	<library>..//boost_system
+	<define>BOOST_TEST_DYN_LINK
+	;
+run
+	testIceTray.cpp
+	testIceTrayService.ice
+	testIceTrayServiceI.cpp
+	:
+	testIceTrayService.sql
+	: :
+	<library>testCommon
+	<library>boost_filesystem
+	<library>dbpp-postgresql
+	:
+	testIceTray ;
+
+run
+	testDefaultPool.cpp
+	: : :
+	<library>testCommon
+	:
+	testDefaultPool ;
+

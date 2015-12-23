@@ -1,0 +1,59 @@
+lib adhocutil : : : : <include>/usr/include/adhocutil ;
+lib slicer : : : : <include>/usr/include/slicer ;
+lib slicer-db : : : : <include>/usr/include/slicer ;
+lib Ice ;
+lib IceUtil ;
+lib pthread ;
+lib dl ;
+lib IceBox ;
+lib dbppcore : : : : <include>/usr/include/dbpp ;
+lib boost_system ;
+lib boost_thread ;
+
+build-project unittests ;
+
+lib icetray :
+	abstractDatabaseClient.cpp
+	defaultPool.cpp
+	icetrayService.cpp
+	test.cpp
+	:
+	<library>adhocutil
+	<library>dbppcore
+	<library>Ice
+	<library>IceUtil
+	<library>IceBox
+	<library>pthread
+	<library>slicer
+	<library>slicer-db
+	<library>boost_system
+	<library>boost_thread
+	<library>..//glibmm
+	<cflags>-fvisibility=hidden
+	: :
+	<include>.
+	<library>dbppcore
+	<library>adhocutil
+	<library>slicer
+	<library>slicer-db
+	<library>boost_thread
+	;
+
+lib dryice :
+	dryice.cpp
+	mockPool.cpp
+	:
+	<library>adhocutil
+	<library>icetray
+	<library>Ice
+	<library>IceUtil
+	<library>IceBox
+	<library>pthread
+	<library>boost_system
+	<library>boost_thread
+	<library>dl
+	<cflags>-fvisibility=hidden
+	: :
+	<include>.
+	;
+

@@ -1,3 +1,5 @@
+import package ;
+
 lib adhocutil : : : : <include>/usr/include/adhocutil ;
 lib slicer : : : : <include>/usr/include/slicer ;
 lib slicer-db : : : : <include>/usr/include/slicer ;
@@ -56,4 +58,7 @@ lib dryice :
 	: :
 	<include>.
 	;
+
+package.install install : <install-source-root>. : : icetray : abstractDatabaseClient.h icetrayService.h ;
+package.install installdryice : <install-source-root>. : : dryice : dryice.h ;
 

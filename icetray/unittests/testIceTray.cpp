@@ -5,7 +5,7 @@
 #include <Ice/Communicator.h>
 #include "testIceTrayServiceI.h"
 
-#include <mock.h>
+#include <pq-mock.h>
 #include <definedDirs.h>
 
 class Service : public IceTray::DryIce, PQ::Mock {

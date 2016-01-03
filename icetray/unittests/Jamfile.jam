@@ -1,5 +1,5 @@
 import testing ;
-import ../icetray ;
+import ../tool/icetray ;
 
 lib boost_utf : : <name>boost_unit_test_framework ;
 lib boost_filesystem ;

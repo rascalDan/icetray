@@ -1,0 +1,31 @@
+import package ;
+
+lib icetray :
+	abstractDatabaseClient.cpp
+	abstractCachingDatabaseClient.cpp
+	defaultPool.cpp
+	icetrayService.cpp
+	:
+	<library>..//adhocutil
+	<library>..//dbppcore
+	<library>..//Ice
+	<library>..//IceUtil
+	<library>..//IceBox
+	<library>..//pthread
+	<library>..//slicer
+	<library>..//slicer-db
+	<library>..//boost_system
+	<library>..//boost_thread
+	<library>../..//glibmm
+	<cflags>-fvisibility=hidden
+	: :
+	<include>.
+	<library>..//dbppcore
+	<library>..//adhocutil
+	<library>..//slicer
+	<library>..//slicer-db
+	<library>..//boost_thread
+	;
+
+package.install install-main : <install-source-root>. : : icetray : [ glob *.h : defaultPool.h ] ;
+

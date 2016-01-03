@@ -13,53 +13,7 @@ lib boost_system ;
 lib boost_thread ;
 
 build-project unittests ;
-
-lib icetray :
-	abstractDatabaseClient.cpp
-	abstractCachingDatabaseClient.cpp
-	defaultPool.cpp
-	icetrayService.cpp
-	:
-	<library>adhocutil
-	<library>dbppcore
-	<library>Ice
-	<library>IceUtil
-	<library>IceBox
-	<library>pthread
-	<library>slicer
-	<library>slicer-db
-	<library>boost_system
-	<library>boost_thread
-	<library>..//glibmm
-	<cflags>-fvisibility=hidden
-	: :
-	<include>.
-	<library>dbppcore
-	<library>adhocutil
-	<library>slicer
-	<library>slicer-db
-	<library>boost_thread
-	;
-
-lib dryice :
-	dryice.cpp
-	mockPool.cpp
-	:
-	<library>adhocutil
-	<library>icetray
-	<library>Ice
-	<library>IceUtil
-	<library>IceBox
-	<library>pthread
-	<library>boost_system
-	<library>boost_thread
-	<library>dl
-	<cflags>-fvisibility=hidden
-	: :
-	<include>.
-	;
-
-package.install install-main : <install-source-root>. : : icetray : abstractDatabaseClient.h icetrayService.h ;
-package.install-data install-tools : boost-build/tools : icetray.jam [ glob embed.*.m4 ] ;
-package.install install-dryice : <install-source-root>. : : dryice : dryice.h ;
+build-project icetray ;
+build-project dryice ;
+build-project tool ;
 

@@ -1,0 +1,22 @@
+import package ;
+
+lib dryice :
+	dryice.cpp
+	mockPool.cpp
+	:
+	<library>..//adhocutil
+	<library>../icetray//icetray
+	<library>..//Ice
+	<library>..//IceUtil
+	<library>..//IceBox
+	<library>..//pthread
+	<library>..//boost_system
+	<library>..//boost_thread
+	<library>..//dl
+	<cflags>-fvisibility=hidden
+	: :
+	<include>.
+	;
+
+package.install install-dryice : <install-source-root>. : : dryice : [ glob *.h : mockPool.h ] ;
+

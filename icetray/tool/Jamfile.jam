@@ -1,0 +1,4 @@
+import package ;
+
+package.install-data install-tools : boost-build/tools : icetray.jam [ glob embed.*.m4 ] ;
+

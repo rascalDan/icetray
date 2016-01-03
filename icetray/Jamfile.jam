@@ -16,6 +16,7 @@ build-project unittests ;
 
 lib icetray :
 	abstractDatabaseClient.cpp
+	abstractCachingDatabaseClient.cpp
 	defaultPool.cpp
 	icetrayService.cpp
 	:
@@ -58,6 +59,7 @@ lib dryice :
 	<include>.
 	;
 
-package.install install : <install-source-root>. : : icetray : abstractDatabaseClient.h icetrayService.h ;
-package.install installdryice : <install-source-root>. : : dryice : dryice.h ;
+package.install install-main : <install-source-root>. : : icetray : abstractDatabaseClient.h icetrayService.h ;
+package.install-data install-tools : boost-build/tools : icetray.jam [ glob embed.*.m4 ] ;
+package.install install-dryice : <install-source-root>. : : dryice : dryice.h ;
 

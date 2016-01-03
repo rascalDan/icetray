@@ -17,10 +17,10 @@ namespace IceTray {
 		adp->destroy();
 	}
 
-	boost::shared_ptr<AdHoc::ResourcePool<DB::Connection>> Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
+	DatabasePoolPtr Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
 	{
 		auto p = ic->getProperties();
-		return boost::shared_ptr<AdHoc::ResourcePool<DB::Connection>>(PoolProvider::createNew(
+		return DatabasePoolPtr(PoolProvider::createNew(
 					p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"),
 					name, type, p));
 	}
@@ -36,5 +36,5 @@ extern "C" {
 }
 
 INSTANTIATEVOIDFACTORY(IceTray::Service);
-INSTANTIATEFACTORY(IceTray::PoolType, const std::string &, const std::string &, Ice::PropertiesPtr);
+INSTANTIATEFACTORY(IceTray::DatabasePool, const std::string &, const std::string &, Ice::PropertiesPtr);
 

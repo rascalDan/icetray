@@ -1,4 +1,5 @@
 import testing ;
+import ../icetray ;
 
 lib boost_utf : : <name>boost_unit_test_framework ;
 lib boost_filesystem ;
@@ -19,13 +20,18 @@ alias testCommon : : : :
 	<library>..//boost_system
 	<define>BOOST_TEST_DYN_LINK
 	;
+
 run
 	testIceTray.cpp
 	testIceTrayService.ice
 	testIceTrayServiceI.cpp
+	testIceTrayServiceTestSql.sql
+	subdir/some.sql
+	subdir/a/more.sql
 	:
 	testIceTrayService.sql
 	: :
+	<icetray.sql.namespace>TestIceTray::sql
 	<library>testCommon
 	<library>boost_filesystem
 	<library>dbpp-postgresql

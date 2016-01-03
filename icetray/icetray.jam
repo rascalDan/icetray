@@ -1,0 +1,34 @@
+import generators ;
+import feature ;
+import type ;
+import path ;
+import property ;
+import project ;
+import regex ;
+
+project.initialize $(__name__) ;
+project icetray ;
+
+feature.feature icetray.sql.namespace : : free ;
+type.register SQL : sql ;
+generators.register-standard icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
+
+path-constant icetray-root : . ;
+
+rule icetray.c++.sql ( cpp h : sql : properties * )
+{
+	local namespace = [ property.select icetray.sql.namespace : $(properties) ] ;
+	local relpath = [ path.relative-to . $(sql:D) ] ;
+	namespace = [ regex.replace $(namespace:G=)/$(relpath) "\\/\\." "" ] ;
+	namespace = [ regex.replace $(namespace) "\\/" "::" ] ;
+	NAMESPACE on $(<) = -DNAMESPACE=\"$(namespace)\" ;
+}
+
+actions icetray.c++.sql
+{
+	m4 $(NAMESPACE) -DNAME="$(2:B)" -DSQL="$(2[1])" "$(icetray-root)/embed.sql.cpp.m4" > "$(1[1])"
+	m4 $(NAMESPACE) -DNAME="$(2:B)" "$(icetray-root)/embed.sql.h.m4" > "$(1[2])"
+}
+
+IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;
+

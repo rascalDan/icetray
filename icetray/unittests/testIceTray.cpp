@@ -40,7 +40,8 @@ BOOST_AUTO_TEST_CASE( services )
 {
 	BOOST_REQUIRE(p);
 	p->ice_ping();
-	p->method();
+	p->method1();
+	p->method2(1, "test");
 }
 
 BOOST_AUTO_TEST_SUITE_END();

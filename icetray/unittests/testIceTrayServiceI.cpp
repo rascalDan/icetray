@@ -3,24 +3,25 @@
 #include <Ice/ObjectAdapter.h>
 #include <Ice/Communicator.h>
 #include <boost/assert.hpp>
+#include <testIceTrayServiceTestSql.sql.h>
+#include <subdir/some.sql.h>
+#include <subdir/a/more.sql.h>
 
 namespace TestIceTray {
-	struct TestSql {
-		static const std::string sql;
-		static const std::size_t hash;
-	};
-	const std::string TestSql::sql("SELECT COUNT(*) FROM testTable WHERE id = ? AND name = ?");
-	const std::size_t TestSql::hash(std::hash<std::string>()(sql));
-	TestIceTrayServiceI::TestIceTrayServiceI(boost::shared_ptr<AdHoc::ResourcePool<DB::Connection>> d) :
-		IceTray::AbstractDatabaseClient(d)
+	TestIceTrayServiceI::TestIceTrayServiceI(IceTray::DatabasePoolPtr d) :
+		IceTray::AbstractCachingDatabaseClient(d)
 	{
 	}
 
-	void TestIceTrayServiceI::method(const Ice::Current &)
+	void TestIceTrayServiceI::method1(const Ice::Current &)
 	{
-		Ice::Int id = 4;
-		std::string name = "test";
-		BOOST_VERIFY((fetch<int, TestSql>(id, name)) == (fetch<int, TestSql>(id, name)));
+		fetch<int, sql::subdir::some>();
+		fetch<int, sql::subdir::a::more>();
+	}
+
+	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)
+	{
+		BOOST_VERIFY((fetchCache<int, sql::testIceTrayServiceTestSql>(10, id, name)) == (fetchCache<int, sql::testIceTrayServiceTestSql>(10, id, name)));
 	}
 
 	void TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr & adp)

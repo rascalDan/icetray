@@ -18,7 +18,6 @@ lib icetray :
 	abstractDatabaseClient.cpp
 	defaultPool.cpp
 	icetrayService.cpp
-	test.cpp
 	:
 	<library>adhocutil
 	<library>dbppcore

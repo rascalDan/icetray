@@ -13,7 +13,7 @@ namespace IceTray {
 			typedef boost::shared_ptr<boost::any> CacheItem;
 
 		public:
-			AbstractCachingDatabaseClient(boost::shared_ptr<AdHoc::ResourcePool<DB::Connection>> d);
+			AbstractCachingDatabaseClient(DatabasePoolPtr d);
 
 			template<typename Domain, typename Sql, typename ... Params>
 			inline

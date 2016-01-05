@@ -10,7 +10,7 @@ namespace IceTray {
 	class DLL_PUBLIC AbstractCachingDatabaseClient : public AbstractDatabaseClient {
 		private:
 			typedef std::vector<std::size_t> CacheKey;
-			typedef boost::shared_ptr<boost::any> CacheItem;
+			typedef boost::any CacheItem;
 
 		public:
 			AbstractCachingDatabaseClient(DatabasePoolPtr d);
@@ -26,13 +26,10 @@ namespace IceTray {
 				key.push_back(typeid(Domain).hash_code());
 				keyPushParams(key, params...);
 				if (auto cached = cache.get(key)) {
-					auto d = boost::any_cast<Domain>(cached->get());
-					if (d) {
-						return *d;
-					}
+					return boost::any_cast<Domain>(*cached);
 				}
 				auto d(fetch<Domain, Sql, Params...>(params...));
-				cache.add(key, CacheItem(new boost::any(d)), time(NULL) + cacheTime);
+				cache.add(key, CacheItem(d), time(NULL) + cacheTime);
 				return d;
 			}
 
@@ -46,7 +43,8 @@ namespace IceTray {
 
 			static void keyPushParams(CacheKey &);
 
-			AdHoc::Cache<CacheItem, CacheKey> cache;
+			typedef AdHoc::Cache<CacheItem, CacheKey> Cache;
+			Cache cache;
 	};
 }
 

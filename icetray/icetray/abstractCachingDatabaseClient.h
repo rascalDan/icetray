@@ -12,7 +12,7 @@ namespace IceTray {
 			typedef std::vector<std::size_t> CacheKey;
 			typedef boost::any CacheItem;
 
-		public:
+		protected:
 			AbstractCachingDatabaseClient(DatabasePoolPtr d);
 
 			template<typename Domain, typename Sql, typename ... Params>

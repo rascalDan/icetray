@@ -23,18 +23,13 @@ BOOST_GLOBAL_FIXTURE( Service );
 class Client : public IceTray::DryIceClient {
 	public:
 		Client() :
-			p(TestIceTray::TestIceTrayServicePrx::checkedCast(ic->stringToProxy("test:tcp -p 9002")))
+			p(getProxy<TestIceTray::TestIceTrayServicePrx>("test"))
 		{
 		}
 		TestIceTray::TestIceTrayServicePrx p;
 };
 
 BOOST_FIXTURE_TEST_SUITE( client, Client );
-
-BOOST_AUTO_TEST_CASE( startup )
-{
-	BOOST_REQUIRE(ic);
-}
 
 BOOST_AUTO_TEST_CASE( services )
 {

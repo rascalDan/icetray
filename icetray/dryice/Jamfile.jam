@@ -13,7 +13,6 @@ lib dryice :
 	<library>..//boost_system
 	<library>..//boost_thread
 	<library>..//dl
-	<cflags>-fvisibility=hidden
 	: :
 	<include>.
 	;

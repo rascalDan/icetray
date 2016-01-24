@@ -17,7 +17,6 @@ lib icetray :
 	<library>..//boost_system
 	<library>..//boost_thread
 	<library>../..//glibmm
-	<cflags>-fvisibility=hidden
 	: :
 	<include>.
 	<library>..//dbppcore

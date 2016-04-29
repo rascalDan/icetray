@@ -15,20 +15,20 @@ namespace IceTray {
 		protected:
 			AbstractCachingDatabaseClient(DatabasePoolPtr d);
 
-			template<typename Domain, typename Sql, typename ... Params>
+			template<typename Domain, typename ... Params>
 			inline
 			Domain
-			fetchCache(time_t cacheTime, const Params & ... params)
+			fetchCache(const SqlSource & sql, time_t cacheTime, const Params & ... params)
 			{
 				CacheKey key;
 				key.reserve(sizeof...(Params) + 2);
-				key.push_back(Sql::hash);
+				key.push_back(sql.getSqlHash());
 				key.push_back(typeid(Domain).hash_code());
 				keyPushParams(key, params...);
 				if (auto cached = cache.get(key)) {
 					return boost::any_cast<Domain>(*cached);
 				}
-				auto d(fetch<Domain, Sql, Params...>(params...));
+				auto d(fetch<Domain, Params...>(sql, params...));
 				cache.add(key, CacheItem(d), time(NULL) + cacheTime);
 				return d;
 			}

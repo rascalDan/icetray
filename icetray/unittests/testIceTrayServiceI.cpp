@@ -15,13 +15,13 @@ namespace TestIceTray {
 
 	void TestIceTrayServiceI::method1(const Ice::Current &)
 	{
-		fetch<int, sql::subdir::some>();
-		fetch<int, sql::subdir::a::more>();
+		fetch<int>(sql::subdir::some);
+		fetch<int>(sql::subdir::a::more);
 	}
 
 	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)
 	{
-		BOOST_VERIFY((fetchCache<int, sql::testIceTrayServiceTestSql>(10, id, name)) == (fetchCache<int, sql::testIceTrayServiceTestSql>(10, id, name)));
+		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)) == (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
 	}
 
 	void TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr & adp)

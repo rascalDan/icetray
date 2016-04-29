@@ -1,6 +1,8 @@
 import package ;
 
 lib icetray :
+	sqlSource.cpp
+	staticSqlSource.cpp
 	abstractDatabaseClient.cpp
 	abstractCachingDatabaseClient.cpp
 	defaultPool.cpp

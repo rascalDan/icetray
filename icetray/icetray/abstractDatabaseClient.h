@@ -2,6 +2,7 @@
 #define ICETRAY_ABSTRACTDATABASECLIENT_H
 
 #include "database.h"
+#include "sqlSource.h"
 #include <db/sqlSelectDeserializer.h>
 #include <slicer/slicer.h>
 #include <visibility.h>
@@ -11,13 +12,13 @@ namespace IceTray {
 		protected:
 			AbstractDatabaseClient(DatabasePoolPtr d);
 
-			template<typename Domain, typename Sql, typename ... Params>
+			template<typename Domain, typename ... Params>
 			inline
 			Domain
-			fetch(const Params & ... params)
+			fetch(const SqlSource & sql, const Params & ... params)
 			{
 				auto c = db->get();
-				auto s = DB::SelectCommandPtr(c->newSelectCommand(Sql::sql));
+				auto s = c->select(sql.getSql());
 				bind(0, s.get(), params...);
 				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(*s);
 			}

@@ -12,7 +12,7 @@
 BOOST_AUTO_TEST_CASE( defaultPool )
 {
 	auto p = Ice::createProperties();
-	p->setProperty("testcase.Database.ConnectionString", "host=randomdan.homeip.net user=gentoo");
+	p->setProperty("testcase.Database.ConnectionString", "user=template1 user=postgres");
 	auto pool = IceTray::PoolProvider::createNew("DefaultPool", "testcase", "postgresql", p);
 	BOOST_REQUIRE(pool);
 	BOOST_REQUIRE_EQUAL(0, pool->inUseCount());

@@ -20,6 +20,7 @@ namespace IceTray {
 			Ice::ObjectAdapterPtr adp;
 	};
 
+	typedef IceInternal::Handle<Service> ServicePtr;
 	typedef AdHoc::Factory<Service> ServiceFactory;
 	typedef AdHoc::Factory<DatabasePool, const std::string &, const std::string &, Ice::PropertiesPtr> PoolProvider;
 }

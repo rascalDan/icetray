@@ -4,6 +4,7 @@
 #include <Ice/Communicator.h>
 #include <IceBox/IceBox.h>
 #include <visibility.h>
+#include "icetrayService.h"
 
 namespace IceTray {
 	class DLL_PUBLIC DryIce {
@@ -20,7 +21,7 @@ namespace IceTray {
 			static DryIce * currentDryIce;
 
 			Ice::CommunicatorPtr ic;
-			IceBox::ServicePtr s;
+			IceTray::ServicePtr s;
 	};
 
 	class DLL_PUBLIC DryIceClient {

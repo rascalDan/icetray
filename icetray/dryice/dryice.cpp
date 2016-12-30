@@ -5,7 +5,7 @@
 #include <Ice/Initialize.h>
 
 namespace IceTray {
-	typedef IceBox::Service *(* SetupFunction)(Ice::CommunicatorPtr);
+	typedef IceTray::Service *(* SetupFunction)(Ice::CommunicatorPtr);
 
 	DryIce * DryIce::currentDryIce = nullptr;
 

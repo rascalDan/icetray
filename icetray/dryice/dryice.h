@@ -20,6 +20,8 @@ namespace IceTray {
 			friend class DryIceClient;
 			static DryIce * currentDryIce;
 
+			void replace(const std::string &, Ice::ObjectPtr);
+
 			Ice::CommunicatorPtr ic;
 			IceTray::ServicePtr s;
 	};

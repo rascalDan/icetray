@@ -3,6 +3,7 @@
 #include <dlfcn.h>
 #include <factory.h>
 #include <Ice/Initialize.h>
+#include <Ice/ObjectAdapter.h>
 
 namespace IceTray {
 	typedef IceTray::Service *(* SetupFunction)(Ice::CommunicatorPtr);
@@ -39,6 +40,14 @@ namespace IceTray {
 			ic->destroy();
 			ic = NULL;
 		}
+	}
+
+	void
+	DryIce::replace(const std::string & name, Ice::ObjectPtr replacement)
+	{
+		auto id = ic->stringToIdentity(name);
+		s->adp->remove(id);
+		s->adp->add(replacement, id);
 	}
 
 	DryIceClient::DryIceClient()

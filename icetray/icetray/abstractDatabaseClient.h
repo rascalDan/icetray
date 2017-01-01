@@ -18,7 +18,7 @@ namespace IceTray {
 			fetch(const SqlSource & sql, const Params & ... params)
 			{
 				auto c = db->get();
-				auto s = c->select(sql.getSql());
+				auto s = sql.select(c.get());
 				bind(0, s.get(), params...);
 				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(*s);
 			}

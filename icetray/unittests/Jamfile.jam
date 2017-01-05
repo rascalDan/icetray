@@ -1,5 +1,8 @@
 import testing ;
 import ../tool/icetray ;
+import generators ;
+import feature ;
+import toolset.flags ;
 
 lib boost_utf : : <name>boost_unit_test_framework ;
 lib boost_filesystem ;
@@ -19,7 +22,24 @@ alias testCommon : : : :
 	<library>boost_utf
 	<library>..//boost_system
 	<define>BOOST_TEST_DYN_LINK
+	<icetray.sql.tool>../tool//icetray-sql
+	<dependency>../tool//icetray-sql
+	<icetray.sql.basedir>$(me)
 	;
+
+generators.register-standard $(__name__).icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
+generators.override $(__name__).icetray.c++.sql : icetray.c++.sql ;
+
+feature.feature icetray.sql.tool : : free dependency ;
+
+toolset.flags $(__name__).icetray.c++.sql ICETRAYSQLBIN <icetray.sql.tool> ;
+toolset.flags $(__name__).icetray.c++.sql NAMESPACE <icetray.sql.namespace> ;
+toolset.flags $(__name__).icetray.c++.sql BASEDIR <icetray.sql.basedir> ;
+
+actions icetray.c++.sql bind ICETRAYSQLBIN
+{
+	$(ICETRAYSQLBIN) --basedir="$(BASEDIR)" --namespace="$(NAMESPACE)" "$(2[1])" "$(1[1])" "$(1[2])"
+}
 
 run
 	testIceTray.cpp
@@ -61,4 +81,6 @@ run
 	<library>testCommon
 	:
 	testDefaultPool ;
+
+IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;
 

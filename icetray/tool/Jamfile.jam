@@ -1,4 +1,23 @@
 import package ;
 
-package.install-data install-tools : boost-build/tools : icetray.jam [ glob embed.*.m4 ] ;
+lib boost_program_options ;
+lib boost_filesystem ;
+lib boost_system ;
+
+exe icetray-sql :
+	icetraySql.cpp
+	:
+	<library>boost_program_options
+	<library>boost_filesystem
+	<library>boost_system
+	<include>/usr/include/adhocutil/
+	;
+
+explicit install-tools ;
+alias install-tools :
+	install-tools-data
+	install-tools-bin
+	;
+package.install-data install-tools-data : boost-build/tools : icetray.jam ;
+package.install install-tools-bin : : icetray-sql ;
 

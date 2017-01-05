@@ -1,33 +1,23 @@
-import generators ;
-import feature ;
-import type ;
-import path ;
-import property ;
-import project ;
-import regex ;
+import generators.register-standard ;
+import feature.feature ;
+import type.register ;
+import toolset.flags ;
+import project.initialize ;
 
 project.initialize $(__name__) ;
 project icetray ;
 
 feature.feature icetray.sql.namespace : : free ;
+feature.feature icetray.sql.basedir : : free path ;
 type.register SQL : sql ;
+toolset.flags icetray.c++.sql CONNECTOR <icetray.sql.connector> ;
+toolset.flags icetray.c++.sql NAMESPACE <icetray.sql.namespace> ;
+toolset.flags icetray.c++.sql BASEDIR <icetray.sql.basedir> ;
 generators.register-standard icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
-
-path-constant icetray-root : . ;
-
-rule icetray.c++.sql ( cpp h : sql : properties * )
-{
-	local namespace = [ property.select icetray.sql.namespace : $(properties) ] ;
-	local relpath = [ path.relative-to . $(sql:D) ] ;
-	namespace = [ regex.replace $(namespace:G=)/$(relpath) "\\/\\." "" ] ;
-	namespace = [ regex.replace $(namespace) "\\/" "::" ] ;
-	NAMESPACE on $(<) = -DNAMESPACE=\"$(namespace)\" ;
-}
 
 actions icetray.c++.sql
 {
-	m4 $(NAMESPACE) -DNAME="$(2:B)" -DSQL="$(2[1])" "$(icetray-root)/embed.sql.cpp.m4" > "$(1[1])"
-	m4 $(NAMESPACE) -DNAME="$(2:B)" "$(icetray-root)/embed.sql.h.m4" > "$(1[2])"
+	icetray-sql --basedir="$(BASEDIR)" --namespace="$(NAMESPACE)" "$(2[1])" "$(1[1])" "$(1[2])"
 }
 
 IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;

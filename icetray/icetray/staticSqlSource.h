@@ -2,18 +2,21 @@
 #define ICETRAY_STATICSQLSOURCE_H
 
 #include "sqlSource.h"
+#include <command.h>
 
 namespace IceTray {
 	class DLL_PUBLIC StaticSqlSource : public SqlSource {
 		public:
-			StaticSqlSource(const std::string &);
+			StaticSqlSource(const std::string & sql);
+			StaticSqlSource(const std::string & sql, const std::string & optsName, const DB::CommandOptionsMap &);
+			virtual ~StaticSqlSource();
 
 			const std::string & getSql() const override;
-			std::size_t getSqlHash() const override;
+			const DB::CommandOptions * getCommandOptions() const override;
 
 		protected:
 			const std::string sql;
-			const std::size_t hash;
+			const DB::CommandOptions * opts;
 	};
 }
 

@@ -1,10 +1,16 @@
 #include "sqlSource.h"
 
 namespace IceTray {
-	std::size_t
-	SqlSource::getSqlHash() const
+	DB::ModifyCommandPtr
+	SqlSource::modify(DB::Connection * db) const
 	{
-		return std::hash<std::string>()(getSql());
+		return db->modify(getSql(), getCommandOptions());
+	}
+
+	DB::SelectCommandPtr
+	SqlSource::select(DB::Connection * db) const
+	{
+		return db->select(getSql(), getCommandOptions());
 	}
 }
 

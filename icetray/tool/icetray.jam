@@ -8,6 +8,7 @@ project.initialize $(__name__) ;
 project icetray ;
 
 feature.feature icetray.sql.namespace : : free ;
+feature.feature icetray.sql.connector : : free ;
 feature.feature icetray.sql.basedir : : free path ;
 type.register SQL : sql ;
 toolset.flags icetray.c++.sql CONNECTOR <icetray.sql.connector> ;
@@ -17,7 +18,7 @@ generators.register-standard icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
 
 actions icetray.c++.sql
 {
-	icetray-sql --basedir="$(BASEDIR)" --namespace="$(NAMESPACE)" "$(2[1])" "$(1[1])" "$(1[2])"
+	icetray-sql --basedir="$(BASEDIR)" --connector="$(CONNECTOR)" --namespace="$(NAMESPACE)" "$(2[1])" "$(1[1])" "$(1[2])"
 }
 
 IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;

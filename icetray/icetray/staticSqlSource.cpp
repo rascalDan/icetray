@@ -3,8 +3,20 @@
 namespace IceTray {
 	StaticSqlSource::StaticSqlSource(const std::string & s) :
 		sql(s),
-		hash(std::hash<std::string>()(sql))
+		opts(new DB::CommandOptions(std::hash<std::string>()(sql)))
 	{
+	}
+
+	StaticSqlSource::StaticSqlSource(const std::string & s, const std::string & optsName, const DB::CommandOptionsMap & map) :
+		sql(s),
+		opts(DB::CommandOptionsFactory::createNew(optsName, std::hash<std::string>()(sql), map))
+	{
+
+	}
+
+	StaticSqlSource::~StaticSqlSource()
+	{
+		delete opts;
 	}
 
 	const std::string &
@@ -13,10 +25,10 @@ namespace IceTray {
 		return sql;
 	}
 
-	std::size_t
-	StaticSqlSource::getSqlHash() const
+	const DB::CommandOptions *
+	StaticSqlSource::getCommandOptions() const
 	{
-		return hash;
+		return opts;
 	}
 }
 

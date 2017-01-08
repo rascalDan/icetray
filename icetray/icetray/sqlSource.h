@@ -14,21 +14,10 @@ namespace IceTray {
 			virtual ~SqlSource() = default;
 
 			virtual const std::string & getSql() const = 0;
-			virtual std::size_t getSqlHash() const;
+			virtual const DB::CommandOptions * getCommandOptions() const = 0;
 
-			template<typename OptsType = DB::CommandOptions, typename ... Opts>
-			DB::ModifyCommandPtr modify(DB::Connection * db, const Opts & ... opts) const
-			{
-				OptsType o(getSqlHash(), opts...);
-				return db->modify(getSql(), &o);
-			}
-
-			template<typename OptsType = DB::CommandOptions, typename ... Opts>
-			DB::SelectCommandPtr select(DB::Connection * db, const Opts & ... opts) const
-			{
-				OptsType o(getSqlHash(), opts...);
-				return db->select(getSql(), &o);
-			}
+			DB::ModifyCommandPtr modify(DB::Connection * db) const;
+			DB::SelectCommandPtr select(DB::Connection * db) const;
 	};
 }
 

@@ -5,6 +5,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <compileTimeFormatter.h>
 
 namespace po = boost::program_options;
@@ -15,9 +16,13 @@ AdHocFormatter(CPPHeader,
 
 const IceTray::StaticSqlSource )C");
 AdHocFormatter(CPPNS, "%?::");
-AdHocFormatter(CPPOpen, R"C(%? (
-R"SQL()C");
-AdHocFormatter(CPPFooter, R"C()SQL");
+AdHocFormatter(CPPOpen, R"C(%?
+__attribute__((init_priority(209))) (R"SQL()C");
+AdHocFormatter(CPPConnectorOpts, R"C(, "%?", {%?})C");
+AdHocFormatter(CPPConnectorOpt, R"C({ "%?", "%?" },)C");
+AdHocFormatter(CPPConnectorOptFlag, R"C({ "%?", "" },)C");
+AdHocFormatter(CPPClose, R"C()SQL")C");
+AdHocFormatter(CPPFooter, R"C();
 
 )C");
 AdHocFormatter(HHeader,
@@ -35,7 +40,7 @@ main(int argc, char ** argv)
 {
 	po::options_description opts("IceTray SQL-to-C++ precompiler");
 	fs::path sql, cpp, h, base;
-	std::string sqlns;
+	std::string sqlns, connector;
 
 	opts.add_options()
 		("help,h", "Show this help message")
@@ -44,6 +49,7 @@ main(int argc, char ** argv)
 		("h", po::value(&h)->required(), "Path of header file to write")
 		("basedir,d", po::value(&base)->default_value(fs::current_path()), "Base directory of SQL scripts (namespaces are created relative to here)")
 		("namespace", po::value(&sqlns), "Namespace to create SqlSource in")
+		("connector,c", po::value(&connector), "Specifiy a default connector name")
 		;
 
 	po::positional_options_description p;
@@ -76,9 +82,30 @@ main(int argc, char ** argv)
 		CPPNS::write(cppout, nsp);
 	});
 	CPPOpen::write(cppout, sql.stem().string());
-	std::copy(std::istreambuf_iterator<char>(sqlin),
-			std::istreambuf_iterator<char>(),
-			std::ostreambuf_iterator<char>(cppout));
+	std::string buf;
+	std::stringstream map;
+	while (!std::getline(sqlin, buf).eof()) {
+		if (boost::algorithm::starts_with(buf, "-- libdbpp-")) {
+			connector = buf.substr(11);
+		}
+		else if (boost::algorithm::starts_with(buf, "-- libdbpp:")) {
+			auto opt = buf.substr(11);
+			auto colon = opt.find(':');
+			if (colon != std::string::npos) {
+				CPPConnectorOpt::write(map, opt.substr(0, colon), opt.substr(colon + 1));
+			}
+			else {
+				CPPConnectorOptFlag::write(map, opt);
+			}
+		}
+		else {
+			cppout << buf << std::endl;
+		}
+	}
+	CPPClose::write(cppout);
+	if (!connector.empty() && !map.str().empty()) {
+		CPPConnectorOpts::write(cppout, connector, map.str());
+	}
 	CPPFooter::write(cppout);
 
 	HHeader::write(hout);

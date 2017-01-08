@@ -22,7 +22,7 @@ namespace IceTray {
 			{
 				CacheKey key;
 				key.reserve(sizeof...(Params) + 2);
-				key.push_back(sql.getSqlHash());
+				key.push_back(*sql.getCommandOptions()->hash);
 				key.push_back(typeid(Domain).hash_code());
 				keyPushParams(key, params...);
 				if (auto cached = cache.get(key)) {

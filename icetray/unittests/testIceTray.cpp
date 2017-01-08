@@ -4,6 +4,7 @@
 #include <dryice.h>
 #include <Ice/Communicator.h>
 #include "testIceTrayServiceI.h"
+#include <staticSqlSource.h>
 
 #include <pq-mock.h>
 #include <definedDirs.h>

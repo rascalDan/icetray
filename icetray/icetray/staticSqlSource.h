@@ -2,7 +2,6 @@
 #define ICETRAY_STATICSQLSOURCE_H
 
 #include "sqlSource.h"
-#include <command.h>
 
 namespace IceTray {
 	class DLL_PUBLIC StaticSqlSource : public SqlSource {

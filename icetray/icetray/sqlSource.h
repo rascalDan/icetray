@@ -1,7 +1,6 @@
 #ifndef ICETRAY_SQLSOURCE_H
 #define ICETRAY_SQLSOURCE_H
 
-#include <functional>
 #include <string>
 #include <visibility.h>
 #include <connection.h>

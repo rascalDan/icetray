@@ -21,9 +21,10 @@ namespace IceTray {
 			DatabasePoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
 			static Service * getCurrent();
-			Ice::ObjectAdapterPtr adp;
 
 		private:
+			friend class DryIce;
+			Ice::ObjectAdapterPtr adp;
 			static Service * current;
 	};
 

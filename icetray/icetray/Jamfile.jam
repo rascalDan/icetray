@@ -1,12 +1,7 @@
 import package ;
 
 lib icetray :
-	sqlSource.cpp
-	staticSqlSource.cpp
-	abstractDatabaseClient.cpp
-	abstractCachingDatabaseClient.cpp
-	defaultPool.cpp
-	icetrayService.cpp
+	[ glob-tree *.cpp *.ice : bin ]
 	:
 	<library>..//adhocutil
 	<library>..//dbppcore
@@ -19,6 +14,7 @@ lib icetray :
 	<library>..//boost_system
 	<library>..//boost_thread
 	<library>../..//glibmm
+	<allow-ice>yes
 	: :
 	<include>.
 	<library>..//dbppcore
@@ -28,5 +24,6 @@ lib icetray :
 	<library>..//boost_thread
 	;
 
-package.install install-main : <install-source-root>. : : icetray : [ glob *.h : defaultPool.h ] ;
+package.install install-main : : : icetray : [ glob-tree *.h : defaultPool.h ] ;
+package.install-data install-ice : icetray/ice : [ glob *.ice ] ;
 

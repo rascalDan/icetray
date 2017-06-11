@@ -46,6 +46,11 @@ namespace IceTray {
 					p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"),
 					name, type, p));
 	}
+
+	Logging::LogManager * Service::getLogManager()
+	{
+		return &logManager;
+	}
 }
 
 extern "C" {

@@ -5,6 +5,7 @@
 #include <factory.h>
 #include <visibility.h>
 #include "database.h"
+#include "logger.h"
 
 namespace IceTray {
 	class DLL_PUBLIC Service : public IceBox::Service, public AdHoc::AbstractPluginImplementation {
@@ -20,11 +21,14 @@ namespace IceTray {
 
 			DatabasePoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
+			Logging::LogManager * getLogManager();
+
 			static Service * getCurrent();
 
 		private:
 			friend class DryIce;
 			Ice::ObjectAdapterPtr adp;
+			Logging::LogManager logManager;
 			static Service * current;
 	};
 

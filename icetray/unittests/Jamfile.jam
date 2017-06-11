@@ -25,6 +25,7 @@ alias testCommon : : : :
 	<icetray.sql.tool>../tool//icetray-sql
 	<dependency>../tool//icetray-sql
 	<icetray.sql.basedir>$(me)
+	<implicit-dependency>../icetray//icetray
 	;
 
 generators.register-standard $(__name__).icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
@@ -81,6 +82,12 @@ run
 	<library>testCommon
 	:
 	testDefaultPool ;
+
+run
+	testIceTrayLogger.cpp
+	: : :
+	<library>testCommon
+	;
 
 IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;
 

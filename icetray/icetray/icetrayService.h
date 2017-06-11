@@ -9,6 +9,9 @@
 namespace IceTray {
 	class DLL_PUBLIC Service : public IceBox::Service, public AdHoc::AbstractPluginImplementation {
 		public:
+			Service();
+			virtual ~Service();
+
 			virtual void addObjects(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr &) = 0;
 
 			void start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args) override;
@@ -17,7 +20,11 @@ namespace IceTray {
 
 			DatabasePoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
+			static Service * getCurrent();
 			Ice::ObjectAdapterPtr adp;
+
+		private:
+			static Service * current;
 	};
 
 	typedef IceInternal::Handle<Service> ServicePtr;

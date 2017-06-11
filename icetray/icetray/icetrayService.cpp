@@ -2,8 +2,30 @@
 #include <visibility.h>
 #include <factory.impl.h>
 #include "icetrayService.h"
+#include <boost/assert.hpp>
 
 namespace IceTray {
+	Service * Service::current = nullptr;
+
+	Service::Service()
+	{
+		BOOST_ASSERT(!current);
+		current = this;
+	}
+
+	Service::~Service()
+	{
+		BOOST_ASSERT(current);
+		current = nullptr;
+	}
+
+	Service *
+	Service::getCurrent()
+	{
+		BOOST_ASSERT(current);
+		return current;
+	}
+
 	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
 	{
 		adp = ic->createObjectAdapter(name);

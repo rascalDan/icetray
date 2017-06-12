@@ -15,6 +15,7 @@ lib icetray :
 	<library>..//boost_thread
 	<library>../..//glibmm
 	<allow-ice>yes
+	<slicer>yes
 	: :
 	<include>.
 	<library>..//dbppcore

@@ -8,6 +8,7 @@
 #include <map>
 #include <buffer.h>
 #include <boost/thread/shared_mutex.hpp>
+#include <Ice/Properties.h>
 
 namespace IceTray {
 	namespace Logging {
@@ -79,7 +80,23 @@ namespace IceTray {
 				LogWriters logWriters;
 		};
 
-		typedef AdHoc::Factory<LogWriter, Ice::CommunicatorPtr> LogWriterFactory;
+		class DLL_PUBLIC AbstractLogWriter : public LogWriter {
+			public:
+				IceUtil::Optional<LogLevel> level(const std::string &, const Ice::Current &) override;
+
+			protected:
+				AbstractLogWriter();
+				AbstractLogWriter(LogLevel level);
+				AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p);
+
+				typedef std::map<Ice::StringSeq, LogLevel> LogDomains;
+				LogDomains logDomains;
+
+			private:
+				static Ice::StringSeq splitDomain(const std::string &);
+		};
+
+		typedef AdHoc::Factory<LogWriter, Ice::Properties *> LogWriterFactory;
 	}
 }
 

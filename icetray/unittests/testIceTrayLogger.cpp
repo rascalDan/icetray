@@ -8,40 +8,37 @@
 #include <Ice/ObjectAdapter.h>
 #include <compileTimeFormatter.h>
 #include <boost/format.hpp>
+#include <slicer/common.h>
 
 using namespace IceTray::Logging;
 
 struct LogEntry {
+	LogLevel priority;
 	std::string domain;
 	std::string message;
 };
 
-class TestLogWriter : public LogWriter {
+class TestLogWriter : public AbstractLogWriter {
 	public:
-		TestLogWriter(LogLevel ll) :
-			calls(0),
-			l(ll)
+		template <typename ... T>
+		TestLogWriter(const T & ... t) :
+			AbstractLogWriter(t...)
 		{
 		}
 
-		IceUtil::Optional<LogLevel> level(const std::string &, const Ice::Current &) override
+		TestLogWriter(Ice::Properties * p) :
+			AbstractLogWriter("TestLogWriter", p)
 		{
-			return l;
 		}
 
 		void message(LogLevel priority, const std::string & domain, const std::string & message, const Ice::Current &) override
 		{
-			calls += 1;
-			BOOST_REQUIRE(l >= priority);
-			msgs.push_back({domain, message});
+			msgs.push_back({priority, domain, message});
 		}
 
 		std::vector<LogEntry> msgs;
-		unsigned int calls;
-
-	private:
-		const LogLevel l;
 };
+FACTORY(TestLogWriter, LogWriterFactory);
 
 class TestLogImpl {
 	public:
@@ -68,9 +65,9 @@ class TestLogImpl {
 	protected:
 		LoggerPtr log;
 		LogManager manager;
+		Ice::CommunicatorPtr ic;
 
 	private:
-		Ice::CommunicatorPtr ic;
 		Ice::ObjectAdapterPtr adp;
 };
 
@@ -94,57 +91,48 @@ BOOST_AUTO_TEST_CASE(priority_filtering) {
 	log->message(DEBUG, "debug");
 	BOOST_REQUIRE(w->msgs.empty());
 	BOOST_REQUIRE(e->msgs.empty());
-	BOOST_REQUIRE_EQUAL(0, w->calls);
-	BOOST_REQUIRE_EQUAL(0, e->calls);
 
 	log->message(INFO, "into");
 	BOOST_REQUIRE(w->msgs.empty());
 	BOOST_REQUIRE(e->msgs.empty());
-	BOOST_REQUIRE_EQUAL(0, w->calls);
-	BOOST_REQUIRE_EQUAL(0, e->calls);
 
 	log->message(NOTICE, "notice");
 	BOOST_REQUIRE(w->msgs.empty());
 	BOOST_REQUIRE(e->msgs.empty());
-	BOOST_REQUIRE_EQUAL(0, w->calls);
-	BOOST_REQUIRE_EQUAL(0, e->calls);
 
 	log->message(WARNING, "warning");
 	BOOST_REQUIRE_EQUAL(1, w->msgs.size());
 	BOOST_REQUIRE(e->msgs.empty());
-	BOOST_REQUIRE_EQUAL(1, w->calls);
-	BOOST_REQUIRE_EQUAL(0, e->calls);
 
 	log->message(ERR, "err");
 	BOOST_REQUIRE_EQUAL(2, w->msgs.size());
 	BOOST_REQUIRE_EQUAL(1, e->msgs.size());
-	BOOST_REQUIRE_EQUAL(2, w->calls);
-	BOOST_REQUIRE_EQUAL(1, e->calls);
 
 	log->message(CRIT, "crit");
 	BOOST_REQUIRE_EQUAL(3, w->msgs.size());
 	BOOST_REQUIRE_EQUAL(2, e->msgs.size());
-	BOOST_REQUIRE_EQUAL(3, w->calls);
-	BOOST_REQUIRE_EQUAL(2, e->calls);
 
 	log->message(ALERT, "alert");
 	BOOST_REQUIRE_EQUAL(4, w->msgs.size());
 	BOOST_REQUIRE_EQUAL(3, e->msgs.size());
-	BOOST_REQUIRE_EQUAL(4, w->calls);
-	BOOST_REQUIRE_EQUAL(3, e->calls);
 
 	log->message(EMERG, "emerg");
 	BOOST_REQUIRE_EQUAL(5, w->msgs.size());
 	BOOST_REQUIRE_EQUAL(4, e->msgs.size());
-	BOOST_REQUIRE_EQUAL(5, w->calls);
-	BOOST_REQUIRE_EQUAL(4, e->calls);
 
 	manager.removeWriter(wp);
 	log->message(ERR, "err2");
 	BOOST_REQUIRE_EQUAL(5, w->msgs.size());
 	BOOST_REQUIRE_EQUAL(5, e->msgs.size());
-	BOOST_REQUIRE_EQUAL(5, w->calls);
-	BOOST_REQUIRE_EQUAL(5, e->calls);
+}
+
+BOOST_AUTO_TEST_CASE( no_domains )
+{
+	auto d = new TestLogWriter();
+	manager.addWriter(add(d));
+	log->message(DEBUG, "debug message.");
+	log->message(EMERG, "emergency message.");
+	BOOST_REQUIRE(d->msgs.empty());
 }
 
 BOOST_AUTO_TEST_CASE(formatter_plain)
@@ -188,6 +176,77 @@ BOOST_AUTO_TEST_CASE(formatter_adhoc_compiletime)
 	BOOST_REQUIRE_EQUAL("test.domain", d->msgs.front().domain);
 }
 
+BOOST_AUTO_TEST_CASE( domains_none )
+{
+	// No domains
+	auto l = add(new TestLogWriter());
+	BOOST_REQUIRE(!l->level("test"));
+	BOOST_REQUIRE(!l->level("test.domain"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_single )
+{
+	// A single catch-all domain at the given level
+	auto l = add(new TestLogWriter(ERR));
+	BOOST_REQUIRE_EQUAL(ERR, *l->level("test"));
+	BOOST_REQUIRE_EQUAL(ERR, *l->level("test.domain"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_fromNullProperties )
+{
+	// A single catch-all domain at the default level (WARNING)
+	auto l = add(new TestLogWriter("", Ice::PropertiesPtr()));
+	BOOST_REQUIRE_EQUAL(WARNING, *l->level("test"));
+	BOOST_REQUIRE_EQUAL(WARNING, *l->level("test.domain"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_fromProperties )
+{
+	// Domains configured according to properties
+	Ice::PropertiesPtr p = ic->getProperties();
+	p->setProperty("TestLogWriter.domains.test.domain", "EMERG");
+	p->setProperty("TestLogWriter.domains.test.debug", "DEBUG");
+	p->setProperty("TestLogWriter.domains", "ignored");
+	p->setProperty("TestLogWriter.default", "WARNING");
+	auto l = add(new TestLogWriter("TestLogWriter", p));
+	BOOST_REQUIRE_EQUAL(WARNING, *l->level("test"));
+	BOOST_REQUIRE_EQUAL(WARNING, *l->level("other"));
+	BOOST_REQUIRE_EQUAL(EMERG, *l->level("test.domain"));
+	BOOST_REQUIRE_EQUAL(DEBUG, *l->level("test.debug"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_fromProperties_noDefault )
+{
+	// Domains configured according to properties
+	Ice::PropertiesPtr p = ic->getProperties();
+	p->setProperty("TestLogWriter.domains.test.domain", "EMERG");
+	p->setProperty("TestLogWriter.domains.test.debug", "DEBUG");
+	auto l = add(new TestLogWriter("TestLogWriter", p));
+	BOOST_REQUIRE_EQUAL(EMERG, *l->level("test.domain"));
+	BOOST_REQUIRE_EQUAL(DEBUG, *l->level("test.debug"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_fromProperties_onlyDefault )
+{
+	// Domains configured according to properties
+	Ice::PropertiesPtr p = ic->getProperties();
+	p->setProperty("TestLogWriter.default", "INFO");
+	auto l = add(new TestLogWriter("TestLogWriter", p));
+	BOOST_REQUIRE_EQUAL(INFO, *l->level("test"));
+	BOOST_REQUIRE_EQUAL(INFO, *l->level("other"));
+	BOOST_REQUIRE_EQUAL(INFO, *l->level("test.domain"));
+	BOOST_REQUIRE_EQUAL(INFO, *l->level("test.debug"));
+}
+
+BOOST_AUTO_TEST_CASE( domains_fromProperties_badLevel )
+{
+	Ice::PropertiesPtr p = ic->getProperties();
+	p->setProperty("TestLogWriter.domains.test.domain", "BAD");
+	BOOST_REQUIRE_THROW({
+		TestLogWriter tlw("TestLogWriter", p);
+	}, Slicer::InvalidEnumerationSymbol);
+}
+
 BOOST_AUTO_TEST_SUITE_END();
 
 class TestService : public IceTray::Service {
@@ -201,8 +260,12 @@ BOOST_FIXTURE_TEST_SUITE( ts, TestService );
 
 BOOST_AUTO_TEST_CASE( getLogger )
 {
+	auto ic = Ice::initialize();
+	ic->getProperties()->setProperty("test.Endpoints", "default");
+	this->start("test", ic, {});
 	auto logger = LOGMANAGER()->getLogger("test.domain");
 	BOOST_REQUIRE(logger);
+	ic->destroy();
 }
 
 BOOST_AUTO_TEST_SUITE_END();

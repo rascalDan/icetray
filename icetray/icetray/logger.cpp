@@ -2,8 +2,12 @@
 #include <factory.impl.h>
 #include <buffer.h>
 #include <lockHelpers.h>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <slicer/modelPartsTypes.h>
 
-INSTANTIATEFACTORY(IceTray::Logging::LogWriter, Ice::CommunicatorPtr);
+INSTANTIATEFACTORY(IceTray::Logging::LogWriter, Ice::Properties *);
 
 namespace IceTray {
 	namespace Logging {
@@ -130,6 +134,57 @@ namespace IceTray {
 				Lock(logger->_lock);
 				logger->logs = getLogsForDomain(logger->domain);
 			}
+		}
+
+		AbstractLogWriter::AbstractLogWriter()
+		{
+		}
+
+		AbstractLogWriter::AbstractLogWriter(LogLevel level)
+		{
+			logDomains.insert({ { }, level });
+		}
+
+		AbstractLogWriter::AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p)
+		{
+			if (!p || prefix.empty()) {
+				logDomains.insert({ { }, WARNING });
+				return;
+			}
+			auto domainsPrefix = prefix + ".domains.";
+			auto map = p->getPropertiesForPrefix(domainsPrefix);
+			for (const auto & d : map) {
+				auto level = Slicer::ModelPartForEnum<LogLevel>::lookup(d.second);
+				auto domain = d.first.substr(domainsPrefix.length());
+				logDomains.insert({ splitDomain(domain), level });
+			}
+			auto defaultLevel = p->getProperty(prefix + ".default");
+			if (!defaultLevel.empty()) {
+				auto level = Slicer::ModelPartForEnum<LogLevel>::lookup(defaultLevel);
+				logDomains.insert({ {}, level });
+			}
+		}
+
+		IceUtil::Optional<LogLevel>
+		AbstractLogWriter::level(const std::string & domain, const Ice::Current &)
+		{
+			auto domainTokens = splitDomain(domain);
+			for (auto d = logDomains.rbegin(); d != logDomains.rend(); d++) {
+				if (boost::algorithm::starts_with(domainTokens, d->first)) {
+					return d->second;
+				}
+			}
+			return IceUtil::None;
+		}
+
+		Ice::StringSeq
+		AbstractLogWriter::splitDomain(const std::string & domain)
+		{
+			if (domain.empty()) return Ice::StringSeq();
+
+			Ice::StringSeq domainTokens;
+			boost::algorithm::split(domainTokens, domain, boost::algorithm::is_any_of(".:"), boost::algorithm::token_compress_on);
+			return domainTokens;
 		}
 	}
 }

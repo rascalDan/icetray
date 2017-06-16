@@ -165,6 +165,19 @@ namespace IceTray {
 			}
 		}
 
+		// This is "low-level" e.g. DEBUG, as opposed to lowest enumeration value.
+		IceUtil::Optional<LogLevel>
+		AbstractLogWriter::lowestLevel(const Ice::Current &)
+		{
+			IceUtil::Optional<LogLevel> lowest;
+			for (const auto & d : logDomains) {
+				if (!lowest || d.second > *lowest) {
+					lowest = d.second;
+				}
+			}
+			return lowest;
+		}
+
 		IceUtil::Optional<LogLevel>
 		AbstractLogWriter::level(const std::string & domain, const Ice::Current &)
 		{

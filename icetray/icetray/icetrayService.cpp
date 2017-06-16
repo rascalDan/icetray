@@ -31,7 +31,9 @@ namespace IceTray {
 		adp = ic->createObjectAdapter(name);
 		for (auto logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
 			auto logWriter = logWriterFactory->implementation()->create(ic->getProperties().get());
-			logManager.addWriter(Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter)));
+			if (logWriter->lowestLevel()) {
+				logManager.addWriter(Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter)));
+			}
 		}
 		addObjects(name, ic, args, adp);
 		adp->activate();

@@ -16,6 +16,7 @@ module IceTray {
 		};
 
 		interface LogWriter {
+			optional(0) LogLevel lowestLevel();
 			optional(0) LogLevel level(string domain);
 			void message(LogLevel level, string domain, string message);
 		};

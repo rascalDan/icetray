@@ -182,6 +182,7 @@ BOOST_AUTO_TEST_CASE( domains_none )
 	auto l = add(new TestLogWriter());
 	BOOST_REQUIRE(!l->level("test"));
 	BOOST_REQUIRE(!l->level("test.domain"));
+	BOOST_REQUIRE(!l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_single )
@@ -190,6 +191,8 @@ BOOST_AUTO_TEST_CASE( domains_single )
 	auto l = add(new TestLogWriter(ERR));
 	BOOST_REQUIRE_EQUAL(ERR, *l->level("test"));
 	BOOST_REQUIRE_EQUAL(ERR, *l->level("test.domain"));
+	BOOST_REQUIRE(l->lowestLevel());
+	BOOST_REQUIRE_EQUAL(ERR, *l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_fromNullProperties )
@@ -198,6 +201,8 @@ BOOST_AUTO_TEST_CASE( domains_fromNullProperties )
 	auto l = add(new TestLogWriter("", Ice::PropertiesPtr()));
 	BOOST_REQUIRE_EQUAL(WARNING, *l->level("test"));
 	BOOST_REQUIRE_EQUAL(WARNING, *l->level("test.domain"));
+	BOOST_REQUIRE(l->lowestLevel());
+	BOOST_REQUIRE_EQUAL(WARNING, *l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_fromProperties )
@@ -213,6 +218,8 @@ BOOST_AUTO_TEST_CASE( domains_fromProperties )
 	BOOST_REQUIRE_EQUAL(WARNING, *l->level("other"));
 	BOOST_REQUIRE_EQUAL(EMERG, *l->level("test.domain"));
 	BOOST_REQUIRE_EQUAL(DEBUG, *l->level("test.debug"));
+	BOOST_REQUIRE(l->lowestLevel());
+	BOOST_REQUIRE_EQUAL(DEBUG, *l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_fromProperties_noDefault )
@@ -224,6 +231,8 @@ BOOST_AUTO_TEST_CASE( domains_fromProperties_noDefault )
 	auto l = add(new TestLogWriter("TestLogWriter", p));
 	BOOST_REQUIRE_EQUAL(EMERG, *l->level("test.domain"));
 	BOOST_REQUIRE_EQUAL(DEBUG, *l->level("test.debug"));
+	BOOST_REQUIRE(l->lowestLevel());
+	BOOST_REQUIRE_EQUAL(DEBUG, *l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_fromProperties_onlyDefault )
@@ -236,6 +245,8 @@ BOOST_AUTO_TEST_CASE( domains_fromProperties_onlyDefault )
 	BOOST_REQUIRE_EQUAL(INFO, *l->level("other"));
 	BOOST_REQUIRE_EQUAL(INFO, *l->level("test.domain"));
 	BOOST_REQUIRE_EQUAL(INFO, *l->level("test.debug"));
+	BOOST_REQUIRE(l->lowestLevel());
+	BOOST_REQUIRE_EQUAL(INFO, *l->lowestLevel());
 }
 
 BOOST_AUTO_TEST_CASE( domains_fromProperties_badLevel )
@@ -262,6 +273,7 @@ BOOST_AUTO_TEST_CASE( getLogger )
 {
 	auto ic = Ice::initialize();
 	ic->getProperties()->setProperty("test.Endpoints", "default");
+	ic->getProperties()->setProperty("TestLogWriter.default", "INFO");
 	this->start("test", ic, {});
 	auto logger = LOGMANAGER()->getLogger("test.domain");
 	BOOST_REQUIRE(logger);

@@ -82,6 +82,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC AbstractLogWriter : public LogWriter {
 			public:
+				IceUtil::Optional<LogLevel> lowestLevel(const Ice::Current &) override;
 				IceUtil::Optional<LogLevel> level(const std::string &, const Ice::Current &) override;
 
 			protected:

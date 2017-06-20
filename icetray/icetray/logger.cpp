@@ -20,6 +20,12 @@ namespace IceTray {
 		{
 		}
 
+		const std::string &
+		LoggerBase::getDomain() const
+		{
+			return domain;
+		}
+
 		Logger::Logger(const std::string & domain) : LoggerBase(domain) { }
 
 		void

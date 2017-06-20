@@ -24,6 +24,8 @@ namespace IceTray {
 				LoggerBase(const std::string & domain);
 				~LoggerBase();
 
+				const std::string & getDomain() const;
+
 			protected:
 				friend class LogManager;
 				mutable boost::shared_mutex _lock;

@@ -11,8 +11,7 @@ INSTANTIATEFACTORY(IceTray::Logging::LogWriter, Ice::Properties *);
 
 namespace IceTray {
 	namespace Logging {
-		LoggerBase::LoggerBase(LogManager * manager, const std::string & domain) :
-			logs(manager->getLogsForDomain(domain)),
+		LoggerBase::LoggerBase(const std::string & domain) :
 			domain(domain)
 		{
 		}
@@ -21,7 +20,7 @@ namespace IceTray {
 		{
 		}
 
-		Logger::Logger(LogManager * manager, const std::string & domain) : LoggerBase(manager, domain) { }
+		Logger::Logger(const std::string & domain) : LoggerBase(domain) { }
 
 		void
 		Logger::message(LogLevel priority, const std::string & msg) const
@@ -91,7 +90,8 @@ namespace IceTray {
 		LoggerPtr
 		LogManager::getLogger(const std::string & domain)
 		{
-			auto logger = LoggerPtr(new Logger(this, domain));
+			auto logger = LoggerPtr(new Logger(domain));
+			logger->logs = getLogsForDomain(domain);
 			loggers.insert(logger.get());
 			return logger;
 		}

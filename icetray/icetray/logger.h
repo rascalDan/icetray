@@ -21,7 +21,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC LoggerBase {
 			public:
-				LoggerBase(LogManager *, const std::string & domain);
+				LoggerBase(const std::string & domain);
 				~LoggerBase();
 
 			protected:
@@ -33,7 +33,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC Logger : public LoggerBase {
 			public:
-				Logger(LogManager *, const std::string & domain);
+				Logger(const std::string & domain);
 
 				void message(LogLevel priority, const std::string & msg) const;
 				void messagef(LogLevel priority, const char * msgfmt, ...) const __attribute__ ((format (printf, 3, 4)));

@@ -281,5 +281,12 @@ BOOST_AUTO_TEST_CASE( getLogger )
 	ic->destroy();
 }
 
+BOOST_AUTO_TEST_CASE( getLoggerForType )
+{
+	auto logger = LOGMANAGER()->getLogger<IceTray::Service>();
+	BOOST_REQUIRE(logger);
+	BOOST_REQUIRE_EQUAL("IceTray::Service", logger->getDomain());
+}
+
 BOOST_AUTO_TEST_SUITE_END();
 

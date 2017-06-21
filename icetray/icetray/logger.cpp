@@ -94,6 +94,15 @@ namespace IceTray {
 		}
 
 		LoggerPtr
+		LogManager::getLogger(const std::type_info & type)
+		{
+			std::unique_ptr<char, void(*)(void*)> res {
+				abi::__cxa_demangle(type.name(), NULL, NULL, NULL), std::free
+			};
+			return getLogger(res.get());
+		}
+
+		LoggerPtr
 		LogManager::getLogger(const std::string & domain)
 		{
 			auto logger = LoggerPtr(new Logger(domain));

@@ -71,6 +71,11 @@ namespace IceTray {
 
 		class DLL_PUBLIC LogManager {
 			public:
+				template<typename T>
+				LoggerPtr getLogger() {
+					return getLogger(typeid(T));
+				}
+				LoggerPtr getLogger(const std::type_info &);
 				LoggerPtr getLogger(const std::string &);
 				LogLevelWriters getLogsForDomain(const std::string &) const;
 				void addWriter(LogWriterPrx writer);

@@ -290,3 +290,10 @@ BOOST_AUTO_TEST_CASE( getLoggerForType )
 
 BOOST_AUTO_TEST_SUITE_END();
 
+BOOST_AUTO_TEST_CASE( console )
+{
+	IceTray::Logging::LogWriterPtr lwp =
+		IceTray::Logging::LogWriterFactory::createNew("ConsoleLogWriter", NULL);
+	lwp->message(DEBUG, "some.domain", "some message");
+}
+

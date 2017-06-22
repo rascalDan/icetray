@@ -126,16 +126,22 @@ namespace IceTray {
 		}
 
 		void
+		LogManager::updateLoggerWriters() const
+		{
+			for (auto logger : loggers) {
+				Lock(logger->_lock);
+				logger->logs = getLogsForDomain(logger->domain);
+			}
+		}
+
+		void
 		LogManager::addWriter(LogWriterPrx writer)
 		{
 			UpgradableLock(_lock, l);
 			UpgradeScopeLock(l) {
 				logWriters.insert(writer);
 			}
-			for (auto logger : loggers) {
-				Lock(logger->_lock);
-				logger->logs = getLogsForDomain(logger->domain);
-			}
+			updateLoggerWriters();
 		}
 
 		void
@@ -145,10 +151,7 @@ namespace IceTray {
 			UpgradeScopeLock(l) {
 				logWriters.erase(writer);
 			}
-			for (auto logger : loggers) {
-				Lock(logger->_lock);
-				logger->logs = getLogsForDomain(logger->domain);
-			}
+			updateLoggerWriters();
 		}
 
 		AbstractLogWriter::AbstractLogWriter()

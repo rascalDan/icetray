@@ -82,6 +82,7 @@ namespace IceTray {
 				void removeWriter(LogWriterPrx writer);
 
 			private:
+				void updateLoggerWriters() const;
 				mutable boost::shared_mutex _lock;
 				Loggers loggers;
 				LogWriters logWriters;

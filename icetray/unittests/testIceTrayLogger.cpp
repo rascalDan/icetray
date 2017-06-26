@@ -40,6 +40,18 @@ class TestLogWriter : public AbstractLogWriter {
 };
 FACTORY(TestLogWriter, LogWriterFactory);
 
+class StaticLogTest {
+	public:
+		static IceTray::Logging::LoggerPtr staticLog;
+};
+IceTray::Logging::LoggerPtr staticLog = LOGMANAGER()->getLogger<IceTray::Service>();
+
+BOOST_AUTO_TEST_CASE( staticLogInit )
+{
+	BOOST_REQUIRE(staticLog);
+	BOOST_REQUIRE_EQUAL("IceTray::Service", staticLog->getDomain());
+}
+
 class TestLogImpl {
 	public:
 		TestLogImpl() :

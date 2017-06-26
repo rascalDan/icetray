@@ -6,8 +6,11 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <slicer/modelPartsTypes.h>
+#include <globalStatic.impl.h>
 
 INSTANTIATEFACTORY(IceTray::Logging::LogWriter, Ice::Properties *);
+
+template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
 namespace IceTray {
 	namespace Logging {
@@ -152,6 +155,12 @@ namespace IceTray {
 				logWriters.erase(writer);
 			}
 			updateLoggerWriters();
+		}
+
+		LogManager *
+		LogManager::getDefault()
+		{
+			return ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>::get();
 		}
 
 		AbstractLogWriter::AbstractLogWriter()

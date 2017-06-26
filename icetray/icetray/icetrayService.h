@@ -21,15 +21,13 @@ namespace IceTray {
 
 			DatabasePoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
-			Logging::LogManager * getLogManager();
-
 			static Service * getCurrent();
 
 		private:
 			friend class DryIce;
 			Ice::ObjectAdapterPtr adp;
-			Logging::LogManager logManager;
 			static Service * current;
+			std::set<Logging::LogWriterPrx> logWriters;
 	};
 
 	typedef IceInternal::Handle<Service> ServicePtr;

@@ -278,6 +278,7 @@ BOOST_AUTO_TEST_CASE( getLogger )
 	auto logger = LOGMANAGER()->getLogger("test.domain");
 	BOOST_REQUIRE(logger);
 	BOOST_REQUIRE_EQUAL("test.domain", logger->getDomain());
+	this->stop();
 	ic->destroy();
 }
 

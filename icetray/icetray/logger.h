@@ -9,6 +9,7 @@
 #include <buffer.h>
 #include <boost/thread/shared_mutex.hpp>
 #include <Ice/Properties.h>
+#include <globalStatic.h>
 
 namespace IceTray {
 	namespace Logging {
@@ -81,6 +82,8 @@ namespace IceTray {
 				void addWriter(LogWriterPrx writer);
 				void removeWriter(LogWriterPrx writer);
 
+				static LogManager * getDefault();
+
 			private:
 				void updateLoggerWriters() const;
 				mutable boost::shared_mutex _lock;
@@ -109,7 +112,9 @@ namespace IceTray {
 	}
 }
 
-#define LOGMANAGER() (::IceTray::Service::getCurrent()->getLogManager())
+namespace LOG = ::IceTray::Logging;
+
+#define LOGMANAGER() (::IceTray::Logging::LogManager::getDefault())
 
 #endif
 

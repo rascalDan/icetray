@@ -29,10 +29,13 @@ namespace IceTray {
 	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
 	{
 		adp = ic->createObjectAdapter(name);
+		auto logManager = LOGMANAGER();
 		for (auto logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
 			auto logWriter = logWriterFactory->implementation()->create(ic->getProperties().get());
 			if (logWriter->lowestLevel()) {
-				logManager.addWriter(Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter)));
+				auto prx = Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter));
+				logWriters.insert(prx);
+				logManager->addWriter(prx);
 			}
 		}
 		addObjects(name, ic, args, adp);
@@ -41,6 +44,10 @@ namespace IceTray {
 
 	void Service::stop()
 	{
+		auto logManager = LOGMANAGER();
+		for (auto prx : logWriters) {
+			logManager->removeWriter(prx);
+		}
 		adp->deactivate();
 		adp->destroy();
 	}
@@ -51,11 +58,6 @@ namespace IceTray {
 		return DatabasePoolPtr(PoolProvider::createNew(
 					p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"),
 					name, type, p));
-	}
-
-	Logging::LogManager * Service::getLogManager()
-	{
-		return &logManager;
 	}
 }
 

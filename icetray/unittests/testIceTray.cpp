@@ -5,6 +5,8 @@
 #include <Ice/Communicator.h>
 #include "testIceTrayServiceI.h"
 #include <staticSqlSource.h>
+#include <testIceTrayServiceTestSql.sql.h>
+#include <mockDatabase.h>
 
 #include <pq-mock.h>
 #include <definedDirs.h>
@@ -42,4 +44,12 @@ BOOST_AUTO_TEST_CASE( services )
 }
 
 BOOST_AUTO_TEST_SUITE_END();
+
+BOOST_AUTO_TEST_CASE( sqlModify )
+{
+	auto db = DB::MockDatabase::openConnectionTo("icetraydb");
+	BOOST_REQUIRE(db);
+	BOOST_REQUIRE(TestIceTray::sql::testIceTrayServiceTestSql.modify(db));
+	delete db;
+}
 

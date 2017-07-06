@@ -35,6 +35,7 @@ BOOST_FIXTURE_TEST_SUITE( client, Client );
 BOOST_AUTO_TEST_CASE( services )
 {
 	BOOST_REQUIRE(p);
+	BOOST_REQUIRE(IceTray::Service::getCurrent());
 	p->ice_ping();
 	p->method1();
 	p->method2(1, "test");

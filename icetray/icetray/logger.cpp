@@ -14,7 +14,7 @@ template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
 namespace IceTray {
 	namespace Logging {
-		LoggerBase::LoggerBase(const std::string & domain) :
+		LoggerBase::LoggerBase(const Domain & domain) :
 			domain(domain)
 		{
 		}
@@ -23,13 +23,13 @@ namespace IceTray {
 		{
 		}
 
-		const std::string &
+		const Domain &
 		LoggerBase::getDomain() const
 		{
 			return domain;
 		}
 
-		Logger::Logger(const std::string & domain) : LoggerBase(domain) { }
+		Logger::Logger(const Domain & domain) : LoggerBase(domain) { }
 
 		void
 		Logger::message(LogLevel priority, const std::string & msg) const
@@ -108,14 +108,15 @@ namespace IceTray {
 		LoggerPtr
 		LogManager::getLogger(const std::string & domain)
 		{
-			auto logger = LoggerPtr(new Logger(domain));
-			logger->logs = getLogsForDomain(domain);
+			auto domainTokens = AbstractLogWriter::splitDomain(domain);
+			auto logger = LoggerPtr(new Logger(domainTokens));
+			logger->logs = getLogsForDomain(domainTokens);
 			loggers.insert(logger.get());
 			return logger;
 		}
 
 		LogLevelWriters
-		LogManager::getLogsForDomain(const std::string & domain) const
+		LogManager::getLogsForDomain(const Domain & domain) const
 		{
 			SharedLock(_lock);
 			LogLevelWriters logs;
@@ -206,11 +207,10 @@ namespace IceTray {
 		}
 
 		IceUtil::Optional<LogLevel>
-		AbstractLogWriter::level(const std::string & domain, const Ice::Current &)
+		AbstractLogWriter::level(const Domain & domain, const Ice::Current &)
 		{
-			auto domainTokens = splitDomain(domain);
 			for (auto d = logDomains.rbegin(); d != logDomains.rend(); d++) {
-				if (boost::algorithm::starts_with(domainTokens, d->first)) {
+				if (boost::algorithm::starts_with(domain, d->first)) {
 					return d->second;
 				}
 			}

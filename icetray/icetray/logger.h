@@ -22,21 +22,21 @@ namespace IceTray {
 
 		class DLL_PUBLIC LoggerBase {
 			public:
-				LoggerBase(const std::string & domain);
+				LoggerBase(const Domain & domain);
 				~LoggerBase();
 
-				const std::string & getDomain() const;
+				const Domain & getDomain() const;
 
 			protected:
 				friend class LogManager;
 				mutable boost::shared_mutex _lock;
 				LogLevelWriters logs;
-				const std::string domain;
+				const Domain domain;
 		};
 
 		class DLL_PUBLIC Logger : public LoggerBase {
 			public:
-				Logger(const std::string & domain);
+				Logger(const Domain & domain);
 
 				void message(LogLevel priority, const std::string & msg) const;
 				void messagef(LogLevel priority, const char * msgfmt, ...) const __attribute__ ((format (printf, 3, 4)));
@@ -78,7 +78,7 @@ namespace IceTray {
 				}
 				LoggerPtr getLogger(const std::type_info &);
 				LoggerPtr getLogger(const std::string &);
-				LogLevelWriters getLogsForDomain(const std::string &) const;
+				LogLevelWriters getLogsForDomain(const Domain &) const;
 				void addWriter(LogWriterPrx writer);
 				void removeWriter(LogWriterPrx writer);
 
@@ -94,18 +94,18 @@ namespace IceTray {
 		class DLL_PUBLIC AbstractLogWriter : public LogWriter {
 			public:
 				IceUtil::Optional<LogLevel> lowestLevel(const Ice::Current &) override;
-				IceUtil::Optional<LogLevel> level(const std::string &, const Ice::Current &) override;
+				IceUtil::Optional<LogLevel> level(const Domain &, const Ice::Current &) override;
 
 			protected:
 				AbstractLogWriter();
 				AbstractLogWriter(LogLevel level);
 				AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p);
 
-				typedef std::map<Ice::StringSeq, LogLevel> LogDomains;
+				typedef std::map<Domain, LogLevel> LogDomains;
 				LogDomains logDomains;
 
-			private:
-				static Ice::StringSeq splitDomain(const std::string &);
+			public:
+				static Domain splitDomain(const std::string &);
 		};
 
 		typedef AdHoc::Factory<LogWriter, Ice::Properties *> LogWriterFactory;

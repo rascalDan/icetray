@@ -14,11 +14,13 @@ module IceTray {
 			INFO = 6,
 			DEBUG = 7
 		};
+		["slicer:ignore"]
+		sequence<string> Domain;
 
 		interface LogWriter {
 			optional(0) LogLevel lowestLevel();
-			optional(0) LogLevel level(string domain);
-			void message(LogLevel level, string domain, string message);
+			optional(0) LogLevel level(Domain domain);
+			void message(LogLevel level, Domain domain, string message);
 		};
 	};
 };

@@ -17,6 +17,10 @@ namespace TestIceTray {
 	{
 		fetch<int>(sql::subdir::some);
 		fetch<int>(sql::subdir::a::more);
+		// Just check we can bind all the ICE types
+		fetch<int, Ice::Byte, bool>(sql::testIceTrayServiceTestSql, 1, true);
+		fetch<int, Ice::Short, Ice::Float>(sql::testIceTrayServiceTestSql, 1, 0.1f);
+		fetch<int, Ice::Long, Ice::Double>(sql::testIceTrayServiceTestSql, 100000, 3.14);
 	}
 
 	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)

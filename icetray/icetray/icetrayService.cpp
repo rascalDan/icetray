@@ -37,6 +37,9 @@ namespace IceTray {
 				logWriters.insert(prx);
 				logManager->addWriter(prx);
 			}
+			else {
+				delete logWriter;
+			}
 		}
 		addObjects(name, ic, args, adp);
 		adp->activate();

@@ -6,6 +6,7 @@
 #include <visibility.h>
 #include "database.h"
 #include "logger.h"
+#include "options.h"
 
 namespace IceTray {
 	class DLL_PUBLIC Service : public IceBox::Service, public AdHoc::AbstractPluginImplementation {
@@ -31,6 +32,7 @@ namespace IceTray {
 			Ice::ObjectAdapterPtr adp;
 			static Service * current;
 			std::set<Logging::LogWriterPrx> logWriters;
+			OptionsCollation optionsCollation;
 	};
 
 	typedef IceInternal::Handle<Service> ServicePtr;

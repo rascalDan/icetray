@@ -89,5 +89,11 @@ run
 	<library>testCommon
 	;
 
+run
+	testIceTrayOptions.cpp
+	: : :
+	<library>testCommon
+	;
+
 IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;
 

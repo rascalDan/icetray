@@ -30,6 +30,7 @@ namespace IceTray {
 	{
 		adp = ic->createObjectAdapter(name);
 		configureLoggers(adp, ic->getProperties());
+		optionsCollation.apply(ic->getProperties());
 		addObjects(name, ic, args, adp);
 		adp->activate();
 	}

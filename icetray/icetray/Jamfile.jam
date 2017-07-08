@@ -1,5 +1,7 @@
 import package ;
 
+lib boost_program_options ;
+
 lib icetray :
 	[ glob-tree *.cpp *.ice : bin ]
 	:
@@ -14,6 +16,7 @@ lib icetray :
 	<library>..//boost_system
 	<library>..//boost_thread
 	<library>../..//glibmm
+	<library>boost_program_options
 	<allow-ice>yes
 	<slicer>yes
 	: :

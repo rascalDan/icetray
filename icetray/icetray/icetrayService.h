@@ -24,6 +24,9 @@ namespace IceTray {
 			static Service * getCurrent();
 
 		private:
+			void configureLoggers(const Ice::ObjectAdapterPtr &, const Ice::PropertiesPtr &);
+			void shutdownLoggers();
+
 			friend class DryIce;
 			Ice::ObjectAdapterPtr adp;
 			static Service * current;

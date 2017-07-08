@@ -29,9 +29,17 @@ namespace IceTray {
 	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
 	{
 		adp = ic->createObjectAdapter(name);
+		configureLoggers(adp, ic->getProperties());
+		addObjects(name, ic, args, adp);
+		adp->activate();
+	}
+
+	void
+	Service::configureLoggers(const Ice::ObjectAdapterPtr & adp, const Ice::PropertiesPtr & p)
+	{
 		auto logManager = LOGMANAGER();
 		for (auto logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
-			auto logWriter = logWriterFactory->implementation()->create(ic->getProperties().get());
+			auto logWriter = logWriterFactory->implementation()->create(p.get());
 			if (logWriter->lowestLevel()) {
 				auto prx = Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter));
 				logWriters.insert(prx);
@@ -41,16 +49,20 @@ namespace IceTray {
 				delete logWriter;
 			}
 		}
-		addObjects(name, ic, args, adp);
-		adp->activate();
 	}
 
-	void Service::stop()
+	void
+	Service::shutdownLoggers()
 	{
 		auto logManager = LOGMANAGER();
 		for (auto prx : logWriters) {
 			logManager->removeWriter(prx);
 		}
+	}
+
+	void Service::stop()
+	{
+		shutdownLoggers();
 		adp->deactivate();
 		adp->destroy();
 	}

@@ -42,6 +42,7 @@ namespace IceTray {
 			~OptionsCollation();
 
 			void apply(Ice::PropertiesPtr p);
+			std::ostream & write(std::ostream &) const;
 
 		private:
 			boost::program_options::options_description all;

@@ -103,5 +103,15 @@ run
 	<library>testOptions
 	;
 
+run
+	../tool/icetrayDoc.cpp
+	: :
+	testOptions
+	:
+	<library>..//adhocutil
+	<library>..//icetray
+	<library>../tool//dl
+	;
+
 IMPORT $(__name__) : icetray.c++.sql : : icetray.c++.sql ;
 

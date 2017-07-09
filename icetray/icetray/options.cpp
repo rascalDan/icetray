@@ -56,5 +56,12 @@ namespace IceTray {
 		po::store(result, vm);
 		po::notify(vm);
 	}
+
+	std::ostream &
+	OptionsCollation::write(std::ostream & s) const
+	{
+		s << all;
+		return s;
+	}
 }
 

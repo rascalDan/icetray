@@ -1,29 +1,11 @@
 #define BOOST_TEST_MODULE TestIceTrayLogger
 #include <boost/test/unit_test.hpp>
 
-#include <options.h>
+#include "testOptions.h"
 #include <Ice/Communicator.h>
 #include <Ice/ObjectAdapter.h>
 #include <Ice/Initialize.h>
 #include "icetrayService.h"
-
-class TestOptions : public IceTray::Options {
-	public:
-		TestOptions() : IceTray::Options("Test options")
-		{
-		}
-
-		ICETRAY_OPTIONS_INLINE(
-				("testInt", boost::program_options::value(&testInt), "testInt")
-				("testString", boost::program_options::value(&testString)->default_value("some string"), "testString")
-				("vec", boost::program_options::value(&testVec), "vector")
-		);
-
-		int testInt;
-		std::string testString;
-		std::vector<int> testVec;
-};
-FACTORY(TestOptions, IceTray::OptionsFactory);
 
 class TestService : public IceTray::Service {
 	public:

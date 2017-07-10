@@ -28,5 +28,5 @@ alias install-tools :
 	install-tools-bin
 	;
 package.install-data install-tools-data : boost-build/tools : icetray.jam ;
-package.install install-tools-bin : : icetray-sql ;
+package.install install-tools-bin : : icetray-sql icetray-doc ;
 

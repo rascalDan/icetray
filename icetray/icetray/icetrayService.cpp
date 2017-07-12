@@ -26,6 +26,12 @@ namespace IceTray {
 		return current;
 	}
 
+	Service *
+	Service::create(Ice::CommunicatorPtr)
+	{
+		return IceTray::ServiceFactory::createNew("default");
+	}
+
 	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
 	{
 		adp = ic->createObjectAdapter(name);
@@ -80,9 +86,9 @@ namespace IceTray {
 extern "C" {
 	DLL_PUBLIC
 	IceBox::Service *
-	createIceTrayService(Ice::CommunicatorPtr)
+	createIceTrayService(Ice::CommunicatorPtr ic)
 	{
-		return IceTray::ServiceFactory::createNew("default");
+		return IceTray::Service::create(ic);
 	}
 }
 

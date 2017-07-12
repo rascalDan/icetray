@@ -56,8 +56,17 @@ run
 	<library>testCommon
 	<library>boost_filesystem
 	<library>dbpp-postgresql
+	<library>..//dl
 	:
 	testIceTray ;
+
+run
+	testIceBoxInterface.cpp
+	: : :
+	<library>testCommon
+	<library>testService
+	<library>..//dl
+	;
 
 run
 	testIceTrayReplace.cpp

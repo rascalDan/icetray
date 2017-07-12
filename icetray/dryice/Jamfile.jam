@@ -12,7 +12,6 @@ lib dryice :
 	<library>..//pthread
 	<library>..//boost_system
 	<library>..//boost_thread
-	<library>..//dl
 	<implicit-dependency>../icetray//icetray
 	: :
 	<include>.

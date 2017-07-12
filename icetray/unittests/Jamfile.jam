@@ -87,10 +87,12 @@ run
 	testIceTrayLogger.cpp
 	: : :
 	<library>testCommon
+	<library>testService
 	;
 
-lib testOptions
+lib testService
 	:
+	testService.cpp
 	testOptions.cpp
 	: :
 	<library>testCommon
@@ -100,13 +102,13 @@ run
 	testIceTrayOptions.cpp
 	: : :
 	<library>testCommon
-	<library>testOptions
+	<library>testService
 	;
 
 run
 	../tool/icetrayDoc.cpp
 	: :
-	testOptions
+	testService
 	:
 	<library>..//adhocutil
 	<library>..//icetray

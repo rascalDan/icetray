@@ -10,6 +10,7 @@
 #include <boost/format.hpp>
 #include <slicer/common.h>
 #include <logWriterConsole.h>
+#include "testService.h"
 
 using namespace IceTray::Logging;
 
@@ -294,13 +295,6 @@ BOOST_AUTO_TEST_CASE( domains_fromProperties_badLevel )
 }
 
 BOOST_AUTO_TEST_SUITE_END();
-
-class TestService : public IceTray::Service {
-	public:
-		void addObjects(const std::string &, const Ice::CommunicatorPtr &, const Ice::StringSeq &, const Ice::ObjectAdapterPtr &)
-		{
-		}
-};
 
 BOOST_FIXTURE_TEST_SUITE( ts, TestService );
 

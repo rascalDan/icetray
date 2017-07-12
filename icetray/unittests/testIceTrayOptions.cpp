@@ -8,15 +8,9 @@
 #include "icetrayService.h"
 #include "dryice.h"
 
-class TestService : public IceTray::Service {
-	public:
-		void addObjects(const std::string &, const Ice::CommunicatorPtr &, const Ice::StringSeq &, const Ice::ObjectAdapterPtr &)
-		{
-			// Verifies option resolution is available for addObjects.
-			IceTray::OptionsResolver<TestOptions> myOpts;
-		}
-};
-NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);
+//
+// TestService is pulled in from libtestService.so
+//
 
 class DI : public IceTray::DryIce {
 	public:

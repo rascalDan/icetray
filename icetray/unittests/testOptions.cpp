@@ -10,8 +10,6 @@ ICETRAY_OPTIONS(TestOptions,
 		("vec", boost::program_options::value(&testVec), "vector")
 );
 
-FACTORY(TestOptions, IceTray::OptionsFactory);
-
 class TestOptionsInline : public IceTray::Options {
 	public:
 		TestOptionsInline() : IceTray::Options("Test options inline")

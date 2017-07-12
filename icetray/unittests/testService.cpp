@@ -8,5 +8,5 @@ TestService::addObjects(const std::string &, const Ice::CommunicatorPtr &, const
 	IceTray::OptionsResolver<TestOptions> myOpts;
 }
 
-NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);
+FACTORY(TestService, IceTray::ServiceFactory);
 

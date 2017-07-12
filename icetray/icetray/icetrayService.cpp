@@ -29,7 +29,9 @@ namespace IceTray {
 	Service *
 	Service::create(Ice::CommunicatorPtr)
 	{
-		return IceTray::ServiceFactory::createNew("default");
+		auto serviceFactories = AdHoc::PluginManager::getDefault()->getAll<IceTray::ServiceFactory>();
+		BOOST_ASSERT(serviceFactories.size() == 1);
+		return serviceFactories.begin()->get()->implementation()->create();
 	}
 
 	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)

@@ -43,6 +43,22 @@ namespace IceTray {
 			template<typename Param>
 			static void bind1(int offset, DB::Command * cmd, const Param & p);
 
+#define BIND1OPTIONAL(T) \
+			template<typename Param> \
+			static void bind1(int offset, DB::Command * cmd, const T<Param> & p) \
+			{ \
+				if (p) { \
+					bind1(offset, cmd, *p); \
+				} \
+				else { \
+					cmd->bindNull(offset); \
+				} \
+			}
+
+			BIND1OPTIONAL(IceUtil::Optional);
+			BIND1OPTIONAL(boost::optional);
+#undef BIND1OPTIONAL
+
 			DatabasePoolPtr db;
 	};
 }

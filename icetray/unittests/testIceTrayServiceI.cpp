@@ -7,6 +7,17 @@
 #include <subdir/some.sql.h>
 #include <subdir/a/more.sql.h>
 
+class Foo {  };
+
+namespace IceTray {
+	template<>
+	void
+	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const Foo &) \
+	{
+		cmd->bindNull(o);
+	}
+}
+
 namespace TestIceTray {
 	TestIceTrayServiceI::TestIceTrayServiceI(IceTray::DatabasePoolPtr d) :
 		IceTray::AbstractCachingDatabaseClient(d)
@@ -21,6 +32,16 @@ namespace TestIceTray {
 		fetch<int, Ice::Byte, bool>(sql::testIceTrayServiceTestSql, 1, true);
 		fetch<int, Ice::Short, Ice::Float>(sql::testIceTrayServiceTestSql, 1, 0.1f);
 		fetch<int, Ice::Long, Ice::Double>(sql::testIceTrayServiceTestSql, 100000, 3.14);
+		// BLOB
+		Ice::ByteSeq blob;
+		fetch<int>(sql::testIceTrayServiceTestSql, blob, blob.size());
+		// Test we can bind optionals and nulls
+		fetch<int, boost::optional<Ice::Byte>, IceUtil::Optional<bool>>
+			(sql::testIceTrayServiceTestSql, boost::optional<Ice::Byte>(10), IceUtil::Optional<bool>());
+		fetch<int>(sql::testIceTrayServiceTestSql, 10, nullptr);
+		// Test we can extend to bind other things
+		Foo foo;
+		fetch<int>(sql::testIceTrayServiceTestSql, Foo(), foo);
 	}
 
 	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)

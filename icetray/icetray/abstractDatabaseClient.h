@@ -17,8 +17,7 @@ namespace IceTray {
 			Domain
 			fetch(const SqlSource & sql, const Params & ... params)
 			{
-				auto c = db->get();
-				return fetch<Domain, Params...>(c.get(), sql, params...);
+				return fetch<Domain, Params...>(IceUtil::None, sql, params...);
 			}
 
 			template<typename Domain, typename ... Params>
@@ -26,9 +25,26 @@ namespace IceTray {
 			Domain
 			fetch(DB::Connection * c, const SqlSource & sql, const Params & ... params)
 			{
+				return fetch<Domain, Params...>(c, IceUtil::None, sql, params...);
+			}
+
+			template<typename Domain, typename ... Params>
+			inline
+			Domain
+			fetch(const IceUtil::Optional<std::string> & typeIdCol, const SqlSource & sql, const Params & ... params)
+			{
+				auto c = db->get();
+				return fetch<Domain, Params...>(c.get(), typeIdCol, sql, params...);
+			}
+
+			template<typename Domain, typename ... Params>
+			inline
+			Domain
+			fetch(DB::Connection * c, const IceUtil::Optional<std::string> & typeIdCol, const SqlSource & sql, const Params & ... params)
+			{
 				auto s = sql.select(c);
 				bind(0, s.get(), params...);
-				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(*s);
+				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(*s, typeIdCol);
 			}
 
 			template<typename Param, typename ... Params>

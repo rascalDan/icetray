@@ -42,6 +42,9 @@ namespace TestIceTray {
 		// Test we can extend to bind other things
 		Foo foo;
 		fetch<int>(sql::testIceTrayServiceTestSql, Foo(), foo);
+		// Test we can provide our own DB connection
+		auto dbc = db->get();
+		fetch<int>(dbc.get(), sql::testIceTrayServiceTestSql, 1, 1);
 	}
 
 	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)

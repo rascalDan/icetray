@@ -13,6 +13,7 @@ namespace IceTray {
 		Ice::StringSeq args;
 		Ice::InitializationData id;
 		id.properties = Ice::createProperties();
+		id.properties->setProperty("DryIceClient.Endpoints", "default");
 		id.properties->setProperty("DryIce.Endpoints", "default");
 		id.properties->setProperty("DryIce.PoolProvider", "MockPool");
 		id.properties->parseCommandLineOptions("", cmdline);
@@ -43,12 +44,29 @@ namespace IceTray {
 		s->adp->add(replacement, id);
 	}
 
-	DryIceClient::DryIceClient()
+	DryIceClient::DryIceClient() :
+		adapter(DryIce::currentDryIce->ic->createObjectAdapter("DryIceClient"))
 	{
 	}
 
 	DryIceClient::~DryIceClient()
 	{
+		adapter->deactivate();
+		adapter->destroy();
+	}
+
+	ServicePtr
+	DryIceClient::getService() const
+	{
+		BOOST_ASSERT(DryIce::currentDryIce);
+		BOOST_ASSERT(DryIce::currentDryIce->s);
+		return DryIce::currentDryIce->s;
+	}
+
+	Ice::ObjectAdapterPtr
+	DryIceClient::getAdapter() const
+	{
+		return adapter;
 	}
 }
 

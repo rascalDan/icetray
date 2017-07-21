@@ -36,6 +36,12 @@ namespace IceTray {
 			{
 				return Prx::checkedCast(DryIce::currentDryIce->ic->stringToProxy(objectName));
 			}
+
+			ServicePtr getService() const;
+			Ice::ObjectAdapterPtr getAdapter() const;
+
+		private:
+			Ice::ObjectAdapterPtr adapter;
 	};
 }
 

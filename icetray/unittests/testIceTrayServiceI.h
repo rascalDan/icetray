@@ -12,6 +12,9 @@ namespace TestIceTray {
 
 			void method1(const Ice::Current &) override;
 			void method2(Ice::Int id, const std::string & name, const Ice::Current &) override;
+
+		private:
+			template<typename Type> void fetchTest(const Type & value);
 	};
 
 	class TestService : public IceTray::Service {

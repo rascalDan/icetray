@@ -15,28 +15,6 @@ namespace IceTray {
 	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const T & p) \
 	{ \
 		cmd->bindFunc(o, p); \
-	} \
-	template<> \
-	void \
-	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const IceUtil::Optional<T> & p) \
-	{ \
-		if (p) { \
-			cmd->bindFunc(o, *p); \
-		} \
-		else { \
-			cmd->bindNull(o); \
-		} \
-	} \
-	template<> \
-	void \
-	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const boost::optional<T> & p) \
-	{ \
-		if (p) { \
-			cmd->bindFunc(o, *p); \
-		} \
-		else { \
-			cmd->bindNull(o); \
-		} \
 	}
 	PARAMBINDER(std::string, bindParamS);
 	PARAMBINDER(Ice::Byte, bindParamI);

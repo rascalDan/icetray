@@ -14,17 +14,12 @@
 
 class DI : public IceTray::DryIce {
 	public:
-		DI() : IceTray::DryIce({
-			"--testInt=3",
-			"--vec=1,2,4,8"
-		})
-		{
-		}
+		DI(const Ice::StringSeq & opts) : IceTray::DryIce(opts) { }
 };
-BOOST_GLOBAL_FIXTURE(DI);
 
 BOOST_AUTO_TEST_CASE( testOptions )
 {
+	DI di({ "--testInt=3", "--vec=1,2,4,8" });
 	IceTray::OptionsResolver<TestOptions> myOpts;
 	BOOST_REQUIRE_EQUAL(3, myOpts->testInt);
 	BOOST_REQUIRE_EQUAL("some string", myOpts->testString);

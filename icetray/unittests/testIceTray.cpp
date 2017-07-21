@@ -43,6 +43,12 @@ BOOST_AUTO_TEST_CASE( services )
 	p->method2(1, "test");
 }
 
+BOOST_AUTO_TEST_CASE( getIceComponents )
+{
+	BOOST_REQUIRE(getService());
+	BOOST_REQUIRE(getAdapter());
+}
+
 BOOST_AUTO_TEST_SUITE_END();
 
 BOOST_AUTO_TEST_CASE( sqlModify )

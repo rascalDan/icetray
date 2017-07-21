@@ -49,16 +49,13 @@ run
 	testIceTrayServiceTestSql.sql
 	subdir/some.sql
 	subdir/a/more.sql
-	:
-	testIceTrayService.sql
-	: :
+	: : :
 	<icetray.sql.namespace>TestIceTray::sql
 	<library>testCommon
 	<library>boost_filesystem
 	<library>dbpp-postgresql
 	<library>..//dl
-	:
-	testIceTray ;
+	;
 
 run
 	testIceBoxInterface.cpp
@@ -75,22 +72,18 @@ run
 	testIceTrayServiceTestSql.sql
 	subdir/some.sql
 	subdir/a/more.sql
-	:
-	testIceTrayService.sql
-	: :
+	: : :
 	<icetray.sql.namespace>TestIceTray::sql
 	<library>testCommon
 	<library>boost_filesystem
 	<library>dbpp-postgresql
-	:
-	testIceTrayReplace ;
+	;
 
 run
 	testDefaultPool.cpp
 	: : :
 	<library>testCommon
-	:
-	testDefaultPool ;
+	;
 
 run
 	testIceTrayLogger.cpp

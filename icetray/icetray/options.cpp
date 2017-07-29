@@ -46,7 +46,14 @@ namespace IceTray {
 		for (const auto & optDesc : all.options()) {
 			po::option opt;
 			opt.value = p->getPropertyAsList(optDesc->long_name());
-			if (opt.value.empty()) continue;
+			if (opt.value.empty()) {
+				// If it was processed as an empty list and was empty, it wasn't there.
+				if (p->getProperty(optDesc->long_name()).empty()) {
+					continue;
+				}
+				// If it was process as an empty list but wasn't empty, treat as the empty string.
+				opt.value = { "" };
+			}
 			opt.string_key = optDesc->long_name();
 			opt.unregistered = false;
 			result.options.push_back(opt);

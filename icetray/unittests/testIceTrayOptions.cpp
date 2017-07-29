@@ -30,3 +30,17 @@ BOOST_AUTO_TEST_CASE( testOptions )
 	BOOST_REQUIRE_EQUAL(8, myOpts->testVec[3]);
 }
 
+BOOST_AUTO_TEST_CASE( overrideDefaultWithQuotesString )
+{
+	DI di({ R"C(--testString="some \"Quotes\" string")C" });
+	IceTray::OptionsResolver<TestOptions> myOpts;
+	BOOST_REQUIRE_EQUAL("some \"Quotes\" string", myOpts->testString);
+}
+
+BOOST_AUTO_TEST_CASE( overrideDefaultWithEmptyString )
+{
+	DI di({ R"C(--testString="")C" });
+	IceTray::OptionsResolver<TestOptions> myOpts;
+	BOOST_REQUIRE(myOpts->testString.empty());
+}
+

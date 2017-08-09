@@ -47,6 +47,7 @@ namespace IceTray {
 	DryIceClient::DryIceClient() :
 		adapter(DryIce::currentDryIce->ic->createObjectAdapter("DryIceClient"))
 	{
+		adapter->activate();
 	}
 
 	DryIceClient::~DryIceClient()

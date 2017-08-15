@@ -69,6 +69,7 @@ namespace IceTray {
 		{
 			writeStream(priority < WARNING ? std::cerr : std::cout,
 					width, priority, domain, message);
+			(priority < WARNING ? std::cerr : std::cout).flush();
 		}
 
 		std::ostream &

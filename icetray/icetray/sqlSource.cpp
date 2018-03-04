@@ -1,4 +1,6 @@
 #include "sqlSource.h"
+#include <command.h>
+#include <connection.h>
 
 namespace IceTray {
 	DB::ModifyCommandPtr

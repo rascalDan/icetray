@@ -1,4 +1,5 @@
 #include "staticSqlSource.h"
+#include <command.h>
 
 namespace IceTray {
 	StaticSqlSource::StaticSqlSource(const std::string & s) :

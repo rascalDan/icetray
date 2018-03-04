@@ -21,4 +21,3 @@ namespace IceTray {
 
 #endif
 
-

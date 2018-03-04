@@ -3,9 +3,8 @@
 
 #include <string>
 #include <visibility.h>
-#include <connection.h>
-#include <modifycommand.h>
-#include <selectcommand.h>
+#include <connection_fwd.h>
+#include <command_fwd.h>
 
 namespace IceTray {
 	class DLL_PUBLIC SqlSource {

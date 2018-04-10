@@ -2,6 +2,7 @@
 #include <factory.h>
 #include <Ice/ObjectAdapter.h>
 #include <Ice/Communicator.h>
+#include <Ice/Initialize.h>
 #include <boost/assert.hpp>
 #include <testIceTrayServiceTestSql.sql.h>
 #include <subdir/some.sql.h>
@@ -13,14 +14,14 @@ class Foo {  };
 namespace IceTray {
 	template<>
 	void
-	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const Foo &) \
+	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const Foo &)
 	{
 		cmd->bindNull(o);
 	}
 }
 
 namespace TestIceTray {
-	TestIceTrayServiceI::TestIceTrayServiceI(IceTray::DatabasePoolPtr d) :
+	TestIceTrayServiceI::TestIceTrayServiceI(const IceTray::DatabasePoolPtr & d) :
 		IceTray::AbstractCachingDatabaseClient(d)
 	{
 	}
@@ -29,8 +30,8 @@ namespace TestIceTray {
 	TestIceTrayServiceI::fetchTest(const Type & value)
 	{
 		BOOST_REQUIRE_EQUAL(0, (fetch<int, int, Type>(sql::testIceTrayServiceTestSql, 1, value)));
-		BOOST_REQUIRE_EQUAL(0, (fetch<int, boost::optional<Type>, boost::optional<Type>>(sql::testIceTrayServiceTestSql, boost::optional<Type>(), value)));
-		BOOST_REQUIRE_EQUAL(0, (fetch<int, IceUtil::Optional<Type>, IceUtil::Optional<Type>>(sql::testIceTrayServiceTestSql, IceUtil::None, value)));
+		BOOST_REQUIRE_EQUAL(0, (fetch<int, std::optional<Type>, std::optional<Type>>(sql::testIceTrayServiceTestSql, {}, value)));
+		BOOST_REQUIRE_EQUAL(0, (fetch<int, Ice::optional<Type>, Ice::optional<Type>>(sql::testIceTrayServiceTestSql, IceUtil::None, value)));
 	}
 
 	void TestIceTrayServiceI::method1(const Ice::Current &)
@@ -60,14 +61,14 @@ namespace TestIceTray {
 		fetch<int>(dbc.get(), sql::testIceTrayServiceTestSql, 1, 1);
 	}
 
-	void TestIceTrayServiceI::method2(Ice::Int id, const std::string & name, const Ice::Current &)
+	void TestIceTrayServiceI::method2(Ice::Int id, std::string name, const Ice::Current &)
 	{
 		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)) == (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
 	}
 
 	void TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr & adp)
 	{
-		adp->add(new TestIceTray::TestIceTrayServiceI(getConnectionPool(ic, "postgresql", "icetraydb")), ic->stringToIdentity("test"));
+		adp->add(std::make_shared<TestIceTray::TestIceTrayServiceI>(getConnectionPool(ic, "postgresql", "icetraydb")), Ice::stringToIdentity("test"));
 	}
 
 	NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);

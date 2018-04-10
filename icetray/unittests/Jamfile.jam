@@ -15,9 +15,8 @@ alias testCommon : : : :
 	<library>..//adhocutil
 	<library>..//dryice
 	<library>..//icetray
-	<library>..//IceBox
-	<library>..//IceUtil
-	<library>..//Ice
+	<library>..//IceBox++11
+	<library>..//Ice++11
 	<library>..//pthread
 	<library>boost_utf
 	<library>..//boost_system

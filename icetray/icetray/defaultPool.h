@@ -7,7 +7,7 @@
 namespace IceTray {
 	class DefaultPool : public DB::ConnectionPool {
 		public:
-			DefaultPool(const std::string & name, const std::string & type, Ice::PropertiesPtr p);
+			DefaultPool(const std::string & name, const std::string & type, const Ice::PropertiesPtr & p);
 	};
 }
 

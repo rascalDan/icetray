@@ -58,18 +58,18 @@ namespace AdHoc {
 namespace IceTray {
 	namespace Logging {
 		AdHocFormatter(LogMsg, "%?: %d: %?\n");
-		ConsoleLogWriter::ConsoleLogWriter(Ice::Properties * p) :
+		ConsoleLogWriter::ConsoleLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("logging.console", p),
 			width(p ? p->getPropertyAsIntWithDefault("logging.console.width", -1) : -1)
 		{
 		}
 
 		void
-		ConsoleLogWriter::message(LogLevel priority, const Domain & domain, const std::string & message, const Ice::Current &)
+		ConsoleLogWriter::message(LogLevel priority, Domain domain, std::string message, const Ice::Current &)
 		{
-			writeStream(priority < WARNING ? std::cerr : std::cout,
+			writeStream(priority < LogLevel::WARNING ? std::cerr : std::cout,
 					width, priority, domain, message);
-			(priority < WARNING ? std::cerr : std::cout).flush();
+			(priority < LogLevel::WARNING ? std::cerr : std::cout).flush();
 		}
 
 		std::ostream &

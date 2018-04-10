@@ -48,14 +48,11 @@ namespace IceTray {
 	{
 		auto logManager = LOGMANAGER();
 		for (auto logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
-			auto logWriter = logWriterFactory->implementation()->create(p.get());
-			if (logWriter->lowestLevel()) {
-				auto prx = Logging::LogWriterPrx::uncheckedCast(adp->addWithUUID(logWriter));
+			auto logWriter = logWriterFactory->implementation()->create(p);
+			if (logWriter->lowestLevel({})) {
+				auto prx = Ice::uncheckedCast<Logging::LogWriterPrx>(adp->addWithUUID(logWriter));
 				logWriters.insert(prx);
 				logManager->addWriter(prx);
-			}
-			else {
-				delete logWriter;
 			}
 		}
 	}
@@ -79,9 +76,9 @@ namespace IceTray {
 	DatabasePoolPtr Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
 	{
 		auto p = ic->getProperties();
-		return DatabasePoolPtr(PoolProvider::createNew(
+		return PoolProvider::createNew(
 					p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"),
-					name, type, p));
+					name, type, p);
 	}
 }
 
@@ -94,6 +91,6 @@ extern "C" {
 	}
 }
 
-INSTANTIATEVOIDFACTORY(IceTray::Service);
-INSTANTIATEFACTORY(IceTray::DatabasePool, const std::string &, const std::string &, Ice::PropertiesPtr);
+INSTANTIATEPLUGINOF(IceTray::ServiceFactory);
+INSTANTIATEFACTORY(IceTray::DatabasePool, const std::string &, const std::string &, const Ice::PropertiesPtr &);
 

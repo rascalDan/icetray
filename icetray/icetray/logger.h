@@ -7,7 +7,7 @@
 #include <boost/format/format_fwd.hpp>
 #include <map>
 #include <buffer.h>
-#include <boost/thread/shared_mutex.hpp>
+#include <shared_mutex>
 #include <Ice/Properties.h>
 #include <globalStatic.h>
 
@@ -16,7 +16,7 @@ namespace IceTray {
 		class LogManager;
 		class LoggerBase;
 
-		typedef std::set<LogWriterPrx> LogWriters;
+		typedef std::set<LogWriterPrxPtr> LogWriters;
 		typedef std::array<LogWriters, 8> LogLevelWriters;
 		typedef std::set<LoggerBase *> Loggers;
 
@@ -29,7 +29,7 @@ namespace IceTray {
 
 			protected:
 				friend class LogManager;
-				mutable boost::shared_mutex _lock;
+				mutable std::shared_mutex _lock;
 				LogLevelWriters logs;
 				const Domain domain;
 		};
@@ -52,7 +52,7 @@ namespace IceTray {
 					const auto fl = firstFor(priority);
 					if (fl != logs.end()) {
 						auto fmt = AdHoc::Buffer::getFormat(msgfmt);
-						messagebf(fl, priority, *fmt, args...);
+						messagebf(fl, priority, fmt, args...);
 					}
 				}
 
@@ -79,14 +79,14 @@ namespace IceTray {
 				LoggerPtr getLogger(const std::type_info &);
 				LoggerPtr getLogger(const std::string &);
 				LogLevelWriters getLogsForDomain(const Domain &) const;
-				void addWriter(LogWriterPrx writer);
-				void removeWriter(LogWriterPrx writer);
+				void addWriter(LogWriterPrxPtr writer);
+				void removeWriter(LogWriterPrxPtr writer);
 
 				static LogManager * getDefault();
 
 			private:
 				void updateLoggerWriters() const;
-				mutable boost::shared_mutex _lock;
+				mutable std::shared_mutex _lock;
 				Loggers loggers;
 				LogWriters logWriters;
 		};
@@ -94,7 +94,7 @@ namespace IceTray {
 		class DLL_PUBLIC AbstractLogWriter : public LogWriter {
 			public:
 				IceUtil::Optional<LogLevel> lowestLevel(const Ice::Current &) override;
-				IceUtil::Optional<LogLevel> level(const Domain &, const Ice::Current &) override;
+				IceUtil::Optional<LogLevel> level(Domain, const Ice::Current &) override;
 
 			protected:
 				AbstractLogWriter();
@@ -108,7 +108,7 @@ namespace IceTray {
 				static Domain splitDomain(const std::string &);
 		};
 
-		typedef AdHoc::Factory<LogWriter, Ice::Properties *> LogWriterFactory;
+		typedef AdHoc::Factory<LogWriter, const Ice::PropertiesPtr &> LogWriterFactory;
 	}
 }
 

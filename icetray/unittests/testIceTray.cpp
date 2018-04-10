@@ -11,10 +11,10 @@
 #include <pq-mock.h>
 #include <definedDirs.h>
 
-class Service : public IceTray::DryIce, PQ::Mock {
+class Service : public IceTray::DryIce, DB::PluginMock<PQ::Mock> {
 	public:
 		Service() :
-			PQ::Mock("user=postgres dbname=postgres", "icetraydb", {
+			DB::PluginMock<PQ::Mock>("user=postgres dbname=postgres", "icetraydb", {
 				rootDir / "testIceTrayService.sql"
 			})
 		{
@@ -29,7 +29,7 @@ class Client : public IceTray::DryIceClient {
 			p(getProxy<TestIceTray::TestIceTrayServicePrx>("test"))
 		{
 		}
-		TestIceTray::TestIceTrayServicePrx p;
+		TestIceTray::TestIceTrayServicePrxPtr p;
 };
 
 BOOST_FIXTURE_TEST_SUITE( client, Client );
@@ -55,7 +55,6 @@ BOOST_AUTO_TEST_CASE( sqlModify )
 {
 	auto db = DB::MockDatabase::openConnectionTo("icetraydb");
 	BOOST_REQUIRE(db);
-	BOOST_REQUIRE(TestIceTray::sql::testIceTrayServiceTestSql.modify(db));
-	delete db;
+	BOOST_REQUIRE(TestIceTray::sql::testIceTrayServiceTestSql.modify(db.get()));
 }
 

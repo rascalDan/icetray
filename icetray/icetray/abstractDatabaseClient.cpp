@@ -4,7 +4,7 @@
 #include <Ice/BuiltinSequences.h>
 
 namespace IceTray {
-	AbstractDatabaseClient::AbstractDatabaseClient(DatabasePoolPtr d) :
+	AbstractDatabaseClient::AbstractDatabaseClient(const DatabasePoolPtr & d) :
 		db(d)
 	{
 	}

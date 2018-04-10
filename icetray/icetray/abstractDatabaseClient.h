@@ -10,7 +10,7 @@
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
 		protected:
-			AbstractDatabaseClient(DatabasePoolPtr d);
+			AbstractDatabaseClient(const DatabasePoolPtr & d);
 
 			template<typename Domain, typename ... Params>
 			inline
@@ -44,7 +44,7 @@ namespace IceTray {
 			{
 				auto s = sql.select(c);
 				bind(0, s.get(), params...);
-				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(*s, typeIdCol);
+				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s, typeIdCol);
 			}
 
 			template<typename Param, typename ... Params>
@@ -71,8 +71,8 @@ namespace IceTray {
 				} \
 			}
 
-			BIND1OPTIONAL(IceUtil::Optional);
-			BIND1OPTIONAL(boost::optional);
+			BIND1OPTIONAL(Ice::optional);
+			BIND1OPTIONAL(std::optional);
 #undef BIND1OPTIONAL
 
 			DatabasePoolPtr db;

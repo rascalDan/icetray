@@ -32,13 +32,32 @@ namespace IceTray {
 			friend class DryIce;
 			Ice::ObjectAdapterPtr adp;
 			static Service * current;
-			std::set<Logging::LogWriterPrx> logWriters;
+			std::set<Logging::LogWriterPrxPtr> logWriters;
 			OptionsCollation optionsCollation;
 	};
 
-	typedef IceInternal::Handle<Service> ServicePtr;
-	typedef AdHoc::Factory<Service> ServiceFactory;
-	typedef AdHoc::Factory<DatabasePool, const std::string &, const std::string &, Ice::PropertiesPtr> PoolProvider;
+	typedef std::shared_ptr<Service> ServicePtr;
+
+	// Custom factory required because IceBox interface requires a naked pointer.
+	// See: https://doc.zeroc.com/display/Ice37/Developing+IceBox+Services#DevelopingIceBoxServices-C++ServiceEntryPoint
+	class ServiceFactory : public AdHoc::AbstractPluginImplementation {
+		public:
+			virtual Service * create() const = 0;
+			
+			template<typename Impl>
+			class For;
+	};
+
+	template<typename Impl>
+	class ServiceFactory::For : public ServiceFactory {
+		public:
+			Service * create() const
+			{
+				return new Impl();
+			}
+	};
+
+	typedef AdHoc::Factory<DatabasePool, const std::string &, const std::string &, const Ice::PropertiesPtr &> PoolProvider;
 }
 
 #endif

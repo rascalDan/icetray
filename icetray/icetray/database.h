@@ -2,11 +2,11 @@
 #define ICETRAY_DATABASE_H
 
 #include <connectionPool.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace IceTray {
 	typedef AdHoc::ResourcePool<DB::Connection> DatabasePool;
-	typedef boost::shared_ptr<DatabasePool> DatabasePoolPtr;
+	typedef std::shared_ptr<DatabasePool> DatabasePoolPtr;
 }
 
 #endif

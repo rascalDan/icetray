@@ -19,6 +19,7 @@ exe icetray-doc :
 	:
 	<library>boost_program_options
 	<library>../icetray//icetray
+	<library>..//Ice++11
 	<library>dl
 	;
 

@@ -20,6 +20,5 @@ BOOST_AUTO_TEST_CASE( defaultPool )
 		auto c = pool->get();
 		c->ping();
 	}
-	delete pool;
 }
 

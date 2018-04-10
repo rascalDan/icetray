@@ -8,10 +8,10 @@
 namespace TestIceTray {
 	class TestIceTrayServiceI : IceTray::AbstractCachingDatabaseClient, public TestIceTrayService {
 		public:
-			TestIceTrayServiceI(boost::shared_ptr<AdHoc::ResourcePool<DB::Connection>> db);
+			TestIceTrayServiceI(const IceTray::DatabasePoolPtr & db);
 
 			void method1(const Ice::Current &) override;
-			void method2(Ice::Int id, const std::string & name, const Ice::Current &) override;
+			void method2(Ice::Int id, std::string name, const Ice::Current &) override;
 
 		private:
 			template<typename Type> void fetchTest(const Type & value);

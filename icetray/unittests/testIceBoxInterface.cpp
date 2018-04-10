@@ -14,6 +14,7 @@ BOOST_AUTO_TEST_CASE( IceBoxInterface )
 	BOOST_REQUIRE(sf);
 	auto service = sf(nullptr);
 	BOOST_REQUIRE(service);
+	BOOST_REQUIRE_EQUAL(service, IceTray::Service::getCurrent());
 	delete service;
 }
 

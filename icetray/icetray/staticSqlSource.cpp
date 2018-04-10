@@ -15,18 +15,13 @@ namespace IceTray {
 
 	}
 
-	StaticSqlSource::~StaticSqlSource()
-	{
-		delete opts;
-	}
-
 	const std::string &
 	StaticSqlSource::getSql() const
 	{
 		return sql;
 	}
 
-	const DB::CommandOptions *
+	DB::CommandOptionsCPtr
 	StaticSqlSource::getCommandOptions() const
 	{
 		return opts;

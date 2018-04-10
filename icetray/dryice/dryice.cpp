@@ -18,7 +18,7 @@ namespace IceTray {
 		id.properties->setProperty("DryIce.PoolProvider", "MockPool");
 		id.properties->parseCommandLineOptions("", cmdline);
 		ic = Ice::initialize(args, id);
-		s = Service::create(ic);
+		s = IceTray::ServicePtr(Service::create(ic));
 		s->start("DryIce", ic, {});
 		currentDryIce = this;
 	}
@@ -37,9 +37,9 @@ namespace IceTray {
 	}
 
 	void
-	DryIce::replace(const std::string & name, Ice::ObjectPtr replacement)
+	DryIce::replace(const std::string & name, const Ice::ObjectPtr & replacement)
 	{
-		auto id = ic->stringToIdentity(name);
+		auto id = Ice::stringToIdentity(name);
 		s->adp->remove(id);
 		s->adp->add(replacement, id);
 	}

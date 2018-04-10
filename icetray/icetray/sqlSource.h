@@ -12,7 +12,7 @@ namespace IceTray {
 			virtual ~SqlSource() = default;
 
 			virtual const std::string & getSql() const = 0;
-			virtual const DB::CommandOptions * getCommandOptions() const = 0;
+			virtual DB::CommandOptionsCPtr getCommandOptions() const = 0;
 
 			DB::ModifyCommandPtr modify(DB::Connection * db) const;
 			DB::SelectCommandPtr select(DB::Connection * db) const;

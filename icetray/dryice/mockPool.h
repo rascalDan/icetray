@@ -8,9 +8,9 @@
 namespace IceTray {
 	class MockPool : public DatabasePool {
 		public:
-			MockPool(const std::string & name, const std::string &, Ice::PropertiesPtr p);
+			MockPool(const std::string & name, const std::string &, const Ice::PropertiesPtr & p);
 
-			DB::Connection * createResource() const override;
+			DB::ConnectionPtr createResource() const override;
 
 			const std::string name;
 	};

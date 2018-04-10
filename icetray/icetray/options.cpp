@@ -15,7 +15,7 @@ namespace IceTray {
 	OptionsDescPtr
 	Options::getOptions()
 	{
-		auto opts = OptionsDescPtr(new boost::program_options::options_description(optionsName));
+		auto opts = std::make_shared<boost::program_options::options_description>(optionsName);
 		options(opts->add_options());
 		return opts;
 	}

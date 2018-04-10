@@ -14,7 +14,7 @@ namespace TestIceTray {
 			DummyTestIceTrayServiceI() { }
 
 			void method1(const Ice::Current &) override { }
-			void method2(Ice::Int, const std::string &, const Ice::Current &) override { }
+			void method2(Ice::Int, std::string, const Ice::Current &) override { }
 	};
 }
 
@@ -22,7 +22,7 @@ class Service : public IceTray::DryIce {
 	public:
 		Service()
 		{
-			replace("test", new TestIceTray::DummyTestIceTrayServiceI());
+			replace("test", std::make_shared<TestIceTray::DummyTestIceTrayServiceI>());
 		}
 };
 
@@ -34,7 +34,7 @@ class Client : public IceTray::DryIceClient {
 			p(getProxy<TestIceTray::TestIceTrayServicePrx>("test"))
 		{
 		}
-		TestIceTray::TestIceTrayServicePrx p;
+		TestIceTray::TestIceTrayServicePrxPtr p;
 };
 
 BOOST_FIXTURE_TEST_SUITE( client, Client );

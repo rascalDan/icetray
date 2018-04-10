@@ -6,9 +6,8 @@ lib dryice :
 	:
 	<library>..//adhocutil
 	<library>../icetray//icetray
-	<library>..//Ice
-	<library>..//IceUtil
-	<library>..//IceBox
+	<library>..//Ice++11
+	<library>..//IceBox++11
 	<library>..//pthread
 	<library>..//boost_system
 	<library>..//boost_thread

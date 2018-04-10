@@ -8,7 +8,7 @@
 #include <slicer/modelPartsTypes.h>
 #include <globalStatic.impl.h>
 
-INSTANTIATEFACTORY(IceTray::Logging::LogWriter, Ice::Properties *);
+INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &);
 
 template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
@@ -86,7 +86,7 @@ namespace IceTray {
 		{
 			SharedLock(_lock);
 			auto i = logs.begin();
-			i += priority;
+			i += (int)priority;
 			while (i != logs.end()) {
 				if (!i->empty()) {
 					return i;
@@ -123,7 +123,7 @@ namespace IceTray {
 			for (const auto & log : logWriters) {
 				auto level = log->level(domain);
 				if (level) {
-					logs[*level].insert(log);
+					logs[(int)*level].insert(log);
 				}
 			}
 			return logs;
@@ -139,22 +139,22 @@ namespace IceTray {
 		}
 
 		void
-		LogManager::addWriter(LogWriterPrx writer)
+		LogManager::addWriter(LogWriterPrxPtr writer)
 		{
-			UpgradableLock(_lock, l);
-			UpgradeScopeLock(l) {
+			ScopeLock(_lock) {
 				logWriters.insert(writer);
 			}
+			SharedLock(_lock);
 			updateLoggerWriters();
 		}
 
 		void
-		LogManager::removeWriter(LogWriterPrx writer)
+		LogManager::removeWriter(LogWriterPrxPtr writer)
 		{
-			UpgradableLock(_lock, l);
-			UpgradeScopeLock(l) {
+			ScopeLock(_lock) {
 				logWriters.erase(writer);
 			}
+			SharedLock(_lock);
 			updateLoggerWriters();
 		}
 
@@ -176,7 +176,7 @@ namespace IceTray {
 		AbstractLogWriter::AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p)
 		{
 			if (!p || prefix.empty()) {
-				logDomains.insert({ { }, WARNING });
+				logDomains.insert({ { }, LogLevel::WARNING });
 				return;
 			}
 			auto domainsPrefix = prefix + ".domains.";
@@ -207,7 +207,7 @@ namespace IceTray {
 		}
 
 		IceUtil::Optional<LogLevel>
-		AbstractLogWriter::level(const Domain & domain, const Ice::Current &)
+		AbstractLogWriter::level(Domain domain, const Ice::Current &)
 		{
 			for (auto d = logDomains.rbegin(); d != logDomains.rend(); d++) {
 				if (boost::algorithm::starts_with(domain, d->first)) {

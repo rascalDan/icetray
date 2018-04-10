@@ -20,7 +20,7 @@ namespace IceTray {
 			friend class DryIceClient;
 			static DryIce * currentDryIce;
 
-			void replace(const std::string &, Ice::ObjectPtr);
+			void replace(const std::string &, const Ice::ObjectPtr &);
 
 			Ice::CommunicatorPtr ic;
 			IceTray::ServicePtr s;
@@ -32,9 +32,9 @@ namespace IceTray {
 			virtual ~DryIceClient();
 
 			template<typename Prx>
-			Prx getProxy(const std::string & objectName) const
+			std::shared_ptr<Prx> getProxy(const std::string & objectName) const
 			{
-				return Prx::checkedCast(DryIce::currentDryIce->ic->stringToProxy(objectName));
+				return Ice::checkedCast<Prx>(DryIce::currentDryIce->ic->stringToProxy(objectName));
 			}
 
 			ServicePtr getService() const;

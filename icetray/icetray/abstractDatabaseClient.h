@@ -44,7 +44,7 @@ namespace IceTray {
 			{
 				auto s = sql.select(c);
 				bind(0, s.get(), params...);
-				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s, typeIdCol);
+				return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s.get(), typeIdCol);
 			}
 
 			template<typename Param, typename ... Params>

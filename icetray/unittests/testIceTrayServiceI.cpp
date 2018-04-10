@@ -21,7 +21,7 @@ namespace IceTray {
 }
 
 namespace TestIceTray {
-	TestIceTrayServiceI::TestIceTrayServiceI(const IceTray::DatabasePoolPtr & d) :
+	TestIceTrayServiceI::TestIceTrayServiceI(const DB::ConnectionPoolPtr & d) :
 		IceTray::AbstractCachingDatabaseClient(d)
 	{
 	}

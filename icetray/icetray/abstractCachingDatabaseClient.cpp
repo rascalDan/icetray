@@ -5,7 +5,7 @@ template DLL_PUBLIC void AdHoc::Cache<IceTray::AbstractCachingDatabaseClient::Ca
 template DLL_PUBLIC IceTray::AbstractCachingDatabaseClient::Cache::Value AdHoc::Cache<IceTray::AbstractCachingDatabaseClient::CacheItem, IceTray::AbstractCachingDatabaseClient::CacheKey>::get(const IceTray::AbstractCachingDatabaseClient::CacheKey &) const;
 
 namespace IceTray {
-	AbstractCachingDatabaseClient::AbstractCachingDatabaseClient(const DatabasePoolPtr & d) :
+	AbstractCachingDatabaseClient::AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d) :
 		AbstractDatabaseClient(d)
 	{
 	}

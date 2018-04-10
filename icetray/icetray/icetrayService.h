@@ -4,7 +4,7 @@
 #include <IceBox/IceBox.h>
 #include <factory.h>
 #include <visibility.h>
-#include "database.h"
+#include <connectionPool.h>
 #include "logger.h"
 #include "options.h"
 
@@ -20,7 +20,7 @@ namespace IceTray {
 
 			void stop() override;
 
-			DatabasePoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
+			DB::ConnectionPoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
 			static Service * getCurrent();
 			static Service * create(Ice::CommunicatorPtr);
@@ -43,7 +43,7 @@ namespace IceTray {
 	class ServiceFactory : public AdHoc::AbstractPluginImplementation {
 		public:
 			virtual Service * create() const = 0;
-			
+
 			template<typename Impl>
 			class For;
 	};
@@ -57,7 +57,7 @@ namespace IceTray {
 			}
 	};
 
-	typedef AdHoc::Factory<DatabasePool, const std::string &, const std::string &, const Ice::PropertiesPtr &> PoolProvider;
+	typedef AdHoc::Factory<DB::BasicConnectionPool, const std::string &, const std::string &, const Ice::PropertiesPtr &> PoolProvider;
 }
 
 #endif

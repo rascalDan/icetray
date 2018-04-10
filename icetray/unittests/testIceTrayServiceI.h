@@ -8,7 +8,7 @@
 namespace TestIceTray {
 	class TestIceTrayServiceI : IceTray::AbstractCachingDatabaseClient, public TestIceTrayService {
 		public:
-			TestIceTrayServiceI(const IceTray::DatabasePoolPtr & db);
+			TestIceTrayServiceI(const DB::ConnectionPoolPtr & db);
 
 			void method1(const Ice::Current &) override;
 			void method2(Ice::Int id, std::string name, const Ice::Current &) override;

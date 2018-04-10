@@ -1,7 +1,7 @@
 #ifndef ICETRAY_ABSTRACTDATABASECLIENT_H
 #define ICETRAY_ABSTRACTDATABASECLIENT_H
 
-#include "database.h"
+#include <connectionPool.h>
 #include "sqlSource.h"
 #include <db/sqlSelectDeserializer.h>
 #include <slicer/slicer.h>
@@ -10,7 +10,7 @@
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
 		protected:
-			AbstractDatabaseClient(const DatabasePoolPtr & d);
+			AbstractDatabaseClient(const DB::ConnectionPoolPtr & d);
 
 			template<typename Domain, typename ... Params>
 			inline
@@ -75,7 +75,7 @@ namespace IceTray {
 			BIND1OPTIONAL(std::optional);
 #undef BIND1OPTIONAL
 
-			DatabasePoolPtr db;
+			const DB::ConnectionPoolPtr db;
 	};
 }
 

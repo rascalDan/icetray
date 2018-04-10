@@ -66,14 +66,16 @@ namespace IceTray {
 		}
 	}
 
-	void Service::stop()
+	void
+	Service::stop()
 	{
 		shutdownLoggers();
 		adp->deactivate();
 		adp->destroy();
 	}
 
-	DatabasePoolPtr Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
+	DB::ConnectionPoolPtr
+	Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
 	{
 		auto p = ic->getProperties();
 		return PoolProvider::createNew(
@@ -92,5 +94,5 @@ extern "C" {
 }
 
 INSTANTIATEPLUGINOF(IceTray::ServiceFactory);
-INSTANTIATEFACTORY(IceTray::DatabasePool, const std::string &, const std::string &, const Ice::PropertiesPtr &);
+INSTANTIATEFACTORY(DB::BasicConnectionPool, const std::string &, const std::string &, const Ice::PropertiesPtr &);
 

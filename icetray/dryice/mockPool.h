@@ -6,9 +6,10 @@
 #include <Ice/Properties.h>
 
 namespace IceTray {
-	class MockPool : public DB::BasicConnectionPool {
+	class DLL_PUBLIC MockPool : public DB::BasicConnectionPool {
 		public:
 			MockPool(const std::string & name, const std::string &, const Ice::PropertiesPtr & p);
+			MockPool(const std::string & name, int size, int keep);
 
 			DB::ConnectionPtr createResource() const override;
 

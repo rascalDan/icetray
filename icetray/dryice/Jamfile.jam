@@ -16,5 +16,5 @@ lib dryice :
 	<include>.
 	;
 
-package.install install-dryice : <install-source-root>. : : dryice : [ glob *.h : mockPool.h ] ;
+package.install install-dryice : <install-source-root>. : : dryice : [ glob *.h ] ;
 

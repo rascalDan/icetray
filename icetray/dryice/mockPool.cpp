@@ -4,9 +4,14 @@
 
 namespace IceTray {
 	MockPool::MockPool(const std::string & name, const std::string &, const Ice::PropertiesPtr & p) :
-		DB::BasicConnectionPool(
+		MockPool(name,
 					p->getPropertyAsIntWithDefault(name + ".Database.PoolMax", 10),
-					p->getPropertyAsIntWithDefault(name + ".Database.PoolKeep", 2)),
+					p->getPropertyAsIntWithDefault(name + ".Database.PoolKeep", 2))
+	{
+	}
+
+	MockPool::MockPool(const std::string & name, int size, int keep) :
+		DB::BasicConnectionPool(size, keep),
 		name(name)
 	{
 	}

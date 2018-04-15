@@ -1,6 +1,7 @@
 #ifndef ICETRAY_LOGWRITER
 #define ICETRAY_LOGWRITER
 
+[["ice-prefix"]]
 module IceTray {
 	module Logging {
 		enum LogLevel {

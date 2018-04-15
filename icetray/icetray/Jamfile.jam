@@ -16,7 +16,6 @@ lib icetray :
 	<library>..//boost_thread
 	<library>../..//glibmm
 	<library>boost_program_options
-	<allow-ice>yes
 	<slicer>yes
 	: :
 	<include>.

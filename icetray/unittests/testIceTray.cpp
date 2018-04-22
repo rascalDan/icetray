@@ -14,9 +14,9 @@
 class Service : public IceTray::DryIce, DB::PluginMock<PQ::Mock> {
 	public:
 		Service() :
-			DB::PluginMock<PQ::Mock>("user=postgres dbname=postgres", "icetraydb", {
+			DB::PluginMock<PQ::Mock>("icetraydb", {
 				rootDir / "testIceTrayService.sql"
-			})
+			}, "user=postgres dbname=postgres")
 		{
 		}
 };

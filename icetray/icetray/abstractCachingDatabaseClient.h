@@ -3,14 +3,14 @@
 
 #include "abstractDatabaseClient.h"
 #include <cache.h>
-#include <boost/any.hpp>
-#include <boost/shared_ptr.hpp>
+#include <any>
+#include <memory>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractCachingDatabaseClient : public AbstractDatabaseClient {
 		private:
 			typedef std::vector<std::size_t> CacheKey;
-			typedef boost::any CacheItem;
+			typedef std::any CacheItem;
 
 		protected:
 			AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d);
@@ -26,7 +26,7 @@ namespace IceTray {
 				key.push_back(typeid(Domain).hash_code());
 				keyPushParams(key, params...);
 				if (auto cached = cache.get(key)) {
-					return boost::any_cast<Domain>(*cached);
+					return std::any_cast<Domain>(*cached);
 				}
 				auto d(fetch<Domain, Params...>(sql, params...));
 				cache.add(key, CacheItem(d), time(NULL) + cacheTime);

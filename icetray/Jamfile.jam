@@ -16,7 +16,7 @@ build-project tool ;
 
 explicit install ;
 alias install :
-	dryice//dryice
+	dryice//install
 	icetray//install
 	tool//install
 	;

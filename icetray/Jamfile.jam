@@ -8,7 +8,6 @@ lib pthread ;
 lib dl ;
 lib IceBox++11 ;
 lib dbppcore : : : : <include>/usr/include/dbpp ;
-lib boost_thread ;
 
 build-project unittests ;
 build-project icetray ;

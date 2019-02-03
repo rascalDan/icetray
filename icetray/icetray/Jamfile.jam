@@ -12,7 +12,6 @@ lib icetray :
 	<library>..//pthread
 	<library>..//slicer
 	<library>..//slicer-db
-	<library>..//boost_thread
 	<library>../..//glibmm
 	<library>boost_program_options
 	<slicer>yes
@@ -22,7 +21,6 @@ lib icetray :
 	<library>..//adhocutil
 	<library>..//slicer
 	<library>..//slicer-db
-	<library>..//boost_thread
 	;
 
 explicit install ;

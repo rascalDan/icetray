@@ -9,7 +9,6 @@ lib dryice :
 	<library>..//Ice++11
 	<library>..//IceBox++11
 	<library>..//pthread
-	<library>..//boost_thread
 	<implicit-dependency>../icetray//icetray
 	: :
 	<include>.

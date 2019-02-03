@@ -15,3 +15,10 @@ build-project icetray ;
 build-project dryice ;
 build-project tool ;
 
+explicit install ;
+alias install :
+	dryice//dryice
+	icetray//install
+	tool//install
+	;
+

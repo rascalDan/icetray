@@ -21,8 +21,8 @@ exe icetray-doc :
 	<library>dl
 	;
 
-explicit install-tools ;
-alias install-tools :
+explicit install ;
+alias install :
 	install-tools-data
 	install-tools-bin
 	;

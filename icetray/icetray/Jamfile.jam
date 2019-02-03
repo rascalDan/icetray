@@ -25,6 +25,11 @@ lib icetray :
 	<library>..//boost_thread
 	;
 
+explicit install ;
+alias install :
+	install-main
+	install-ice
+	;
 package.install install-main : : : icetray : [ glob-tree *.h : defaultPool.h ] ;
 package.install-data install-ice : icetray/ice : [ glob *.ice ] ;
 

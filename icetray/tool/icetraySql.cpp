@@ -1,15 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <boost/program_options.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/convenience.hpp>
+#include <filesystem>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <compileTimeFormatter.h>
 
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 AdHocFormatter(CPPHeader,
 		R"C(#include "%?.h"
@@ -70,14 +69,14 @@ main(int argc, char ** argv)
 	boost::algorithm::split(sqlnsparts, sqlns, boost::algorithm::is_any_of(":"), boost::algorithm::token_compress_on);
 	auto r = fs::canonical(sql).lexically_relative(fs::canonical(base)).parent_path();
 	if (!r.empty()) {
-		std::transform(r.begin(), r.end(), std::back_inserter(sqlnsparts), [](const auto & p) { return p.string(); });
+		std::copy(r.begin(), r.end(), std::back_inserter(sqlnsparts));
 	}
 
-	std::ifstream sqlin(sql.string());
-	std::ofstream cppout(cpp.string());
-	std::ofstream hout(h.string());
+	std::ifstream sqlin(sql);
+	std::ofstream cppout(cpp);
+	std::ofstream hout(h);
 
-	CPPHeader::write(cppout, sql.leaf().string());
+	CPPHeader::write(cppout, sql.filename().string());
 	std::for_each(sqlnsparts.begin(), sqlnsparts.end(), [&cppout](const auto & nsp) {
 		CPPNS::write(cppout, nsp);
 	});

@@ -1,17 +1,15 @@
 import package ;
 
 lib boost_program_options ;
-lib boost_filesystem ;
-lib boost_system ;
+lib stdc++fs ;
 lib dl ;
 
 exe icetray-sql :
 	icetraySql.cpp
 	:
 	<library>boost_program_options
-	<library>boost_filesystem
-	<library>boost_system
-	<include>/usr/include/adhocutil/
+	<library>stdc++fs
+	<use>..//adhocutil
 	;
 
 exe icetray-doc :

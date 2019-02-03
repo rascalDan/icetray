@@ -5,7 +5,7 @@ import feature ;
 import toolset.flags ;
 
 lib boost_utf : : <name>boost_unit_test_framework ;
-lib boost_filesystem ;
+lib stdc++fs ;
 lib dbpp-postgresql : : : : <include>/usr/include/dbpp-postgresql ;
 
 path-constant me : . ;
@@ -19,7 +19,6 @@ alias testCommon : : : :
 	<library>..//Ice++11
 	<library>..//pthread
 	<library>boost_utf
-	<library>..//boost_system
 	<define>BOOST_TEST_DYN_LINK
 	<icetray.sql.tool>../tool//icetray-sql
 	<dependency>../tool//icetray-sql
@@ -51,7 +50,7 @@ run
 	: : :
 	<icetray.sql.namespace>TestIceTray::sql
 	<library>testCommon
-	<library>boost_filesystem
+	<library>stdc++fs
 	<library>dbpp-postgresql
 	<library>..//dl
 	;
@@ -74,7 +73,7 @@ run
 	: : :
 	<icetray.sql.namespace>TestIceTray::sql
 	<library>testCommon
-	<library>boost_filesystem
+	<library>stdc++fs
 	<library>dbpp-postgresql
 	;
 

@@ -16,6 +16,8 @@ namespace IceTray {
 	{ \
 		cmd->bindFunc(o, p); \
 	}
+	PARAMBINDER(Glib::ustring, bindParamS);
+	PARAMBINDER(std::string_view, bindParamS);
 	PARAMBINDER(std::string, bindParamS);
 	PARAMBINDER(Ice::Byte, bindParamI);
 	PARAMBINDER(Ice::Short, bindParamI);

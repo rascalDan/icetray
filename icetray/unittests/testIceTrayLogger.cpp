@@ -34,9 +34,9 @@ class TestLogWriter : public AbstractLogWriter {
 		{
 		}
 
-		void message(LogLevel priority, Domain domain, std::string message, const Ice::Current &) override
+		void message(LogLevel priority, Domain domain, const std::string_view message, const Ice::Current &) override
 		{
-			msgs.push_back({priority, domain, message});
+			msgs.push_back({priority, domain, std::string(message)});
 		}
 
 		std::vector<LogEntry> msgs;

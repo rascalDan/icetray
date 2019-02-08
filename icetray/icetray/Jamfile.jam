@@ -15,6 +15,7 @@ lib icetray :
 	<library>../..//glibmm
 	<library>boost_program_options
 	<slicer>yes
+	<include>.
 	: :
 	<include>.
 	<library>..//dbppcore

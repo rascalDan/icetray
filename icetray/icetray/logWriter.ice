@@ -2,6 +2,7 @@
 #define ICETRAY_LOGWRITER
 
 [["ice-prefix"]]
+[["cpp:include:string_view_support.h"]]
 module IceTray {
 	module Logging {
 		enum LogLevel {
@@ -21,7 +22,7 @@ module IceTray {
 		interface LogWriter {
 			optional(0) LogLevel lowestLevel();
 			optional(0) LogLevel level(Domain domain);
-			void message(LogLevel level, Domain domain, string message);
+			void message(LogLevel level, Domain domain, ["cpp:view-type:std::string_view"] string message);
 		};
 	};
 };

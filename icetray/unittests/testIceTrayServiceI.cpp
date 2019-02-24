@@ -11,12 +11,12 @@
 
 class Foo {  };
 
-namespace IceTray {
+namespace DB {
 	template<>
 	void
-	AbstractDatabaseClient::bind1(int o, DB::Command * cmd, const Foo &)
+	Command::bindParam(unsigned int o, const Foo &)
 	{
-		cmd->bindNull(o);
+		bindNull(o);
 	}
 }
 

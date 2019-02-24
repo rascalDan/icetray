@@ -6,6 +6,7 @@
 #include <db/sqlSelectDeserializer.h>
 #include <slicer/slicer.h>
 #include <visibility.h>
+#include <Ice/BuiltinSequences.h>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
@@ -48,35 +49,21 @@ namespace IceTray {
 			}
 
 			template<typename Param, typename ... Params>
-			static void inline bind(int offset, DB::Command * cmd, const Param & p, const Params & ... params)
+			static void inline bind(unsigned int offset, DB::Command * cmd, const Param & p, const Params & ... params)
 			{
-				bind1(offset, cmd, p);
+				cmd->bindParam(offset, p);
 				bind(offset + 1, cmd, params...);
 			}
 
-			static void bind(int offset, DB::Command * cmd);
-
-			template<typename Param>
-			static void bind1(int offset, DB::Command * cmd, const Param & p);
-
-#define BIND1OPTIONAL(T) \
-			template<typename Param> \
-			static void bind1(int offset, DB::Command * cmd, const T<Param> & p) \
-			{ \
-				if (p) { \
-					bind1(offset, cmd, *p); \
-				} \
-				else { \
-					cmd->bindNull(offset); \
-				} \
-			}
-
-			BIND1OPTIONAL(Ice::optional);
-			BIND1OPTIONAL(std::optional);
-#undef BIND1OPTIONAL
+			static void inline bind(int, DB::Command *) { }
 
 			const DB::ConnectionPoolPtr db;
 	};
+}
+
+namespace DB {
+	template<>
+	void Command::bindParam(unsigned int offset, const Ice::ByteSeq & p);
 }
 
 #endif

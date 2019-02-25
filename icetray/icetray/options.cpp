@@ -25,7 +25,8 @@ namespace IceTray {
 		auto defManager = AdHoc::PluginManager::getDefault();
 		for (auto f : defManager->getAll<OptionsFactory>()) {
 			auto o = f->implementation()->create();
-			defManager->add<Options>(o, typeid(*o).name(), __FILE__, __LINE__);
+			auto & inst = *o;
+			defManager->add<Options>(o, typeid(inst).name(), __FILE__, __LINE__);
 			all.add(*o->getOptions());
 		}
 	}

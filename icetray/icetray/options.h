@@ -40,7 +40,7 @@ namespace IceTray {
 			OptionsCollation();
 			~OptionsCollation();
 
-			void apply(Ice::PropertiesPtr p);
+			void apply(const Ice::PropertiesPtr & p);
 			std::ostream & write(std::ostream &) const;
 
 		private:

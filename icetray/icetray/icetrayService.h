@@ -23,7 +23,7 @@ namespace IceTray {
 			DB::ConnectionPoolPtr getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
 			static Service * getCurrent();
-			static Service * create(Ice::CommunicatorPtr);
+			static Service * create(const Ice::CommunicatorPtr &);
 
 		private:
 			void configureLoggers(const Ice::ObjectAdapterPtr &, const Ice::PropertiesPtr &);

@@ -79,8 +79,8 @@ namespace IceTray {
 				LoggerPtr getLogger(const std::type_info &);
 				LoggerPtr getLogger(const std::string &);
 				LogLevelWriters getLogsForDomain(const Domain &) const;
-				void addWriter(LogWriterPrxPtr writer);
-				void removeWriter(LogWriterPrxPtr writer);
+				void addWriter(const LogWriterPrxPtr & writer);
+				void removeWriter(const LogWriterPrxPtr & writer);
 
 				static LogManager * getDefault();
 
@@ -97,9 +97,9 @@ namespace IceTray {
 				IceUtil::Optional<LogLevel> level(Domain, const Ice::Current &) override;
 
 			protected:
-				AbstractLogWriter() = default;
-				AbstractLogWriter(LogLevel level);
-				AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p);
+				explicit AbstractLogWriter() = default;
+				explicit AbstractLogWriter(LogLevel level);
+				explicit AbstractLogWriter(const std::string & prefix, const Ice::PropertiesPtr & p);
 
 				typedef std::map<Domain, LogLevel> LogDomains;
 				LogDomains logDomains;

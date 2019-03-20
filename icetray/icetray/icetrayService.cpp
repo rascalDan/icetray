@@ -30,7 +30,7 @@ namespace IceTray {
 	}
 
 	Service *
-	Service::create(Ice::CommunicatorPtr)
+	Service::create(const Ice::CommunicatorPtr &)
 	{
 		auto serviceFactories = AdHoc::PluginManager::getDefault()->getAll<IceTray::ServiceFactory>();
 		// NOLINTNEXTLINE(hicpp-no-array-decay)
@@ -51,7 +51,7 @@ namespace IceTray {
 	Service::configureLoggers(const Ice::ObjectAdapterPtr & adp, const Ice::PropertiesPtr & p)
 	{
 		auto logManager = LOGMANAGER();
-		for (auto logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
+		for (const auto & logWriterFactory : AdHoc::PluginManager::getDefault()->getAll<Logging::LogWriterFactory>()) {
 			auto logWriter = logWriterFactory->implementation()->create(p);
 			if (logWriter->lowestLevel({})) {
 				auto prx = Ice::uncheckedCast<Logging::LogWriterPrx>(adp->addWithUUID(logWriter));
@@ -65,7 +65,7 @@ namespace IceTray {
 	Service::shutdownLoggers()
 	{
 		auto logManager = LOGMANAGER();
-		for (auto prx : logWriters) {
+		for (const auto & prx : logWriters) {
 			logManager->removeWriter(prx);
 		}
 	}
@@ -91,6 +91,8 @@ namespace IceTray {
 extern "C" {
 	DLL_PUBLIC
 	IceBox::Service *
+	// Public ICE Box API signature
+	// NOLINTNEXTLINE(performance-unnecessary-value-param)
 	createIceTrayService(Ice::CommunicatorPtr ic)
 	{
 		return IceTray::Service::create(ic);

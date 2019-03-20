@@ -23,7 +23,7 @@ namespace IceTray {
 	OptionsCollation::OptionsCollation()
 	{
 		auto defManager = AdHoc::PluginManager::getDefault();
-		for (auto f : defManager->getAll<OptionsFactory>()) {
+		for (const auto & f : defManager->getAll<OptionsFactory>()) {
 			auto o = f->implementation()->create();
 			auto & inst = *o;
 			defManager->add<Options>(o, typeid(inst).name(), __FILE__, __LINE__);
@@ -34,13 +34,13 @@ namespace IceTray {
 	OptionsCollation::~OptionsCollation()
 	{
 		auto defManager = AdHoc::PluginManager::getDefault();
-		for (auto o : defManager->getAll<Options>()) {
+		for (const auto & o : defManager->getAll<Options>()) {
 			defManager->remove<Options>(o->name);
 		}
 	}
 
 	void
-	OptionsCollation::apply(Ice::PropertiesPtr p)
+	OptionsCollation::apply(const Ice::PropertiesPtr & p)
 	{
 		po::parsed_options result(&all);
 

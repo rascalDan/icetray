@@ -43,7 +43,7 @@ namespace IceTray {
 		{
 			SharedLock(_lock);
 			while (fl != logs.end()) {
-				for (auto log : *fl) {
+				for (const auto & log : *fl) {
 					log->message(priority, domain, msg);
 				}
 				fl++;
@@ -142,7 +142,7 @@ namespace IceTray {
 		}
 
 		void
-		LogManager::addWriter(LogWriterPrxPtr writer)
+		LogManager::addWriter(const LogWriterPrxPtr & writer)
 		{
 			ScopeLock(_lock) {
 				logWriters.insert(writer);
@@ -152,7 +152,7 @@ namespace IceTray {
 		}
 
 		void
-		LogManager::removeWriter(LogWriterPrxPtr writer)
+		LogManager::removeWriter(const LogWriterPrxPtr & writer)
 		{
 			ScopeLock(_lock) {
 				logWriters.erase(writer);
@@ -172,7 +172,7 @@ namespace IceTray {
 			logDomains.insert({ { }, level });
 		}
 
-		AbstractLogWriter::AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p)
+		AbstractLogWriter::AbstractLogWriter(const std::string & prefix, const Ice::PropertiesPtr & p)
 		{
 			if (!p || prefix.empty()) {
 				logDomains.insert({ { }, LogLevel::WARNING });

@@ -23,7 +23,7 @@ namespace IceTray {
 		class DLL_PUBLIC LoggerBase {
 			public:
 				LoggerBase(const Domain & domain);
-				~LoggerBase();
+				virtual ~LoggerBase() = 0;
 
 				const Domain & getDomain() const;
 
@@ -97,7 +97,7 @@ namespace IceTray {
 				IceUtil::Optional<LogLevel> level(Domain, const Ice::Current &) override;
 
 			protected:
-				AbstractLogWriter();
+				AbstractLogWriter() = default;
 				AbstractLogWriter(LogLevel level);
 				AbstractLogWriter(const std::string & prefix, Ice::PropertiesPtr p);
 

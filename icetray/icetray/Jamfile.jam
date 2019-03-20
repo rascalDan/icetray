@@ -2,8 +2,14 @@ import package ;
 
 lib boost_program_options ;
 
+obj logWriter : logWriter.ice :
+	<slicer>no
+	<include>.
+	<toolset>tidy:<checker>none
+	;
 lib icetray :
-	[ glob-tree *.cpp *.ice : bin ]
+	[ glob *.cpp *.ice ]
+	logWriter
 	:
 	<library>..//adhocutil
 	<library>..//dbppcore
@@ -14,7 +20,8 @@ lib icetray :
 	<library>..//slicer-db
 	<library>../..//glibmm
 	<library>boost_program_options
-	<slicer>yes
+	<implicit-dependency>logWriter
+	<slicer>pure
 	<include>.
 	: :
 	<include>.
@@ -22,6 +29,7 @@ lib icetray :
 	<library>..//adhocutil
 	<library>..//slicer
 	<library>..//slicer-db
+	<implicit-dependency>logWriter
 	;
 
 explicit install ;

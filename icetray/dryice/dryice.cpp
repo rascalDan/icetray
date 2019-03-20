@@ -9,6 +9,7 @@ namespace IceTray {
 
 	DryIce::DryIce(const Ice::StringSeq & cmdline)
 	{
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(!currentDryIce);
 		Ice::StringSeq args;
 		Ice::InitializationData id;
@@ -59,7 +60,9 @@ namespace IceTray {
 	ServicePtr
 	DryIceClient::getService() const
 	{
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(DryIce::currentDryIce);
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(DryIce::currentDryIce->s);
 		return DryIce::currentDryIce->s;
 	}

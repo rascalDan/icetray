@@ -14,7 +14,7 @@
 
 class DI : public IceTray::DryIce {
 	public:
-		DI(const Ice::StringSeq & opts) : IceTray::DryIce(opts) { }
+		explicit DI(const Ice::StringSeq & opts) : IceTray::DryIce(opts) { }
 };
 
 BOOST_AUTO_TEST_CASE( testOptions )

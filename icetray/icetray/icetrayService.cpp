@@ -9,12 +9,14 @@ namespace IceTray {
 
 	Service::Service()
 	{
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(!current);
 		current = this;
 	}
 
 	Service::~Service()
 	{
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(current);
 		current = nullptr;
 	}
@@ -22,6 +24,7 @@ namespace IceTray {
 	Service *
 	Service::getCurrent()
 	{
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(current);
 		return current;
 	}
@@ -30,6 +33,7 @@ namespace IceTray {
 	Service::create(Ice::CommunicatorPtr)
 	{
 		auto serviceFactories = AdHoc::PluginManager::getDefault()->getAll<IceTray::ServiceFactory>();
+		// NOLINTNEXTLINE(hicpp-no-array-decay)
 		BOOST_ASSERT(serviceFactories.size() == 1);
 		return serviceFactories.begin()->get()->implementation()->create();
 	}

@@ -20,10 +20,12 @@ alias testCommon : : : :
 	<library>..//pthread
 	<library>boost_utf
 	<define>BOOST_TEST_DYN_LINK
-	<icetray.sql.tool>../tool//icetray-sql
-	<dependency>../tool//icetray-sql
+	<icetray.sql.tool>../tool//icetray-sql/<toolset>gcc
+	<dependency>../tool//icetray-sql/<toolset>gcc
 	<icetray.sql.basedir>$(me)
 	<implicit-dependency>../icetray//icetray
+	<toolset>tidy:<xcheckxx>hicpp-vararg
+	<toolset>tidy:<xcheckxx>hicpp-no-array-decay
 	;
 
 generators.register-standard $(__name__).icetray.c++.sql : SQL : CPP(%.sql) H(%.sql) ;
@@ -40,15 +42,17 @@ actions icetray.c++.sql bind ICETRAYSQLBIN
 	$(ICETRAYSQLBIN) --basedir="$(BASEDIR)" --namespace="$(NAMESPACE)" "$(2[1])" "$(1[1])" "$(1[2])"
 }
 
+obj testIceTrayService : testIceTrayService.ice : <toolset>tidy:<checker>none ;
 run
 	testIceTray.cpp
-	testIceTrayService.ice
+	testIceTrayService
 	testIceTrayServiceI.cpp
 	testIceTrayServiceTestSql.sql
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :
 	<icetray.sql.namespace>TestIceTray::sql
+	<implicit-dependency>testIceTrayService
 	<library>testCommon
 	<library>stdc++fs
 	<library>dbpp-postgresql
@@ -65,13 +69,14 @@ run
 
 run
 	testIceTrayReplace.cpp
-	testIceTrayService.ice
+	testIceTrayService
 	testIceTrayServiceI.cpp
 	testIceTrayServiceTestSql.sql
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :
 	<icetray.sql.namespace>TestIceTray::sql
+	<implicit-dependency>testIceTrayService
 	<library>testCommon
 	<library>stdc++fs
 	<library>dbpp-postgresql

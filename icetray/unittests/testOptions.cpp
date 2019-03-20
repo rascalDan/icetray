@@ -1,6 +1,8 @@
 #include "testOptions.h"
 
-TestOptions::TestOptions() : IceTray::Options("Test options")
+TestOptions::TestOptions() :
+	IceTray::Options("Test options"),
+	testInt(0)
 {
 }
 
@@ -12,7 +14,9 @@ ICETRAY_OPTIONS(TestOptions,
 
 class TestOptionsInline : public IceTray::Options {
 	public:
-		TestOptionsInline() : IceTray::Options("Test options inline")
+		TestOptionsInline() :
+			IceTray::Options("Test options inline"),
+			testInt(0)
 		{
 		}
 

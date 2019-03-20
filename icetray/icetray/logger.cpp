@@ -19,9 +19,7 @@ namespace IceTray {
 		{
 		}
 
-		LoggerBase::~LoggerBase()
-		{
-		}
+		LoggerBase::~LoggerBase() = default;
 
 		const Domain &
 		LoggerBase::getDomain() const
@@ -64,8 +62,11 @@ namespace IceTray {
 			const auto fl = firstFor(priority);
 			if (fl != logs.end()) {
 				va_list v;
+				// NOLINTNEXTLINE(hicpp-vararg,hicpp-no-array-decay)
 				va_start(v, msgfmt);
+				// NOLINTNEXTLINE(hicpp-no-array-decay)
 				vmessagef(fl, priority, msgfmt, v);
+				// NOLINTNEXTLINE(hicpp-no-array-decay)
 				va_end(v);
 			}
 		}
@@ -78,6 +79,7 @@ namespace IceTray {
 			if (len > 0) {
 				message(fl, priority, msg);
 			}
+			// NOLINTNEXTLINE(hicpp-no-malloc)
 			free(msg);
 		}
 
@@ -102,6 +104,7 @@ namespace IceTray {
 			std::unique_ptr<char, void(*)(void*)> res {
 				abi::__cxa_demangle(type.name(), NULL, NULL, NULL), std::free
 			};
+			// NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 			return getLogger(res.get());
 		}
 
@@ -164,10 +167,6 @@ namespace IceTray {
 			return ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>::get();
 		}
 
-		AbstractLogWriter::AbstractLogWriter()
-		{
-		}
-
 		AbstractLogWriter::AbstractLogWriter(LogLevel level)
 		{
 			logDomains.insert({ { }, level });
@@ -220,7 +219,9 @@ namespace IceTray {
 		Ice::StringSeq
 		AbstractLogWriter::splitDomain(const std::string & domain)
 		{
-			if (domain.empty()) return Ice::StringSeq();
+			if (domain.empty()) {
+				return Ice::StringSeq();
+			}
 
 			Ice::StringSeq domainTokens;
 			boost::algorithm::split(domainTokens, domain, boost::algorithm::is_any_of(".:"), boost::algorithm::token_compress_on);

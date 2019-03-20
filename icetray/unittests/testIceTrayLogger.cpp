@@ -24,12 +24,12 @@ struct LogEntry {
 class TestLogWriter : public AbstractLogWriter {
 	public:
 		template <typename ... T>
-		TestLogWriter(const T & ... t) :
+		explicit TestLogWriter(const T & ... t) :
 			AbstractLogWriter(t...)
 		{
 		}
 
-		TestLogWriter(const Ice::PropertiesPtr & p) :
+		explicit TestLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("TestLogWriter", p)
 		{
 		}
@@ -76,6 +76,7 @@ BOOST_AUTO_TEST_CASE( staticLogInit )
 	BOOST_REQUIRE_EQUAL(expected, staticLog->getDomain());
 }
 
+// NOLINTNEXTLINE(hicpp-special-member-functions)
 class TestLogImpl {
 	public:
 		TestLogImpl() :

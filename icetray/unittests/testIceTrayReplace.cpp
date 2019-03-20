@@ -11,8 +11,6 @@
 namespace TestIceTray {
 	class DummyTestIceTrayServiceI : public TestIceTrayService {
 		public:
-			DummyTestIceTrayServiceI() { }
-
 			void method1(const Ice::Current &) override { }
 			void method2(Ice::Int, std::string, const Ice::Current &) override { }
 	};

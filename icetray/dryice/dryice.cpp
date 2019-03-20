@@ -29,11 +29,11 @@ namespace IceTray {
 		currentDryIce = nullptr;
 		if (s) {
 			s->stop();
-			s = NULL;
+			s = nullptr;
 		}
 		if (ic) {
 			ic->destroy();
-			ic = NULL;
+			ic = nullptr;
 		}
 	}
 

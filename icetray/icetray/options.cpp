@@ -7,8 +7,8 @@ INSTANTIATEPLUGINOF(IceTray::Options);
 namespace po = boost::program_options;
 
 namespace IceTray {
-	Options::Options(const std::string & name) :
-		optionsName(name)
+	Options::Options(std::string name) :
+		optionsName(std::move(name))
 	{
 	}
 

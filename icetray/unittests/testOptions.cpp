@@ -15,8 +15,7 @@ ICETRAY_OPTIONS(TestOptions,
 class TestOptionsInline : public IceTray::Options {
 	public:
 		TestOptionsInline() :
-			IceTray::Options("Test options inline"),
-			testInt(0)
+			IceTray::Options("Test options inline")
 		{
 		}
 
@@ -24,7 +23,7 @@ class TestOptionsInline : public IceTray::Options {
 				("testIntInline", boost::program_options::value(&testInt), "testInt")
 		);
 
-		int testInt;
+		int testInt { 0 };
 };
 FACTORY(TestOptionsInline, IceTray::OptionsFactory);
 

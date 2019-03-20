@@ -10,9 +10,9 @@ namespace IceTray {
 	{
 	}
 
-	MockPool::MockPool(const std::string & name, int size, int keep) :
+	MockPool::MockPool(std::string name, int size, int keep) :
 		DB::BasicConnectionPool(size, keep),
-		name(name)
+		name(std::move(name))
 	{
 	}
 

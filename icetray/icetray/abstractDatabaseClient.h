@@ -11,7 +11,7 @@
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
 		protected:
-			AbstractDatabaseClient(const DB::ConnectionPoolPtr & d);
+			AbstractDatabaseClient(DB::ConnectionPoolPtr d);
 
 			template<typename Domain, typename ... Params>
 			inline

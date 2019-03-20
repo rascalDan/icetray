@@ -2,14 +2,14 @@
 #include <command.h>
 
 namespace IceTray {
-	StaticSqlSource::StaticSqlSource(const std::string & s) :
-		sql(s),
+	StaticSqlSource::StaticSqlSource(std::string s) :
+		sql(std::move(s)),
 		opts(new DB::CommandOptions(std::hash<std::string>()(sql)))
 	{
 	}
 
-	StaticSqlSource::StaticSqlSource(const std::string & s, const std::string & optsName, const DB::CommandOptionsMap & map) :
-		sql(s),
+	StaticSqlSource::StaticSqlSource(std::string s, const std::string & optsName, const DB::CommandOptionsMap & map) :
+		sql(std::move(s)),
 		opts(DB::CommandOptionsFactory::createNew(optsName, std::hash<std::string>()(sql), map))
 	{
 

@@ -3,8 +3,8 @@
 #include "IceUtil/Optional.h"
 
 namespace IceTray {
-	AbstractDatabaseClient::AbstractDatabaseClient(const DB::ConnectionPoolPtr & d) :
-		db(d)
+	AbstractDatabaseClient::AbstractDatabaseClient(DB::ConnectionPoolPtr d) :
+		db(std::move(d))
 	{
 	}
 }

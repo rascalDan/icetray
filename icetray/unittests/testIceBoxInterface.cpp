@@ -6,9 +6,9 @@
 
 BOOST_AUTO_TEST_CASE( IceBoxInterface )
 {
-	typedef IceTray::Service *(* SetupFunction)(Ice::CommunicatorPtr);
+	using SetupFunction = IceTray::Service *(*)(Ice::CommunicatorPtr);
 
-	void * i = dlsym(NULL, "createIceTrayService");
+	void * i = dlsym(nullptr, "createIceTrayService");
 	BOOST_REQUIRE(i);
 	auto sf = (SetupFunction)i;
 	BOOST_REQUIRE(sf);

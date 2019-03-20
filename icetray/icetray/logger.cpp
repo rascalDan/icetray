@@ -14,8 +14,8 @@ template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
 namespace IceTray {
 	namespace Logging {
-		LoggerBase::LoggerBase(const Domain & domain) :
-			domain(domain)
+		LoggerBase::LoggerBase(Domain domain) :
+			domain(std::move(domain))
 		{
 		}
 
@@ -102,7 +102,7 @@ namespace IceTray {
 		LogManager::getLogger(const std::type_info & type)
 		{
 			std::unique_ptr<char, void(*)(void*)> res {
-				abi::__cxa_demangle(type.name(), NULL, NULL, NULL), std::free
+				abi::__cxa_demangle(type.name(), nullptr, nullptr, nullptr), std::free
 			};
 			// NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 			return getLogger(res.get());
@@ -112,7 +112,7 @@ namespace IceTray {
 		LogManager::getLogger(const std::string & domain)
 		{
 			auto domainTokens = AbstractLogWriter::splitDomain(domain);
-			auto logger = LoggerPtr(new Logger(domainTokens));
+			auto logger = std::make_shared<Logger>(domainTokens);
 			logger->logs = getLogsForDomain(domainTokens);
 			loggers.insert(logger.get());
 			return logger;

@@ -22,7 +22,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC LoggerBase {
 			public:
-				LoggerBase(const Domain & domain);
+				LoggerBase(Domain domain);
 				virtual ~LoggerBase() = 0;
 
 				const Domain & getDomain() const;

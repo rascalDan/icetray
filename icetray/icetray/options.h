@@ -10,7 +10,7 @@ namespace IceTray {
 	typedef std::shared_ptr<boost::program_options::options_description> OptionsDescPtr;
 	class DLL_PUBLIC Options : public AdHoc::AbstractPluginImplementation {
 		public:
-			Options(const std::string & name);
+			Options(std::string name);
 
 		private:
 			friend class OptionsCollation;

@@ -67,6 +67,7 @@ main(int argc, char ** argv)
 	po::notify(vm);
 
 	std::vector<std::string> sqlnsparts;
+	// NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 	boost::algorithm::split(sqlnsparts, sqlns, boost::algorithm::is_any_of(":"), boost::algorithm::token_compress_on);
 	auto r = fs::canonical(sql).lexically_relative(fs::canonical(base)).parent_path();
 	if (!r.empty()) {

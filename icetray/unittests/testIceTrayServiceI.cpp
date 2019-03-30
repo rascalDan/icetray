@@ -44,7 +44,7 @@ namespace TestIceTray {
 		fetchTest<Ice::Short>(1);
 		fetchTest<Ice::Int>(100000);
 		fetchTest<Ice::Long>(10000000);
-		fetchTest<Ice::Float>(0.1f);
+		fetchTest<Ice::Float>(0.1F);
 		fetchTest<Ice::Double>(3.14);
 		fetchTest<std::string>("some string");
 		fetchTest<unsigned long>(20000000);

@@ -10,6 +10,11 @@ lib dbpp-postgresql : : : : <include>/usr/include/dbpp-postgresql ;
 
 path-constant me : . ;
 
+project
+  : requirements
+			<toolset>tidy:<xcheckxx>misc-non-private-member-variables-in-classes
+	;
+
 alias testCommon : : : :
 	<define>ROOT=\"$(me)\"
 	<library>..//adhocutil

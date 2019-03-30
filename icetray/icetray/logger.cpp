@@ -12,6 +12,7 @@ INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &);
 
 template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
+// NOLINTNEXTLINE(modernize-concat-nested-namespaces)
 namespace IceTray {
 	namespace Logging {
 		LoggerBase::LoggerBase(Domain domain) :

@@ -7,7 +7,7 @@ namespace AdHoc {
 	AdHocFormatter(DomainFmt, ".%?");
 	StreamWriterT('d') {
 		template<typename ... Pn>
-		static void write(stream & s, int width, const IceTray::Logging::Domain & domain, const Pn & ... pn)
+		static void write(stream & s, ssize_t width, const IceTray::Logging::Domain & domain, const Pn & ... pn)
 		{
 			auto di = domain.begin();
 			if (di == domain.end()) {
@@ -21,9 +21,9 @@ namespace AdHoc {
 				}
 			}
 			else {
-				int target = width;
+				auto target = width;
 				while (di != domain.end()) {
-					int total = di == domain.begin() ? -1 : 0;
+					auto total = di == domain.begin() ? -1 : 0;
 					for (auto dic = di; dic != domain.end(); dic++) {
 						total += 1 + dic->length();
 					}
@@ -55,6 +55,7 @@ namespace AdHoc {
 	};
 }
 
+// NOLINTNEXTLINE(modernize-concat-nested-namespaces)
 namespace IceTray {
 	namespace Logging {
 		AdHocFormatter(LogMsg, "%?: %d: %?\n");

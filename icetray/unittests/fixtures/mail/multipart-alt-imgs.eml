@@ -1,0 +1,48 @@
+From: from <from@test.com>
+To: to <to@test.com>
+Date: Fri, 24 May 2019 22:19:54 +0000 (UTC)
+Return-path: <bounces@test.com>
+MIME-Version: 1.0
+X-Source: multipart_top
+Content-Type: multipart/alternative; boundary="//divider//0"
+
+--//divider//0
+X-Source: multipart_plain
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+Simple text =C2=A3
+
+--//divider//0
+X-Source: multipart_html
+Content-Type: multipart/related; boundary="//divider//1"
+
+--//divider//1
+X-Source: multipart_html_main
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+
+<html lang=3D"en">
+<head>
+<title>=C2=A3</title>
+</head>
+<html>
+
+--//divider//1
+X-Source: multipart_html_img1
+Content-Transfer-Encoding: base64
+Content-Type: image/png
+
+iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAABmJLR0QA/wD/AP+gvaeTAAAAJ0lE
+QVQYlWP8////fwbiwGomIhUyMDAwMIwqpo9iFgYGhtVEqj0BAAvPBjJ63HJVAAAAAElFTkSuQmCC
+
+--//divider//1
+X-Source: multipart_html_img2
+Content-Transfer-Encoding: base64
+Content-Type: image/png
+
+iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAABmJLR0QA/wD/AP+gvaeTAAAAJ0lE
+QVQYlWP8////fwbiwGomIhUyMDAwMIwqpo9iFgYGhtVEqj0BAAvPBjJ63HJVAAAAAElFTkSuQmCC
+
+--//divider//1--
+--//divider//0--

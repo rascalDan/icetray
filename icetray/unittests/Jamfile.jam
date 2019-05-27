@@ -100,6 +100,16 @@ run
 	<library>testService
 	;
 
+run
+	testIceTrayMail.cpp
+	: -- :
+	fixtures/mail/multipart-alt-imgs.eml
+	fixtures/mail/multipart-alt.eml
+	fixtures/mail/simple.eml
+	:
+	<library>testCommon
+	;
+
 lib testService
 	:
 	testService.cpp

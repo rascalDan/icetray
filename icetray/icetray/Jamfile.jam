@@ -1,15 +1,22 @@
 import package ;
 
 lib boost_program_options ;
+lib esmtp ;
 
-obj logWriter : logWriter.ice :
-	<slicer>no
-	<include>.
-	<toolset>tidy:<checker>none
-	;
+rule iceobj ( name : source )
+{
+	obj $(name) : $(source) :
+		<slicer>no
+		<include>.
+		<toolset>tidy:<checker>none
+		;
+}
+iceobj logWriter : logWriter.ice ;
+iceobj mime : mime.ice ;
+iceobj mail : mail.ice ;
 lib icetray :
-	[ glob *.cpp *.ice ]
-	logWriter
+	[ glob *.cpp *.ice : mime.ice mail.ice ]
+	logWriter mime mail
 	:
 	<library>..//adhocutil
 	<library>..//dbppcore
@@ -20,6 +27,7 @@ lib icetray :
 	<library>..//slicer-db
 	<library>../..//glibmm
 	<library>boost_program_options
+	<library>esmtp
 	<implicit-dependency>logWriter
 	<slicer>pure
 	<include>.

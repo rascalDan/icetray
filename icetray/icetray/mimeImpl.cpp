@@ -1,9 +1,10 @@
 #include "mimeImpl.h"
+#include <string_view>
 
 namespace IceTray::Mime {
 	static const char * const DIVIDER = "//divider//";
-	static const char mime_base64[] =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	static const std::string_view mime_base64 =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 	void
 	PartHelper::writeHeaders(const Headers & headers, const StreamPtr & ms)
@@ -16,9 +17,9 @@ namespace IceTray::Mime {
 		}
 	}
 
-	TextPart::TextPart(const Headers & h, const std::string & m, const std::string & p) :
+	TextPart::TextPart(const Headers & h, const std::string & m, std::string p) :
 		BasicSinglePart(h, m),
-		payload(p)
+		payload(std::move(p))
 	{
 	}
 
@@ -79,9 +80,9 @@ namespace IceTray::Mime {
 		}
 	}
 
-	BinaryViewPart::BinaryViewPart(const Headers & h, const std::string & m, const std::basic_string_view<uint8_t> & v) :
+	BinaryViewPart::BinaryViewPart(const Headers & h, const std::string & m, const byte_range & p) :
 		BasicSinglePart(h, m),
-		payload(v)
+		payload(p)
 	{
 	}
 
@@ -102,19 +103,19 @@ namespace IceTray::Mime {
 	{
 		auto mime_encode_base64_block = [](auto & dest, const auto & src) {
 			if (src.length() >= 1) {
-				dest[0] = mime_base64[(src[0] & 0xFC) >> 2];
+				dest[0] = mime_base64[(src[0] & 0xFCu) >> 2u];
 				if (src.length() >= 2) {
-					dest[1] = mime_base64[((src[0] & 0x03) << 4) | ((src[1] & 0xF0) >> 4)];
+					dest[1] = mime_base64[((src[0] & 0x03u) << 4u) | ((src[1] & 0xF0u) >> 4u)];
 					if (src.length() >= 3) {
-						dest[2] = mime_base64[((src[1] & 0x0F) << 2) | ((src[2] & 0xC0) >> 6)];
-						dest[3] = mime_base64[((src[2] & 0x3F))];
+						dest[2] = mime_base64[((src[1] & 0x0Fu) << 2u) | ((src[2] & 0xC0u) >> 6u)];
+						dest[3] = mime_base64[((src[2] & 0x3Fu))];
 					}
 					else {
-						dest[2] = mime_base64[((src[1] & 0x0F) << 2)];
+						dest[2] = mime_base64[((src[1] & 0x0Fu) << 2u)];
 					}
 				}
 				else {
-					dest[1] = mime_base64[(src[0] & 0x03) << 4];
+					dest[1] = mime_base64[(src[0] & 0x03u) << 4u];
 				}
 			}
 		};
@@ -134,7 +135,7 @@ namespace IceTray::Mime {
 		fputs("\r\n", ms);
 	}
 
-	BinaryCopyPart::BinaryCopyPart(const Headers & h, const std::string & m, std::vector<uint8_t> v) :
+	BinaryCopyPart::BinaryCopyPart(const Headers & h, const std::string & m, bytes v) :
 		BinaryViewPart(h, m, { v.data(), v.size() }),
 		payload(std::move(v))
 	{

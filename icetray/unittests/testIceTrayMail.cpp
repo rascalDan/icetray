@@ -80,12 +80,12 @@ struct TestBase {
 		commonHeaders(dump);
 #endif
 	}
+#ifdef DUMP
 	~TestBase()
 	{
-#ifdef DUMP
 		fclose(dump);
-#endif
 	}
+#endif
 	EmailPtr e;
 	AdHoc::MemStream ms;
 #ifdef DUMP

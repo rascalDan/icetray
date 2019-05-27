@@ -12,7 +12,7 @@ namespace IceTray::Mime {
 
 	class DLL_PUBLIC TextPart : public BasicSinglePart, PartHelper {
 		public:
-			TextPart(const Headers &, const std::string &, const std::string &);
+			TextPart(const Headers &, const std::string &, std::string);
 
 			void write(const StreamPtr & ms, Ice::Int depth) const override;
 
@@ -24,21 +24,26 @@ namespace IceTray::Mime {
 
 	class DLL_PUBLIC BinaryViewPart : public BasicSinglePart, PartHelper {
 		public:
-			BinaryViewPart(const Headers &, const std::string &, const std::basic_string_view<uint8_t> &);
+			using byte = uint8_t;
+			using byte_range = std::basic_string_view<byte>;
+
+			BinaryViewPart(const Headers &, const std::string &, const byte_range &);
 
 			void write(const StreamPtr & ms, Ice::Int depth) const override;
 
-			static void base64(const std::basic_string_view<uint8_t> & input, FILE * ms,
+			static void base64(const byte_range & input, FILE * ms,
 					const size_t maxWidth = 76);
 
-			std::basic_string_view<uint8_t> payload;
+			const byte_range payload;
 	};
 
 	class DLL_PUBLIC BinaryCopyPart : public BinaryViewPart {
 		public:
-			BinaryCopyPart(const Headers &, const std::string &, std::vector<uint8_t>);
+			using bytes = std::vector<byte>;
 
-			std::vector<uint8_t> payload;
+			BinaryCopyPart(const Headers &, const std::string &, bytes);
+
+			const bytes payload;
 	};
 
 	class DLL_PUBLIC MultiPart : public BasicMultiPart, PartHelper {

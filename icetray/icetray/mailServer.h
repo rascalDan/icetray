@@ -9,7 +9,7 @@ namespace IceTray {
 	namespace Mail {
 		class DLL_PUBLIC BasicMailServer {
 			public:
-				static void writeEmailContent(EmailPtr msg, FILE * ms);
+				static void writeEmailContent(const EmailPtr & msg, FILE * ms);
 		};
 
 		class DLL_PUBLIC LibesmtpMailServer : public MailServer, BasicMailServer {

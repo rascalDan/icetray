@@ -9,6 +9,15 @@ lib dl ;
 lib IceBox++11 ;
 lib dbppcore : : : : <include>/usr/include/dbpp ;
 
+rule iceobj ( name : source : properties * )
+{
+	obj $(name) : $(source) :
+		<slicer>no
+		<include>.
+		<toolset>tidy:<checker>none
+		$(properties)
+		;
+}
 build-project unittests ;
 build-project icetray ;
 build-project dryice ;

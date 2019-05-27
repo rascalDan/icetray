@@ -3,14 +3,6 @@ import package ;
 lib boost_program_options ;
 lib esmtp ;
 
-rule iceobj ( name : source )
-{
-	obj $(name) : $(source) :
-		<slicer>no
-		<include>.
-		<toolset>tidy:<checker>none
-		;
-}
 iceobj logWriter : logWriter.ice ;
 iceobj mime : mime.ice ;
 iceobj mail : mail.ice ;

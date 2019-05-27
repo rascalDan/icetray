@@ -4,6 +4,7 @@
 
 #include <memstream.h>
 #include <mailServer.h>
+#include <mockMailServer.h>
 #include <mimeImpl.h>
 #include <fileUtils.h>
 #include <definedDirs.h>
@@ -150,6 +151,18 @@ BOOST_AUTO_TEST_CASE(multipart_alt_imgs)
 	}, "alternative", Parts { text, htmlrel });
 	BasicMailServer::writeEmailContent(e, ms);
 	BOOST_CHECK_EQUAL(ms, AdHoc::FileUtils::MemMap(fixtures / "multipart-alt-imgs.eml").sv());
+}
+
+BOOST_AUTO_TEST_CASE(mock_mail_server)
+{
+	e->content = std::make_shared<TextPart>(Headers {
+		{ "X-Source", "single_part" }
+	}, "text/plain", text_content);
+	MockMailServerImpl mms;
+	mms.sendEmail(e);
+	auto sent = mms.getSentEmails();
+	BOOST_CHECK_EQUAL(1, sent.size());
+	BOOST_CHECK_EQUAL(sent.front(), e);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

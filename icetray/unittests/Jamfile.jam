@@ -29,6 +29,7 @@ alias testCommon : : : :
 	<dependency>../tool//icetray-sql/<toolset>gcc
 	<icetray.sql.basedir>$(me)
 	<implicit-dependency>../icetray//icetray
+	<implicit-dependency>../dryice//dryice
 	<toolset>tidy:<xcheckxx>hicpp-vararg
 	<toolset>tidy:<xcheckxx>hicpp-no-array-decay
 	;

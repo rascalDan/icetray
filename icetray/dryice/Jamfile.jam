@@ -16,5 +16,5 @@ lib dryice :
 	<include>.
 	;
 
-package.install install : <install-source-root>. : : dryice : [ glob *.h ] ;
+package.install install : : : dryice : [ glob-tree *.h ] ;
 

@@ -57,7 +57,7 @@ run
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :
-	<icetray.sql.namespace>TestIceTray::sql
+	<icetray.sql.namespace>"TestIceTray::sql"
 	<implicit-dependency>testIceTrayService
 	<library>testCommon
 	<library>stdc++fs
@@ -81,7 +81,7 @@ run
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :
-	<icetray.sql.namespace>TestIceTray::sql
+	<icetray.sql.namespace>"TestIceTray::sql"
 	<implicit-dependency>testIceTrayService
 	<library>testCommon
 	<library>stdc++fs

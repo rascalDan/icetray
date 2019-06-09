@@ -8,7 +8,6 @@ namespace IceTray::Mail {
 	{
 	}
 
-	// LCOV_EXCL_START Don't test by default, sends a real mail
 	void
 	LibesmtpMailServer::sendEmail(const EmailPtr & msg)
 	{
@@ -30,7 +29,6 @@ namespace IceTray::Mail {
 		}
 		smtp_destroy_session(session);
 	}
-	// LCOV_EXCL_STOP
 
 	void
 	BasicMailServer::writeEmailContent(const EmailPtr & msg, FILE * ms)

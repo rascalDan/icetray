@@ -165,5 +165,40 @@ BOOST_AUTO_TEST_CASE(mock_mail_server)
 	BOOST_CHECK_EQUAL(sent.front(), e);
 }
 
+BOOST_AUTO_TEST_CASE(send_real_mail_fail)
+{
+	e->subject = __PRETTY_FUNCTION__;
+	e->content = std::make_shared<TextPart>(Headers {
+		{ "X-Source", "single_part" }
+	}, "text/plain", __PRETTY_FUNCTION__);
+	LibesmtpMailServer ms("localhost:1");
+	BOOST_REQUIRE_THROW(ms.sendEmail(e), SendEmailFailed);
+	try {
+		ms.sendEmail(e);
+	}
+	catch (const SendEmailFailed & sef) {
+		std::stringstream ss;
+		sef.ice_print(ss);
+		BOOST_CHECK_EQUAL(ss.str(), "Failed to send email: ");
+	}
+}
+
 BOOST_AUTO_TEST_SUITE_END();
+
+BOOST_AUTO_TEST_CASE(send_real_mail
+#ifndef COVERAGE
+		, * boost::unit_test::disabled()
+#endif
+		)
+{
+	auto e =  std::make_shared<Email>();
+	e->from = {__FUNCTION__, "dan@randomdan.homeip.net"};
+	e->to = {"Dan", "dan@randomdan.homeip.net"};
+	e->subject = __PRETTY_FUNCTION__;
+	e->content = std::make_shared<TextPart>(Headers {
+		{ "X-Source", "single_part" }
+	}, "text/plain", __PRETTY_FUNCTION__);
+	LibesmtpMailServer ms("smtp.random.lan:25");
+	ms.sendEmail(e);
+}
 

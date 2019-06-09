@@ -30,10 +30,12 @@ namespace IceTray {
 			void shutdownLoggers();
 
 			friend class DryIce;
+			friend class Cube;
 			Ice::ObjectAdapterPtr adp;
 			static Service * current;
 			std::set<Logging::LogWriterPrxPtr> logWriters;
 			OptionsCollation optionsCollation;
+			AdHoc::PluginManager servicePlugins;
 	};
 
 	typedef std::shared_ptr<Service> ServicePtr;

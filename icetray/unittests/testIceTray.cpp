@@ -43,6 +43,23 @@ BOOST_AUTO_TEST_CASE( services )
 	p->method2(1, "test");
 }
 
+BOOST_AUTO_TEST_CASE( cube_services_proxy )
+{
+	auto prx = IceTray::Cube::get<TestIceTray::TestIceTrayService>();
+	BOOST_REQUIRE(prx);
+	prx->ice_ping();
+	prx->method1();
+	prx->method2(1, "test");
+}
+
+BOOST_AUTO_TEST_CASE( cube_services_local )
+{
+	auto ptr = IceTray::Cube::get<TestIceTray::TestCube>();
+	BOOST_REQUIRE(ptr);
+	ptr->method1();
+	ptr->method2(1, "test");
+}
+
 BOOST_AUTO_TEST_CASE( getIceComponents )
 {
 	BOOST_REQUIRE(getService());

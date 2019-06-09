@@ -8,6 +8,7 @@
 #include <subdir/some.sql.h>
 #include <subdir/a/more.sql.h>
 #include <boost/test/test_tools.hpp>
+#include "icecube.h"
 
 class Foo {  };
 
@@ -66,9 +67,19 @@ namespace TestIceTray {
 		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)) == (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
 	}
 
+	void TestCubeI::method1()
+	{
+	}
+
+	void TestCubeI::method2(Ice::Int, const std::string &)
+	{
+	}
+
 	void TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr & adp)
 	{
-		adp->add(std::make_shared<TestIceTray::TestIceTrayServiceI>(getConnectionPool(ic, "postgresql", "icetraydb")), Ice::stringToIdentity("test"));
+		IceTray::Cube::addObject<TestIceTray::TestIceTrayService, TestIceTray::TestIceTrayServiceI>(
+					adp, "test", getConnectionPool(ic, "postgresql", "icetraydb"));
+		IceTray::Cube::add<TestIceTray::TestCube, TestIceTray::TestCubeI>();
 	}
 
 	NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);

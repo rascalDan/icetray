@@ -21,6 +21,7 @@ class Service : public IceTray::DryIce {
 		Service()
 		{
 			replace("test", std::make_shared<TestIceTray::DummyTestIceTrayServiceI>());
+			replace<TestIceTray::TestCube, TestIceTray::TestCubeI>();
 		}
 };
 

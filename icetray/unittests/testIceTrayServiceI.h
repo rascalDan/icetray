@@ -21,6 +21,12 @@ namespace TestIceTray {
 		public:
 			void addObjects(const std::string &, const Ice::CommunicatorPtr &, const Ice::StringSeq &, const Ice::ObjectAdapterPtr &) override;
 	};
+
+	class TestCubeI : public TestCube {
+		public:
+			void method1() override;
+			void method2(Ice::Int id, const std::string & name) override;
+	};
 }
 
 #endif

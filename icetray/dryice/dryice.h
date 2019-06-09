@@ -5,9 +5,10 @@
 #include <IceBox/IceBox.h>
 #include <visibility.h>
 #include "icetrayService.h"
+#include "icecube.h"
 
 namespace IceTray {
-	class DLL_PUBLIC DryIce {
+	class DLL_PUBLIC DryIce : private Cube {
 		public:
 			DryIce(const Ice::StringSeq & = Ice::StringSeq());
 			DryIce(const DryIce &) = delete;
@@ -21,6 +22,14 @@ namespace IceTray {
 			static DryIce * currentDryIce;
 
 			void replace(const std::string &, const Ice::ObjectPtr &);
+
+			template<typename T, typename I, typename ... Args>
+			static auto replace(const Args & ... args)
+			{
+				pm()->remove<CubePlugIn>(typeid(T).name());
+				return add<T, I>(args...);
+			}
+
 
 			Ice::CommunicatorPtr ic;
 			IceTray::ServicePtr s;

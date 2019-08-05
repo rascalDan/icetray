@@ -328,6 +328,13 @@ BOOST_AUTO_TEST_CASE( getLoggerForType )
 
 BOOST_AUTO_TEST_SUITE_END();
 
+BOOST_AUTO_TEST_CASE( syslog )
+{
+	IceTray::Logging::LogWriterPtr lwp =
+		IceTray::Logging::LogWriterFactory::createNew("SyslogLogWriter", nullptr);
+	lwp->message(LogLevel::DEBUG, testDomain, "some message", {});
+}
+
 BOOST_AUTO_TEST_CASE( console )
 {
 	IceTray::Logging::LogWriterPtr lwp =

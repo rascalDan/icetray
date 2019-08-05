@@ -1,64 +1,11 @@
 #include <logWriter.h>
 #include "logWriterConsole.h"
-#include <compileTimeFormatter.h>
 #include <slicer/modelPartsTypes.h>
-
-namespace AdHoc {
-	AdHocFormatter(DomainFmt, ".%?");
-	StreamWriterT('d') {
-		template<typename ... Pn>
-		static void write(stream & s, ssize_t width, const IceTray::Logging::Domain & domain, const Pn & ... pn)
-		{
-			auto di = domain.begin();
-			if (di == domain.end()) {
-				return StreamWriter::next(s, pn...);
-			}
-
-			if (width == -1) {
-				s << *di++;
-				while (di != domain.end()) {
-					DomainFmt::write(s, *di++);
-				}
-			}
-			else {
-				auto target = width;
-				while (di != domain.end()) {
-					auto total = di == domain.begin() ? -1 : 0;
-					for (auto dic = di; dic != domain.end(); dic++) {
-						total += 1 + dic->length();
-					}
-					if (di == domain.begin()) {
-						if (total > target) {
-							s << di->front();
-							target -= 1;
-						}
-						else {
-							s << *di;
-							target -= di->length();
-						}
-					}
-					else {
-						if (total > target) {
-							DomainFmt::write(s, di->front());
-							target -= 2;
-						}
-						else {
-							DomainFmt::write(s, *di);
-							target -= 1 + di->length();
-						}
-					}
-					di++;
-				}
-			}
-			StreamWriter::next(s, pn...);
-		}	
-	};
-}
 
 // NOLINTNEXTLINE(modernize-concat-nested-namespaces)
 namespace IceTray {
 	namespace Logging {
-		AdHocFormatter(LogMsg, "%?: %d: %?\n");
+		AdHocFormatter(LogMsg, "%?: %D: %?\n");
 		ConsoleLogWriter::ConsoleLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("logging.console", p),
 			width(p ? p->getPropertyAsIntWithDefault("logging.console.width", -1) : -1)

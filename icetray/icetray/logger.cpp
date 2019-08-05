@@ -228,6 +228,50 @@ namespace IceTray {
 			boost::algorithm::split(domainTokens, domain, boost::algorithm::is_any_of(".:"), boost::algorithm::token_compress_on);
 			return domainTokens;
 		}
+
+		AdHocFormatter(DomainFmt, ".%?");
+		void
+		AbstractLogWriter::writeDomain(std::ostream & s, ssize_t width, const IceTray::Logging::Domain & domain)
+		{
+			if (auto di = domain.begin(); di != domain.end()) {
+				if (width == -1) {
+					s << *di++;
+					while (di != domain.end()) {
+						DomainFmt::write(s, *di++);
+					}
+				}
+				else {
+					auto target = width;
+					while (di != domain.end()) {
+						auto total = di == domain.begin() ? -1 : 0;
+						for (auto dic = di; dic != domain.end(); dic++) {
+							total += 1 + dic->length();
+						}
+						if (di == domain.begin()) {
+							if (total > target) {
+								s << di->front();
+								target -= 1;
+							}
+							else {
+								s << *di;
+								target -= di->length();
+							}
+						}
+						else {
+							if (total > target) {
+								DomainFmt::write(s, di->front());
+								target -= 2;
+							}
+							else {
+								DomainFmt::write(s, *di);
+								target -= 1 + di->length();
+							}
+						}
+						di++;
+					}
+				}
+			}	
+		}
 	}
 }
 

@@ -10,6 +10,7 @@
 #include <shared_mutex>
 #include <Ice/Properties.h>
 #include <globalStatic.h>
+#include <compileTimeFormatter.h>
 
 namespace IceTray {
 	namespace Logging {
@@ -106,6 +107,7 @@ namespace IceTray {
 
 			public:
 				static Domain splitDomain(const std::string &);
+				static void writeDomain(std::ostream &, ssize_t, const Domain &);
 		};
 
 		typedef AdHoc::Factory<LogWriter, const Ice::PropertiesPtr &> LogWriterFactory;
@@ -115,6 +117,17 @@ namespace IceTray {
 namespace LOG = ::IceTray::Logging;
 
 #define LOGMANAGER() (::IceTray::Logging::LogManager::getDefault())
+
+namespace AdHoc {
+	StreamWriterT('D') {
+		template<typename ... Pn>
+		static void write(stream & s, ssize_t width, const IceTray::Logging::Domain & domain, const Pn & ... pn)
+		{
+			IceTray::Logging::AbstractLogWriter::writeDomain(s, width, domain);
+			StreamWriter::next(s, pn...);
+		}
+	};
+}
 
 #endif
 

@@ -24,10 +24,10 @@ namespace IceTray {
 			void replace(const std::string &, const Ice::ObjectPtr &);
 
 			template<typename T, typename I, typename ... Args>
-			static auto replace(const Args & ... args)
+			static auto replace(Args && ... args)
 			{
 				pm()->remove<CubePlugIn>(typeid(T).name());
-				return add<T, I>(args...);
+				return add<T, I>(std::forward<Args>(args)...);
 			}
 
 

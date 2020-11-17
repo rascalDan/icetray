@@ -17,19 +17,19 @@ namespace IceTray {
 		inline Domain
 		fetch(const SqlSource & sql, const Params &... params)
 		{
-			return fetch<Domain, Params...>(IceUtil::None, sql, params...);
+			return fetch<Domain, Params...>(std::nullopt, sql, params...);
 		}
 
 		template<typename Domain, typename... Params>
 		inline Domain
 		fetch(DB::Connection * c, const SqlSource & sql, const Params &... params)
 		{
-			return fetch<Domain, Params...>(c, IceUtil::None, sql, params...);
+			return fetch<Domain, Params...>(c, std::nullopt, sql, params...);
 		}
 
 		template<typename Domain, typename... Params>
 		inline Domain
-		fetch(const IceUtil::Optional<std::string> & typeIdCol, const SqlSource & sql, const Params &... params)
+		fetch(const std::optional<std::string> & typeIdCol, const SqlSource & sql, const Params &... params)
 		{
 			auto c = db->get();
 			return fetch<Domain, Params...>(c.get(), typeIdCol, sql, params...);
@@ -37,7 +37,7 @@ namespace IceTray {
 
 		template<typename Domain, typename... Params>
 		inline Domain
-		fetch(DB::Connection * c, const IceUtil::Optional<std::string> & typeIdCol, const SqlSource & sql,
+		fetch(DB::Connection * c, const std::optional<std::string> & typeIdCol, const SqlSource & sql,
 				const Params &... params)
 		{
 			auto s = sql.select(c);

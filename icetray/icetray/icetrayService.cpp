@@ -1,8 +1,8 @@
-#include <Ice/Ice.h>
-#include <visibility.h>
-#include <factory.impl.h>
 #include "icetrayService.h"
+#include <Ice/Ice.h>
 #include <boost/assert.hpp>
+#include <factory.impl.h>
+#include <visibility.h>
 
 namespace IceTray {
 	Service * Service::current = nullptr;
@@ -38,7 +38,8 @@ namespace IceTray {
 		return serviceFactories.begin()->get()->implementation()->create();
 	}
 
-	void Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
+	void
+	Service::start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args)
 	{
 		adp = ic->createObjectAdapter(name);
 		configureLoggers(adp, ic->getProperties());
@@ -82,23 +83,20 @@ namespace IceTray {
 	Service::getConnectionPool(const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & name)
 	{
 		auto p = ic->getProperties();
-		return PoolProvider::createNew(
-					p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"),
-					name, type, p);
+		return PoolProvider::createNew(p->getPropertyWithDefault("DryIce.PoolProvider", "DefaultPool"), name, type, p);
 	}
 }
 
 extern "C" {
-	DLL_PUBLIC
-	IceBox::Service *
-	// Public ICE Box API signature
-	// NOLINTNEXTLINE(performance-unnecessary-value-param)
-	createIceTrayService(Ice::CommunicatorPtr ic)
-	{
-		return IceTray::Service::create(ic);
-	}
+DLL_PUBLIC
+IceBox::Service *
+// Public ICE Box API signature
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
+createIceTrayService(Ice::CommunicatorPtr ic)
+{
+	return IceTray::Service::create(ic);
+}
 }
 
 INSTANTIATEPLUGINOF(IceTray::ServiceFactory);
 INSTANTIATEFACTORY(DB::BasicConnectionPool, const std::string &, const std::string &, const Ice::PropertiesPtr &);
-

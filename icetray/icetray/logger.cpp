@@ -1,12 +1,12 @@
 #include "logger.h"
-#include <factory.impl.h>
-#include <buffer.h>
-#include <lockHelpers.h>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/classification.hpp>
-#include <slicer/modelPartsTypes.h>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <buffer.h>
+#include <factory.impl.h>
 #include <globalStatic.impl.h>
+#include <lockHelpers.h>
+#include <slicer/modelPartsTypes.h>
 
 INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &);
 
@@ -15,10 +15,7 @@ template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 // NOLINTNEXTLINE(modernize-concat-nested-namespaces)
 namespace IceTray {
 	namespace Logging {
-		LoggerBase::LoggerBase(Domain domain) :
-			domain(std::move(domain))
-		{
-		}
+		LoggerBase::LoggerBase(Domain domain) : domain(std::move(domain)) { }
 
 		LoggerBase::~LoggerBase() = default;
 
@@ -102,9 +99,8 @@ namespace IceTray {
 		LoggerPtr
 		LogManager::getLogger(const std::type_info & type)
 		{
-			std::unique_ptr<char, void(*)(void*)> res {
-				abi::__cxa_demangle(type.name(), nullptr, nullptr, nullptr), std::free
-			};
+			std::unique_ptr<char, void (*)(void *)> res {
+					abi::__cxa_demangle(type.name(), nullptr, nullptr, nullptr), std::free};
 			// NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 			return getLogger(res.get());
 		}
@@ -170,13 +166,13 @@ namespace IceTray {
 
 		AbstractLogWriter::AbstractLogWriter(LogLevel level)
 		{
-			logDomains.insert({ { }, level });
+			logDomains.insert({{}, level});
 		}
 
 		AbstractLogWriter::AbstractLogWriter(const std::string & prefix, const Ice::PropertiesPtr & p)
 		{
 			if (!p || prefix.empty()) {
-				logDomains.insert({ { }, LogLevel::WARNING });
+				logDomains.insert({{}, LogLevel::WARNING});
 				return;
 			}
 			auto domainsPrefix = prefix + ".domains.";
@@ -184,12 +180,12 @@ namespace IceTray {
 			for (const auto & d : map) {
 				auto level = Slicer::ModelPartForEnum<LogLevel>::lookup(d.second);
 				auto domain = d.first.substr(domainsPrefix.length());
-				logDomains.insert({ splitDomain(domain), level });
+				logDomains.insert({splitDomain(domain), level});
 			}
 			auto defaultLevel = p->getProperty(prefix + ".default");
 			if (!defaultLevel.empty()) {
 				auto level = Slicer::ModelPartForEnum<LogLevel>::lookup(defaultLevel);
-				logDomains.insert({ {}, level });
+				logDomains.insert({{}, level});
 			}
 		}
 
@@ -225,7 +221,8 @@ namespace IceTray {
 			}
 
 			Ice::StringSeq domainTokens;
-			boost::algorithm::split(domainTokens, domain, boost::algorithm::is_any_of(".:"), boost::algorithm::token_compress_on);
+			boost::algorithm::split(
+					domainTokens, domain, boost::algorithm::is_any_of(".:"), boost::algorithm::token_compress_on);
 			return domainTokens;
 		}
 
@@ -270,8 +267,7 @@ namespace IceTray {
 						di++;
 					}
 				}
-			}	
+			}
 		}
 	}
 }
-

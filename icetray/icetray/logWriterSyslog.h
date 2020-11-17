@@ -6,16 +6,15 @@
 namespace IceTray {
 	namespace Logging {
 		class SyslogLogWriter : public AbstractLogWriter {
-			public:
-				SyslogLogWriter(const Ice::PropertiesPtr & p);
-				~SyslogLogWriter();
+		public:
+			SyslogLogWriter(const Ice::PropertiesPtr & p);
+			~SyslogLogWriter();
 
-				void message(LogLevel priority, Domain domain, std::string_view message, const Ice::Current &) override;
+			void message(LogLevel priority, Domain domain, std::string_view message, const Ice::Current &) override;
 
-				const int width;
+			const int width;
 		};
 	}
 }
 
 #endif
-

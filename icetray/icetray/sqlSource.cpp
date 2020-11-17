@@ -15,4 +15,3 @@ namespace IceTray {
 		return db->select(getSql(), getCommandOptions());
 	}
 }
-

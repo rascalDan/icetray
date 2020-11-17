@@ -8,21 +8,20 @@
 namespace IceTray {
 	namespace Mail {
 		class DLL_PUBLIC BasicMailServer {
-			public:
-				static void writeEmailContent(const EmailPtr & msg, FILE * ms);
+		public:
+			static void writeEmailContent(const EmailPtr & msg, FILE * ms);
 		};
 
 		class DLL_PUBLIC LibesmtpMailServer : public MailServer, BasicMailServer {
-			public:
-				LibesmtpMailServer(std::string server);
+		public:
+			LibesmtpMailServer(std::string server);
 
-				void sendEmail(const EmailPtr & msg) override;
+			void sendEmail(const EmailPtr & msg) override;
 
-			private:
-				const std::string server;
+		private:
+			const std::string server;
 		};
 	}
 }
 
 #endif
-

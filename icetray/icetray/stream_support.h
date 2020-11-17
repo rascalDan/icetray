@@ -4,14 +4,15 @@
 #include <cstdio>
 #include <memory>
 
-namespace IceTray
-{
+namespace IceTray {
 	class StreamPtr {
-		public:
-			operator FILE * () const { return f; }
-			FILE * const f;
+	public:
+		operator FILE *() const
+		{
+			return f;
+		}
+		FILE * const f;
 	};
 }
 
 #endif
-

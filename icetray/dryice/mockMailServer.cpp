@@ -1,7 +1,8 @@
 #include "mockMailServer.h"
 
 namespace IceTray::Mail {
-	void MockMailServerImpl::sendEmail(const EmailPtr & e)
+	void
+	MockMailServerImpl::sendEmail(const EmailPtr & e)
 	{
 		sentEmails.push_back(e);
 	}
@@ -12,4 +13,3 @@ namespace IceTray::Mail {
 		return sentEmails;
 	}
 }
-

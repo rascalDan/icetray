@@ -7,10 +7,7 @@ INSTANTIATEPLUGINOF(IceTray::Options);
 namespace po = boost::program_options;
 
 namespace IceTray {
-	Options::Options(std::string name) :
-		optionsName(std::move(name))
-	{
-	}
+	Options::Options(std::string name) : optionsName(std::move(name)) { }
 
 	OptionsDescPtr
 	Options::getOptions()
@@ -53,7 +50,7 @@ namespace IceTray {
 					continue;
 				}
 				// If it was process as an empty list but wasn't empty, treat as the empty string.
-				opt.value = { "" };
+				opt.value = {""};
 			}
 			opt.string_key = optDesc->long_name();
 			opt.unregistered = false;
@@ -72,4 +69,3 @@ namespace IceTray {
 		return s;
 	}
 }
-

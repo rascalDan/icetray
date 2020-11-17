@@ -2,4 +2,3 @@
 #include <plugins.impl.h>
 
 INSTANTIATEPLUGINOF(IceTray::CubePlugIn);
-

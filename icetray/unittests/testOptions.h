@@ -4,15 +4,14 @@
 #include <options.h>
 
 class DLL_PUBLIC TestOptions : public IceTray::Options {
-	public:
-		TestOptions();
+public:
+	TestOptions();
 
-		ICETRAY_OPTIONS_DECLARE;
+	ICETRAY_OPTIONS_DECLARE;
 
-		int testInt;
-		std::string testString;
-		std::vector<int> testVec;
+	int testInt;
+	std::string testString;
+	std::vector<int> testVec;
 };
 
 #endif
-

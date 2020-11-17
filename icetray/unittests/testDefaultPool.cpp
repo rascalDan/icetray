@@ -1,15 +1,15 @@
 #define BOOST_TEST_MODULE TestIceTray
 #include <boost/test/unit_test.hpp>
 
-#include <factory.h>
-#include <factory.impl.h>
-#include <connectionPool.h>
-#include <error.h>
-#include <icetrayService.h>
 #include <Ice/Initialize.h>
 #include <Ice/Properties.h>
+#include <connectionPool.h>
+#include <error.h>
+#include <factory.h>
+#include <factory.impl.h>
+#include <icetrayService.h>
 
-BOOST_AUTO_TEST_CASE( defaultPool )
+BOOST_AUTO_TEST_CASE(defaultPool)
 {
 	auto p = Ice::createProperties();
 	p->setProperty("testcase.Database.ConnectionString", "user=template1 user=postgres");
@@ -21,4 +21,3 @@ BOOST_AUTO_TEST_CASE( defaultPool )
 		c->ping();
 	}
 }
-

@@ -1,7 +1,7 @@
-#include <iostream>
 #include <boost/program_options.hpp>
-#include <dlfcn.h>
 #include <compileTimeFormatter.h>
+#include <dlfcn.h>
+#include <iostream>
 #include <options.h>
 
 namespace po = boost::program_options;
@@ -21,10 +21,8 @@ main(int argc, char ** argv)
 	po::options_description opts("IceTray library documentation");
 	std::vector<std::string> libs;
 
-	opts.add_options()
-		("help,h", "Show this help message")
-		("lib", po::value(&libs)->required(), "Library filename (see dlopen(3))")
-		;
+	opts.add_options()("help,h", "Show this help message")(
+			"lib", po::value(&libs)->required(), "Library filename (see dlopen(3))");
 	po::positional_options_description p;
 	p.add("lib", -1);
 
@@ -55,4 +53,3 @@ main(int argc, char ** argv)
 
 	return 0;
 }
-

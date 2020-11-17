@@ -3,10 +3,7 @@
 #include <memstream.h>
 
 namespace IceTray::Mail {
-	LibesmtpMailServer::LibesmtpMailServer(std::string s) :
-		server(std::move(s))
-	{
-	}
+	LibesmtpMailServer::LibesmtpMailServer(std::string s) : server(std::move(s)) { }
 
 	void
 	LibesmtpMailServer::sendEmail(const EmailPtr & msg)
@@ -34,9 +31,8 @@ namespace IceTray::Mail {
 	BasicMailServer::writeEmailContent(const EmailPtr & msg, FILE * ms)
 	{
 		fputs("MIME-Version: 1.0\r\n", ms);
-		msg->content->write({ ms }, 0);
+		msg->content->write({ms}, 0);
 	}
-
 
 	void
 	SendEmailFailed::ice_print(std::ostream & buf) const
@@ -44,4 +40,3 @@ namespace IceTray::Mail {
 		buf << "Failed to send email: " << message;
 	}
 }
-

@@ -1,5 +1,5 @@
-#include <logWriter.h>
 #include "logWriterSyslog.h"
+#include <logWriter.h>
 #include <syslog.h>
 
 // NOLINTNEXTLINE(modernize-concat-nested-namespaces)
@@ -9,14 +9,13 @@ namespace IceTray {
 		SyslogLogWriter::SyslogLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("logging.syslog", p),
 			width(p ? p->getPropertyAsIntWithDefault("logging.syslog.width", -1) : -1)
-			{
-				if (p) {
-					openlog(
-							p->getPropertyWithDefault("logging.syslog.ident", "icetray").c_str(),
-							p->getPropertyAsIntWithDefault("logging.syslog.option", 0),
-							p->getPropertyAsIntWithDefault("logging.syslog.facility", LOG_DAEMON));
-				}
+		{
+			if (p) {
+				openlog(p->getPropertyWithDefault("logging.syslog.ident", "icetray").c_str(),
+						p->getPropertyAsIntWithDefault("logging.syslog.option", 0),
+						p->getPropertyAsIntWithDefault("logging.syslog.facility", LOG_DAEMON));
 			}
+		}
 
 		SyslogLogWriter::~SyslogLogWriter()
 		{
@@ -32,4 +31,3 @@ namespace IceTray {
 		FACTORY(SyslogLogWriter, LogWriterFactory);
 	}
 }
-

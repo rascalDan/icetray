@@ -1,58 +1,58 @@
 #ifndef ICETRAY_TESTSETUP_H
 #define ICETRAY_TESTSETUP_H
 
+#include "icecube.h"
+#include "icetrayService.h"
 #include <Ice/Communicator.h>
 #include <IceBox/IceBox.h>
 #include <visibility.h>
-#include "icetrayService.h"
-#include "icecube.h"
 
 namespace IceTray {
 	class DLL_PUBLIC DryIce : private Cube {
-		public:
-			DryIce(const Ice::StringSeq & = Ice::StringSeq());
-			DryIce(const DryIce &) = delete;
-			virtual ~DryIce();
+	public:
+		DryIce(const Ice::StringSeq & = Ice::StringSeq());
+		DryIce(const DryIce &) = delete;
+		virtual ~DryIce();
 
-			void operator=(const DryIce &) = delete;
-			std::string getEndpoint() const;
+		void operator=(const DryIce &) = delete;
+		std::string getEndpoint() const;
 
-		protected:
-			friend class DryIceClient;
-			static DryIce * currentDryIce;
+	protected:
+		friend class DryIceClient;
+		static DryIce * currentDryIce;
 
-			void replace(const std::string &, const Ice::ObjectPtr &);
+		void replace(const std::string &, const Ice::ObjectPtr &);
 
-			template<typename T, typename I, typename ... Args>
-			static auto replace(Args && ... args)
-			{
-				pm()->remove<CubePlugIn>(typeid(T).name());
-				return add<T, I>(std::forward<Args>(args)...);
-			}
+		template<typename T, typename I, typename... Args>
+		static auto
+		replace(Args &&... args)
+		{
+			pm()->remove<CubePlugIn>(typeid(T).name());
+			return add<T, I>(std::forward<Args>(args)...);
+		}
 
-
-			Ice::CommunicatorPtr ic;
-			IceTray::ServicePtr s;
+		Ice::CommunicatorPtr ic;
+		IceTray::ServicePtr s;
 	};
 
 	class DLL_PUBLIC DryIceClient {
-		public:
-			DryIceClient();
-			virtual ~DryIceClient();
+	public:
+		DryIceClient();
+		virtual ~DryIceClient();
 
-			template<typename Prx>
-			std::shared_ptr<Prx> getProxy(const std::string & objectName) const
-			{
-				return Ice::checkedCast<Prx>(DryIce::currentDryIce->ic->stringToProxy(objectName));
-			}
+		template<typename Prx>
+		std::shared_ptr<Prx>
+		getProxy(const std::string & objectName) const
+		{
+			return Ice::checkedCast<Prx>(DryIce::currentDryIce->ic->stringToProxy(objectName));
+		}
 
-			ServicePtr getService() const;
-			Ice::ObjectAdapterPtr getAdapter() const;
+		ServicePtr getService() const;
+		Ice::ObjectAdapterPtr getAdapter() const;
 
-		private:
-			Ice::ObjectAdapterPtr adapter;
+	private:
+		Ice::ObjectAdapterPtr adapter;
 	};
 }
 
 #endif
-

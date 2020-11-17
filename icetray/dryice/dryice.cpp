@@ -1,8 +1,8 @@
 #include "dryice.h"
-#include <boost/assert.hpp>
-#include <factory.h>
 #include <Ice/Initialize.h>
 #include <Ice/ObjectAdapter.h>
+#include <boost/assert.hpp>
+#include <factory.h>
 
 namespace IceTray {
 	DryIce * DryIce::currentDryIce = nullptr;
@@ -45,8 +45,7 @@ namespace IceTray {
 		s->adp->add(replacement, id);
 	}
 
-	DryIceClient::DryIceClient() :
-		adapter(DryIce::currentDryIce->ic->createObjectAdapter("DryIceClient"))
+	DryIceClient::DryIceClient() : adapter(DryIce::currentDryIce->ic->createObjectAdapter("DryIceClient"))
 	{
 		adapter->activate();
 	}
@@ -73,4 +72,3 @@ namespace IceTray {
 		return adapter;
 	}
 }
-

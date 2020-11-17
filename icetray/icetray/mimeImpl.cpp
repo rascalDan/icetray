@@ -3,8 +3,7 @@
 
 namespace IceTray::Mime {
 	static const char * const DIVIDER = "//divider//";
-	static const std::string_view mime_base64 =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	static const std::string_view mime_base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 	void
 	PartHelper::writeHeaders(const Headers & headers, const StreamPtr & ms)
@@ -18,8 +17,7 @@ namespace IceTray::Mime {
 	}
 
 	TextPart::TextPart(const Headers & h, const std::string & m, std::string p) :
-		BasicSinglePart(h, m),
-		payload(std::move(p))
+		BasicSinglePart(h, m), payload(std::move(p))
 	{
 	}
 
@@ -28,8 +26,7 @@ namespace IceTray::Mime {
 	{
 		writeHeaders(headers, ms);
 		fputs("Content-Transfer-Encoding: quoted-printable\r\n", ms);
-		fprintf(ms, "Content-Type: %s; charset=\"utf-8\"\r\n\r\n",
-				mimetype.c_str());
+		fprintf(ms, "Content-Type: %s; charset=\"utf-8\"\r\n\r\n", mimetype.c_str());
 		quotedPrintable(payload, ms);
 		fputs("\r\n", ms);
 	}
@@ -49,8 +46,7 @@ namespace IceTray::Mime {
 		};
 		for (const auto & ch : input) {
 			const auto & nextCh = *(&ch + 1);
-			if (ch == '\r') {
-			}
+			if (ch == '\r') { }
 			else if (ch == '\n') {
 				fputs("\r\n", ms);
 				line = 0;
@@ -81,8 +77,7 @@ namespace IceTray::Mime {
 	}
 
 	BinaryViewPart::BinaryViewPart(const Headers & h, const std::string & m, const byte_range & p) :
-		BasicSinglePart(h, m),
-		payload(p)
+		BasicSinglePart(h, m), payload(p)
 	{
 	}
 
@@ -91,15 +86,13 @@ namespace IceTray::Mime {
 	{
 		writeHeaders(headers, ms);
 		fputs("Content-Transfer-Encoding: base64\r\n", ms);
-		fprintf(ms, "Content-Type: %s\r\n\r\n",
-				mimetype.c_str());
+		fprintf(ms, "Content-Type: %s\r\n\r\n", mimetype.c_str());
 		base64(payload, ms);
 		fputs("\r\n", ms);
 	}
 
 	void
-	BinaryViewPart::base64(const std::basic_string_view<uint8_t> & input, FILE * ms,
-					const size_t maxWidth)
+	BinaryViewPart::base64(const std::basic_string_view<uint8_t> & input, FILE * ms, const size_t maxWidth)
 	{
 		auto mime_encode_base64_block = [](auto & dest, const auto & src) {
 			if (src.length() >= 1) {
@@ -119,7 +112,7 @@ namespace IceTray::Mime {
 				}
 			}
 		};
-		
+
 		size_t l = 0;
 		for (size_t i = 0; i < input.length(); i += 3) {
 			if (maxWidth > 0 && l + 4 > maxWidth) {
@@ -127,32 +120,26 @@ namespace IceTray::Mime {
 				l = 0;
 			}
 
-			std::array<char, 4> bytes { '=', '=', '=', '=' };
+			std::array<char, 4> bytes {'=', '=', '=', '='};
 			mime_encode_base64_block(bytes, input.substr(i, 3));
-			fwrite(bytes.data(), bytes.size(),1, ms);
+			fwrite(bytes.data(), bytes.size(), 1, ms);
 			l += 4;
 		}
 		fputs("\r\n", ms);
 	}
 
 	BinaryCopyPart::BinaryCopyPart(const Headers & h, const std::string & m, bytes v) :
-		BinaryViewPart(h, m, { v.data(), v.size() }),
-		payload(std::move(v))
+		BinaryViewPart(h, m, {v.data(), v.size()}), payload(std::move(v))
 	{
 	}
 
-
-	MultiPart::MultiPart(const Headers & h, const std::string & st, const Parts & p) :
-		BasicMultiPart(h, st, p)
-	{
-	}
+	MultiPart::MultiPart(const Headers & h, const std::string & st, const Parts & p) : BasicMultiPart(h, st, p) { }
 
 	void
 	MultiPart::write(const StreamPtr & ms, Ice::Int depth) const
 	{
 		writeHeaders(headers, ms);
-		fprintf(ms, "Content-Type: multipart/%s; boundary=\"%s%d\"\r\n\r\n",
-				subtype.c_str(), DIVIDER, depth);
+		fprintf(ms, "Content-Type: multipart/%s; boundary=\"%s%d\"\r\n\r\n", subtype.c_str(), DIVIDER, depth);
 		for (const auto & p : parts) {
 			fprintf(ms, "--%s%d\r\n", DIVIDER, depth);
 			p->write(ms, depth + 1);
@@ -161,4 +148,3 @@ namespace IceTray::Mime {
 	}
 
 }
-

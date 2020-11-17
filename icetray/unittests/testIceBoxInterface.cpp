@@ -4,9 +4,9 @@
 #include <dlfcn.h>
 #include <icetrayService.h>
 
-BOOST_AUTO_TEST_CASE( IceBoxInterface )
+BOOST_AUTO_TEST_CASE(IceBoxInterface)
 {
-	using SetupFunction = IceTray::Service *(*)(Ice::CommunicatorPtr);
+	using SetupFunction = IceTray::Service * (*)(Ice::CommunicatorPtr);
 
 	void * i = dlsym(nullptr, "createIceTrayService");
 	BOOST_REQUIRE(i);
@@ -17,4 +17,3 @@ BOOST_AUTO_TEST_CASE( IceBoxInterface )
 	BOOST_REQUIRE_EQUAL(service, IceTray::Service::getCurrent());
 	delete service;
 }
-

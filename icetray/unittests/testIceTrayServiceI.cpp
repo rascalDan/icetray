@@ -1,16 +1,17 @@
 #include "testIceTrayServiceI.h"
-#include <factory.h>
-#include <Ice/ObjectAdapter.h>
+#include "icecube.h"
 #include <Ice/Communicator.h>
 #include <Ice/Initialize.h>
+#include <Ice/ObjectAdapter.h>
 #include <boost/assert.hpp>
-#include <testIceTrayServiceTestSql.sql.h>
-#include <subdir/some.sql.h>
-#include <subdir/a/more.sql.h>
 #include <boost/test/test_tools.hpp>
-#include "icecube.h"
+#include <factory.h>
+#include <subdir/a/more.sql.h>
+#include <subdir/some.sql.h>
+#include <testIceTrayServiceTestSql.sql.h>
 
-class Foo {  };
+class Foo {
+};
 
 namespace DB {
 	template<>
@@ -31,11 +32,15 @@ namespace TestIceTray {
 	TestIceTrayServiceI::fetchTest(const Type & value)
 	{
 		BOOST_REQUIRE_EQUAL(0, (fetch<int, int, Type>(sql::testIceTrayServiceTestSql, 1, value)));
-		BOOST_REQUIRE_EQUAL(0, (fetch<int, std::optional<Type>, std::optional<Type>>(sql::testIceTrayServiceTestSql, {}, value)));
-		BOOST_REQUIRE_EQUAL(0, (fetch<int, Ice::optional<Type>, Ice::optional<Type>>(sql::testIceTrayServiceTestSql, IceUtil::None, value)));
+		BOOST_REQUIRE_EQUAL(
+				0, (fetch<int, std::optional<Type>, std::optional<Type>>(sql::testIceTrayServiceTestSql, {}, value)));
+		BOOST_REQUIRE_EQUAL(0,
+				(fetch<int, Ice::optional<Type>, Ice::optional<Type>>(
+						sql::testIceTrayServiceTestSql, IceUtil::None, value)));
 	}
 
-	void TestIceTrayServiceI::method1(const Ice::Current &)
+	void
+	TestIceTrayServiceI::method1(const Ice::Current &)
 	{
 		fetch<int>(sql::subdir::some);
 		fetch<int>(sql::subdir::a::more);
@@ -62,26 +67,31 @@ namespace TestIceTray {
 		fetch<int>(dbc.get(), sql::testIceTrayServiceTestSql, 1, 1);
 	}
 
-	void TestIceTrayServiceI::method2(Ice::Int id, std::string name, const Ice::Current &)
+	void
+	TestIceTrayServiceI::method2(Ice::Int id, std::string name, const Ice::Current &)
 	{
-		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)) == (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
+		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name))
+				== (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
 	}
 
-	void TestCubeI::method1()
+	void
+	TestCubeI::method1()
 	{
 	}
 
-	void TestCubeI::method2(Ice::Int, const std::string &)
+	void
+	TestCubeI::method2(Ice::Int, const std::string &)
 	{
 	}
 
-	void TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &, const Ice::ObjectAdapterPtr & adp)
+	void
+	TestService::addObjects(const std::string &, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &,
+			const Ice::ObjectAdapterPtr & adp)
 	{
 		IceTray::Cube::addObject<TestIceTray::TestIceTrayService, TestIceTray::TestIceTrayServiceI>(
-					adp, "test", getConnectionPool(ic, "postgresql", "icetraydb"));
+				adp, "test", getConnectionPool(ic, "postgresql", "icetraydb"));
 		IceTray::Cube::add<TestIceTray::TestCube, TestIceTray::TestCubeI>();
 	}
 
 	NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);
 }
-

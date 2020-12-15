@@ -41,7 +41,7 @@ namespace IceTray::Mime {
 
 		BinaryCopyPart(const Headers &, const std::string &, bytes);
 
-		const bytes payload;
+		const bytes payload_data;
 	};
 
 	class DLL_PUBLIC MultiPart : public BasicMultiPart, PartHelper {

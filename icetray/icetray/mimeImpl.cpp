@@ -129,7 +129,7 @@ namespace IceTray::Mime {
 	}
 
 	BinaryCopyPart::BinaryCopyPart(const Headers & h, const std::string & m, bytes v) :
-		BinaryViewPart(h, m, {v.data(), v.size()}), payload(std::move(v))
+		BinaryViewPart(h, m, {v.data(), v.size()}), payload_data(std::move(v))
 	{
 	}
 

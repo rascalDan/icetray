@@ -13,7 +13,7 @@ namespace IceTray {
 		typedef std::any CacheItem;
 
 	protected:
-		AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d);
+		explicit AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d);
 
 		template<typename Domain, typename... Params>
 		inline Domain

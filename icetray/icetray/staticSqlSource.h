@@ -6,7 +6,7 @@
 namespace IceTray {
 	class DLL_PUBLIC StaticSqlSource : public SqlSource {
 	public:
-		StaticSqlSource(std::string sql);
+		explicit StaticSqlSource(std::string sql);
 		StaticSqlSource(std::string sql, const std::string & optsName, const DB::CommandOptionsMap &);
 
 		const std::string & getSql() const override;

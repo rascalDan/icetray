@@ -19,6 +19,8 @@ project
 		<variant>debug:<warnings-as-errors>on
 		<variant>coverage:<coverage>on
 		<variant>coverage:<define>COVERAGE
+		<toolset>tidy:<exclude>bin/mail.h
+		<toolset>tidy:<exclude>bin/logWriter.h
 		<toolset>tidy:<checkxx>boost-*
 		<toolset>tidy:<checkxx>bugprone-*
 		<toolset>tidy:<checkxx>clang-*
@@ -28,6 +30,7 @@ project
 		<toolset>tidy:<checkxx>hicpp-*
 		<toolset>tidy:<xcheckxx>hicpp-signed-bitwise
 		<toolset>tidy:<checkxx>performance-*
+		<toolset>tidy:<define>ICE_IGNORE_VERSION
 		;
 
 build-project icetray ;

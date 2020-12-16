@@ -7,7 +7,7 @@ namespace IceTray {
 	namespace Logging {
 		class ConsoleLogWriter : public AbstractLogWriter {
 		public:
-			ConsoleLogWriter(const Ice::PropertiesPtr & p);
+			explicit ConsoleLogWriter(const Ice::PropertiesPtr & p);
 
 			void message(LogLevel priority, Domain domain, std::string_view message, const Ice::Current &) override;
 

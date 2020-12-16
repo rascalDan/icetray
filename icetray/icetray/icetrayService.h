@@ -4,6 +4,7 @@
 #include "logger.h"
 #include "options.h"
 #include <IceBox/IceBox.h>
+#include <c++11Helpers.h>
 #include <connectionPool.h>
 #include <factory.h>
 #include <visibility.h>
@@ -12,7 +13,9 @@ namespace IceTray {
 	class DLL_PUBLIC Service : public IceBox::Service, public AdHoc::AbstractPluginImplementation {
 	public:
 		Service();
-		virtual ~Service();
+		~Service() override;
+
+		SPECIAL_MEMBERS_DELETE(Service);
 
 		virtual void addObjects(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &,
 				const Ice::ObjectAdapterPtr &)
@@ -25,8 +28,8 @@ namespace IceTray {
 		DB::ConnectionPoolPtr getConnectionPool(
 				const Ice::CommunicatorPtr & ic, const std::string & type, const std::string & prefix);
 
-		static Service * getCurrent();
-		static Service * create(const Ice::CommunicatorPtr &);
+		[[nodiscard]] static Service * getCurrent();
+		[[nodiscard]] static Service * create(const Ice::CommunicatorPtr &);
 
 	private:
 		void configureLoggers(const Ice::ObjectAdapterPtr &, const Ice::PropertiesPtr &);
@@ -41,29 +44,28 @@ namespace IceTray {
 		AdHoc::PluginManager servicePlugins;
 	};
 
-	typedef std::shared_ptr<Service> ServicePtr;
+	using ServicePtr = std::shared_ptr<Service>;
 
 	// Custom factory required because IceBox interface requires a naked pointer.
 	// See: https://doc.zeroc.com/display/Ice37/Developing+IceBox+Services#DevelopingIceBoxServices-C++ServiceEntryPoint
 	class ServiceFactory : public AdHoc::AbstractPluginImplementation {
 	public:
-		virtual Service * create() const = 0;
+		[[nodiscard]] virtual Service * create() const = 0;
 
 		template<typename Impl> class For;
 	};
 
 	template<typename Impl> class ServiceFactory::For : public ServiceFactory {
 	public:
-		Service *
-		create() const
+		[[nodiscard]] Service *
+		create() const override
 		{
 			return new Impl();
 		}
 	};
 
-	typedef AdHoc::Factory<DB::BasicConnectionPool, const std::string &, const std::string &,
-			const Ice::PropertiesPtr &>
-			PoolProvider;
+	using PoolProvider = AdHoc::Factory<DB::BasicConnectionPool, const std::string &, const std::string &,
+			const Ice::PropertiesPtr &>;
 }
 
 #endif

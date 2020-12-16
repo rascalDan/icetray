@@ -7,6 +7,7 @@
 namespace IceTray {
 	class StreamPtr {
 	public:
+		// NOLINTNEXTLINE(hicpp-explicit-conversions)
 		operator FILE *() const
 		{
 			return f;

@@ -24,7 +24,7 @@ namespace Ice {
 		static inline void
 		read(S * stream, std::string_view & v)
 		{
-			const char * vdata = 0;
+			const char * vdata = nullptr;
 			size_t vsize = 0;
 
 			stream->read(vdata, vsize);

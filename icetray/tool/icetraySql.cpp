@@ -63,6 +63,7 @@ main(int argc, char ** argv)
 	po::variables_map vm;
 	po::store(po::command_line_parser(argc, argv).options(opts).positional(p).run(), vm);
 
+	// NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 	if (vm.count("help")) {
 		std::cout << opts << std::endl;
 		return 1;

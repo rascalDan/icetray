@@ -18,16 +18,23 @@ project
 		<variant>debug:<warnings-as-errors>on
 		<variant>coverage:<coverage>on
 		<variant>coverage:<define>COVERAGE
-		<toolset>tidy:<exclude>bin/mail.h
-		<toolset>tidy:<exclude>bin/logWriter.h
+		<toolset>tidy:<exclude>icetray/bin/logWriter.h
+		<toolset>tidy:<exclude>icetray/bin/mail.h
+		<toolset>tidy:<exclude>icetray/bin/mime.h
+		<toolset>tidy:<exclude>icetray/dryice/bin/tidy/debug/checker-none/cxxstd-17-iso/mockMail.h
+		<toolset>tidy:<exclude>unittests/bin/testIceTrayService.h
 		<toolset>tidy:<checkxx>boost-*
 		<toolset>tidy:<checkxx>bugprone-*
+		<toolset>tidy:<xcheckxx>bugprone-macro-parentheses
 		<toolset>tidy:<checkxx>clang-*
 		<toolset>tidy:<checkxx>misc-*
+		<toolset>tidy:<xcheckxx>misc-non-private-member-variables-in-classes
 		<toolset>tidy:<checkxx>modernize-*
 		<toolset>tidy:<xcheckxx>modernize-use-trailing-return-type
+		<toolset>tidy:<xcheckxx>modernize-concat-nested-namespaces
 		<toolset>tidy:<checkxx>hicpp-*
 		<toolset>tidy:<xcheckxx>hicpp-signed-bitwise
+		<toolset>tidy:<xcheckxx>hicpp-named-parameter
 		<toolset>tidy:<checkxx>performance-*
 		<toolset>tidy:<define>ICE_IGNORE_VERSION
 		;

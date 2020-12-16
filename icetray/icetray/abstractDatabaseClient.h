@@ -54,7 +54,7 @@ namespace IceTray {
 
 		static void inline bind(int, DB::Command *) { }
 
-		const DB::ConnectionPoolPtr db;
+		DB::ConnectionPoolPtr db;
 	};
 }
 

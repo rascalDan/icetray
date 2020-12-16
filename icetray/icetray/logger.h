@@ -4,6 +4,7 @@
 #include <Ice/Properties.h>
 #include <boost/format/format_fwd.hpp>
 #include <buffer.h>
+#include <c++11Helpers.h>
 #include <compileTimeFormatter.h>
 #include <factory.h>
 #include <globalStatic.h>
@@ -17,14 +18,16 @@ namespace IceTray {
 		class LogManager;
 		class LoggerBase;
 
-		typedef std::set<LogWriterPrxPtr> LogWriters;
-		typedef std::array<LogWriters, 8> LogLevelWriters;
-		typedef std::set<LoggerBase *> Loggers;
+		using LogWriters = std::set<LogWriterPrxPtr>;
+		using LogLevelWriters = std::array<LogWriters, 8>;
+		using Loggers = std::set<LoggerBase *>;
 
 		class DLL_PUBLIC LoggerBase {
 		public:
-			LoggerBase(Domain domain);
+			explicit LoggerBase(Domain domain);
 			virtual ~LoggerBase() = 0;
+
+			SPECIAL_MEMBERS_DELETE(LoggerBase);
 
 			const Domain & getDomain() const;
 
@@ -37,7 +40,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC Logger : public LoggerBase {
 		public:
-			Logger(const Domain & domain);
+			explicit Logger(const Domain & domain);
 
 			void message(LogLevel priority, const std::string & msg) const;
 			void messagef(LogLevel priority, const char * msgfmt, ...) const __attribute__((format(printf, 3, 4)));
@@ -76,7 +79,7 @@ namespace IceTray {
 
 			LogLevelWriters::const_iterator firstFor(LogLevel priority) const;
 		};
-		typedef std::shared_ptr<Logger> LoggerPtr;
+		using LoggerPtr = std::shared_ptr<Logger>;
 
 		class DLL_PUBLIC LogManager {
 		public:
@@ -111,7 +114,7 @@ namespace IceTray {
 			explicit AbstractLogWriter(LogLevel level);
 			explicit AbstractLogWriter(const std::string & prefix, const Ice::PropertiesPtr & p);
 
-			typedef std::map<Domain, LogLevel> LogDomains;
+			using LogDomains = std::map<Domain, LogLevel>;
 			LogDomains logDomains;
 
 		public:
@@ -119,7 +122,7 @@ namespace IceTray {
 			static void writeDomain(std::ostream &, ssize_t, const Domain &);
 		};
 
-		typedef AdHoc::Factory<LogWriter, const Ice::PropertiesPtr &> LogWriterFactory;
+		using LogWriterFactory = AdHoc::Factory<LogWriter, const Ice::PropertiesPtr &>;
 	}
 }
 

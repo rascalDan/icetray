@@ -14,7 +14,7 @@ namespace IceTray {
 
 		class DLL_PUBLIC LibesmtpMailServer : public MailServer, BasicMailServer {
 		public:
-			LibesmtpMailServer(std::string server);
+			explicit LibesmtpMailServer(std::string server);
 
 			void sendEmail(const EmailPtr & msg) override;
 

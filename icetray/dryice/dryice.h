@@ -5,17 +5,18 @@
 #include "icetrayService.h"
 #include <Ice/Communicator.h>
 #include <IceBox/IceBox.h>
+#include <c++11Helpers.h>
 #include <visibility.h>
 
 namespace IceTray {
 	class DLL_PUBLIC DryIce : private Cube {
 	public:
-		DryIce(const Ice::StringSeq & = Ice::StringSeq());
-		DryIce(const DryIce &) = delete;
+		explicit DryIce(const Ice::StringSeq & = Ice::StringSeq());
 		virtual ~DryIce();
 
-		void operator=(const DryIce &) = delete;
-		std::string getEndpoint() const;
+		SPECIAL_MEMBERS_DEFAULT_MOVE_NO_COPY(DryIce);
+
+		[[nodiscard]] std::string getEndpoint() const;
 
 	protected:
 		friend class DryIceClient;
@@ -40,15 +41,17 @@ namespace IceTray {
 		DryIceClient();
 		virtual ~DryIceClient();
 
+		SPECIAL_MEMBERS_DEFAULT(DryIceClient);
+
 		template<typename Prx>
-		std::shared_ptr<Prx>
+		[[nodiscard]] std::shared_ptr<Prx>
 		getProxy(const std::string & objectName) const
 		{
 			return Ice::checkedCast<Prx>(DryIce::currentDryIce->ic->stringToProxy(objectName));
 		}
 
-		ServicePtr getService() const;
-		Ice::ObjectAdapterPtr getAdapter() const;
+		[[nodiscard]] ServicePtr getService() const;
+		[[nodiscard]] Ice::ObjectAdapterPtr getAdapter() const;
 
 	private:
 		Ice::ObjectAdapterPtr adapter;

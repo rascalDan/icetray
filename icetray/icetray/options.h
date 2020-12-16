@@ -3,14 +3,15 @@
 
 #include <Ice/Properties.h>
 #include <boost/program_options.hpp>
+#include <c++11Helpers.h>
 #include <factory.h>
 #include <visibility.h>
 
 namespace IceTray {
-	typedef std::shared_ptr<boost::program_options::options_description> OptionsDescPtr;
+	using OptionsDescPtr = std::shared_ptr<boost::program_options::options_description>;
 	class DLL_PUBLIC Options : public AdHoc::AbstractPluginImplementation {
 	public:
-		Options(std::string name);
+		explicit Options(std::string name);
 
 	private:
 		friend class OptionsCollation;
@@ -18,8 +19,8 @@ namespace IceTray {
 		OptionsDescPtr getOptions();
 		const std::string optionsName;
 	};
-	typedef AdHoc::Factory<Options> OptionsFactory;
-	typedef AdHoc::PluginOf<Options> OptionsPlugin;
+	using OptionsFactory = AdHoc::Factory<Options>;
+	using OptionsPlugin = AdHoc::PluginOf<Options>;
 
 	template<typename T> class DLL_PUBLIC OptionsResolver {
 	public:
@@ -43,6 +44,8 @@ namespace IceTray {
 	public:
 		OptionsCollation();
 		~OptionsCollation();
+
+		SPECIAL_MEMBERS_DELETE(OptionsCollation);
 
 		void apply(const Ice::PropertiesPtr & p);
 		std::ostream & write(std::ostream &) const;

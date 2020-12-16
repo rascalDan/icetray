@@ -41,14 +41,19 @@ main(int argc, char ** argv)
 	fs::path sql, cpp, h, base;
 	std::string sqlns, connector;
 
-	opts.add_options()("help,h", "Show this help message")("sql", po::value(&sql)->required(), "Path of SQL script")(
-			"cpp", po::value(&cpp)->required(), "Path of C++ file to write")(
-			"h", po::value(&h)->required(), "Path of header file to write")
-			// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
-			("basedir,d", po::value(&base)->default_value(fs::current_path()),
-					"Base directory of SQL scripts (namespaces are created relative to here)")(
-					"namespace", po::value(&sqlns), "Namespace to create SqlSource in")(
-					"connector,c", po::value(&connector), "Specifiy a default connector name");
+	// clang-format off
+	opts.add_options()
+		("help,h", "Show this help message")
+		("sql", po::value(&sql)->required(), "Path of SQL script")
+		("cpp", po::value(&cpp)->required(), "Path of C++ file to write")
+		("h", po::value(&h)->required(), "Path of header file to write")
+		// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
+		("basedir,d", po::value(&base)->default_value(fs::current_path()),
+		 "Base directory of SQL scripts (namespaces are created relative to here)")
+		("namespace", po::value(&sqlns), "Namespace to create SqlSource in")
+		("connector,c", po::value(&connector), "Specifiy a default connector name")
+		;
+	// clang-format on
 
 	po::positional_options_description p;
 	p.add("sql", 1);

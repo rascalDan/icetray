@@ -21,8 +21,12 @@ main(int argc, char ** argv)
 	po::options_description opts("IceTray library documentation");
 	std::vector<std::string> libs;
 
-	opts.add_options()("help,h", "Show this help message")(
-			"lib", po::value(&libs)->required(), "Library filename (see dlopen(3))");
+	// clang-format off
+	opts.add_options()
+		("help,h", "Show this help message")
+		("lib", po::value(&libs)->required(), "Library filename (see dlopen(3))")
+		;
+	// clang-format on
 	po::positional_options_description p;
 	p.add("lib", -1);
 

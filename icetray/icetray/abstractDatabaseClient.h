@@ -7,6 +7,8 @@
 #include <db/sqlSelectDeserializer.h>
 #include <slicer/slicer.h>
 #include <visibility.h>
+#include <command.h>
+#include <selectcommand.h>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {

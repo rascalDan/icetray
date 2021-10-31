@@ -39,5 +39,5 @@ alias install :
 	install-ice
 	;
 package.install install-main : : : icetray : [ glob-tree *.h : defaultPool.h ] ;
-package.install-data install-ice : icetray/ice : [ glob *.ice ] ;
+package.install-data install-ice : ice/icetray : [ glob *.ice ] ;
 

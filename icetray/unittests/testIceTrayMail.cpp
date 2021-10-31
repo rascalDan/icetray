@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE(send_real_mail_fail)
 	catch (const SendEmailFailed & sef) {
 		std::stringstream ss;
 		sef.ice_print(ss);
-		BOOST_CHECK_EQUAL(ss.str(), "Failed to send email: ");
+		BOOST_CHECK_EQUAL(ss.str(), "Failed to send email: Connection refused");
 	}
 }
 

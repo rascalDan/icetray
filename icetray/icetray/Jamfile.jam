@@ -20,6 +20,7 @@ lib icetray :
 	<library>../..//glibmm
 	<library>boost_program_options
 	<library>esmtp
+	<library>../..//openssl
 	<implicit-dependency>logWriter
 	<slicer>pure
 	<include>.

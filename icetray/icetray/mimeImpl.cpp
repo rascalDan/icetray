@@ -1,9 +1,10 @@
 #include "mimeImpl.h"
+#include <openssl/bio.h>
+#include <openssl/evp.h>
 #include <string_view>
 
 namespace IceTray::Mime {
 	static const char * const DIVIDER = "//divider//";
-	static const std::string_view mime_base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 	void
 	PartHelper::writeHeaders(const Headers & headers, const StreamPtr & ms)
@@ -94,38 +95,20 @@ namespace IceTray::Mime {
 	void
 	BinaryViewPart::base64(const std::basic_string_view<uint8_t> & input, FILE * ms, const size_t maxWidth)
 	{
-		auto mime_encode_base64_block = [](auto & dest, const auto & src) {
-			if (src.length() >= 1) {
-				dest[0] = mime_base64[(src[0] & 0xFCu) >> 2u];
-				if (src.length() >= 2) {
-					dest[1] = mime_base64[((src[0] & 0x03u) << 4u) | ((src[1] & 0xF0u) >> 4u)];
-					if (src.length() >= 3) {
-						dest[2] = mime_base64[((src[1] & 0x0Fu) << 2u) | ((src[2] & 0xC0u) >> 6u)];
-						dest[3] = mime_base64[((src[2] & 0x3Fu))];
-					}
-					else {
-						dest[2] = mime_base64[((src[1] & 0x0Fu) << 2u)];
-					}
-				}
-				else {
-					dest[1] = mime_base64[(src[0] & 0x03u) << 4u];
-				}
-			}
-		};
-
-		size_t l = 0;
-		for (size_t i = 0; i < input.length(); i += 3) {
-			if (maxWidth > 0 && l + 4 > maxWidth) {
-				fputs("\r\n", ms);
-				l = 0;
-			}
-
-			std::array<char, 4> bytes {'=', '=', '=', '='};
-			mime_encode_base64_block(bytes, input.substr(i, 3));
-			fwrite(bytes.data(), bytes.size(), 1, ms);
-			l += 4;
+		if (input.empty()) {
+			fputs("\r\n", ms);
+			return;
 		}
-		fputs("\r\n", ms);
+		auto blockSize = (maxWidth * 3) / 4;
+		auto b64 = std::unique_ptr<BIO, decltype(&BIO_free_all)> {BIO_new(BIO_f_base64()), &BIO_free_all};
+		BIO_push(b64.get(), BIO_new_fp(ms, BIO_NOCLOSE));
+		BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
+		auto left = input.length();
+		for (auto start = input.data(); start < input.end(); start += blockSize, left -= blockSize) {
+			BIO_write(b64.get(), start, static_cast<int>(std::min(blockSize, left)));
+			BIO_flush(b64.get());
+			fputs("\r\n", ms);
+		}
 	}
 
 	BinaryCopyPart::BinaryCopyPart(const Headers & h, const std::string & m, bytes v) :

@@ -26,6 +26,6 @@ namespace IceTray {
 		{
 			return LogMsg::write(s, Slicer::ModelPartForEnum<LogLevel>::lookup(priority), width, domain, message);
 		}
-		FACTORY(ConsoleLogWriter, LogWriterFactory);
+		FACTORY(ConsoleLogWriter, LogWriterFactory)
 	}
 }

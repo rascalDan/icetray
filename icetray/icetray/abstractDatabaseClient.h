@@ -3,12 +3,12 @@
 
 #include "sqlSource.h"
 #include <Ice/BuiltinSequences.h>
+#include <command.h>
 #include <connectionPool.h>
 #include <db/sqlSelectDeserializer.h>
+#include <selectcommand.h>
 #include <slicer/slicer.h>
 #include <visibility.h>
-#include <command.h>
-#include <selectcommand.h>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
@@ -54,7 +54,7 @@ namespace IceTray {
 			bind(offset + 1, cmd, params...);
 		}
 
-		static void inline bind(int, DB::Command *) { }
+		static void inline bind(unsigned int, DB::Command *) { }
 
 		DB::ConnectionPoolPtr db;
 	};

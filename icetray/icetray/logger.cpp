@@ -8,7 +8,7 @@
 #include <lockHelpers.h>
 #include <slicer/modelPartsTypes.h>
 
-INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &);
+INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &)
 
 template class ::AdHoc::GlobalStatic<::IceTray::Logging::LogManager>;
 
@@ -62,23 +62,17 @@ namespace IceTray {
 				va_list v;
 				// NOLINTNEXTLINE(hicpp-vararg,hicpp-no-array-decay)
 				va_start(v, msgfmt);
+				char * msg;
 				// NOLINTNEXTLINE(hicpp-no-array-decay)
-				vmessagef(fl, priority, msgfmt, v);
+				int len = vasprintf(&msg, msgfmt, v);
+				if (len > 0) {
+					message(fl, priority, msg);
+				}
+				// NOLINTNEXTLINE(hicpp-no-malloc)
+				free(msg);
 				// NOLINTNEXTLINE(hicpp-no-array-decay)
 				va_end(v);
 			}
-		}
-
-		void
-		Logger::vmessagef(LogLevelWriters::const_iterator fl, LogLevel priority, const char * msgfmt, va_list va) const
-		{
-			char * msg;
-			int len = vasprintf(&msg, msgfmt, va);
-			if (len > 0) {
-				message(fl, priority, msg);
-			}
-			// NOLINTNEXTLINE(hicpp-no-malloc)
-			free(msg);
 		}
 
 		LogLevelWriters::const_iterator
@@ -86,7 +80,7 @@ namespace IceTray {
 		{
 			SharedLock(_lock);
 			auto i = logs.begin();
-			i += (int)priority;
+			i += static_cast<int>(priority);
 			while (i != logs.end()) {
 				if (!i->empty()) {
 					return i;
@@ -123,7 +117,7 @@ namespace IceTray {
 			for (const auto & log : logWriters) {
 				auto level = log->level(domain);
 				if (level) {
-					logs[(int)*level].insert(log);
+					logs[static_cast<size_t>(*level)].insert(log);
 				}
 			}
 			return logs;
@@ -217,7 +211,7 @@ namespace IceTray {
 		AbstractLogWriter::splitDomain(const std::string & domain)
 		{
 			if (domain.empty()) {
-				return Ice::StringSeq();
+				return {};
 			}
 
 			Ice::StringSeq domainTokens;
@@ -228,19 +222,20 @@ namespace IceTray {
 
 		AdHocFormatter(DomainFmt, ".%?");
 		void
-		AbstractLogWriter::writeDomain(std::ostream & s, ssize_t width, const IceTray::Logging::Domain & domain)
+		AbstractLogWriter::writeDomain(
+				std::ostream & s, std::optional<size_t> width, const IceTray::Logging::Domain & domain)
 		{
 			if (auto di = domain.begin(); di != domain.end()) {
-				if (width == -1) {
+				if (!width) {
 					s << *di++;
 					while (di != domain.end()) {
 						DomainFmt::write(s, *di++);
 					}
 				}
 				else {
-					auto target = width;
+					auto target = *width;
 					while (di != domain.end()) {
-						auto total = di == domain.begin() ? -1 : 0;
+						auto total = di == domain.begin() ? std::string::npos : 0;
 						for (auto dic = di; dic != domain.end(); dic++) {
 							total += 1 + dic->length();
 						}

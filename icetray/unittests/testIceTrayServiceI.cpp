@@ -93,5 +93,5 @@ namespace TestIceTray {
 		IceTray::Cube::add<TestIceTray::TestCube, TestIceTray::TestCubeI>();
 	}
 
-	NAMEDFACTORY("default", TestService, IceTray::ServiceFactory);
+	NAMEDFACTORY("default", TestService, IceTray::ServiceFactory)
 }

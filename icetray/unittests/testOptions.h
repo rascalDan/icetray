@@ -7,7 +7,7 @@ class DLL_PUBLIC TestOptions : public IceTray::Options {
 public:
 	TestOptions();
 
-	ICETRAY_OPTIONS_DECLARE;
+	ICETRAY_OPTIONS_DECLARE
 
 	int testInt;
 	std::string testString;

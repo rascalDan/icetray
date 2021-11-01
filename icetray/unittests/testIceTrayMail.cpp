@@ -103,7 +103,7 @@ const std::string html_content = "<html lang=\"en\">\r\n"
 								 "</head>\r\n"
 								 "<html>\r\n";
 
-BOOST_FIXTURE_TEST_SUITE(base, TestBase);
+BOOST_FIXTURE_TEST_SUITE(base, TestBase)
 
 BOOST_AUTO_TEST_CASE(single_part)
 {
@@ -165,14 +165,13 @@ BOOST_AUTO_TEST_CASE(send_real_mail_fail)
 	}
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_CASE(send_real_mail
 #ifndef COVERAGE
-		,
-		*boost::unit_test::disabled()
+BOOST_AUTO_TEST_CASE(send_real_mail, *boost::unit_test::disabled())
+#else
+BOOST_AUTO_TEST_CASE(send_real_mail)
 #endif
-)
 {
 	auto e = std::make_shared<Email>();
 	e->from = {__FUNCTION__, "dan@randomdan.homeip.net"};

@@ -27,7 +27,7 @@ public:
 	TestIceTray::TestIceTrayServicePrxPtr p;
 };
 
-BOOST_FIXTURE_TEST_SUITE(client, Client);
+BOOST_FIXTURE_TEST_SUITE(client, Client)
 
 BOOST_AUTO_TEST_CASE(services)
 {
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(getIceComponents)
 	BOOST_REQUIRE(getAdapter());
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_CASE(sqlModify)
 {

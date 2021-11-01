@@ -5,7 +5,7 @@ TestOptions::TestOptions() : IceTray::Options("Test options"), testInt(0) { }
 ICETRAY_OPTIONS(TestOptions,
 		("testInt", boost::program_options::value(&testInt), "testInt")("testString",
 				boost::program_options::value(&testString)->default_value("some string"),
-				"testString")("vec", boost::program_options::value(&testVec), "vector"));
+				"testString")("vec", boost::program_options::value(&testVec), "vector"))
 
 class TestOptionsInline : public IceTray::Options {
 public:
@@ -15,4 +15,4 @@ public:
 
 	int testInt {0};
 };
-FACTORY(TestOptionsInline, IceTray::OptionsFactory);
+FACTORY(TestOptionsInline, IceTray::OptionsFactory)

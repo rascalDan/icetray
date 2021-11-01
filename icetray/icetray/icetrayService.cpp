@@ -98,5 +98,5 @@ createIceTrayService(Ice::CommunicatorPtr ic)
 }
 }
 
-INSTANTIATEPLUGINOF(IceTray::ServiceFactory);
-INSTANTIATEFACTORY(DB::BasicConnectionPool, const std::string &, const std::string &, const Ice::PropertiesPtr &);
+INSTANTIATEPLUGINOF(IceTray::ServiceFactory)
+INSTANTIATEFACTORY(DB::BasicConnectionPool, const std::string &, const std::string &, const Ice::PropertiesPtr &)

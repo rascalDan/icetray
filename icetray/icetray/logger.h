@@ -66,7 +66,6 @@ namespace IceTray {
 
 		private:
 			void message(LogLevelWriters::const_iterator fl, LogLevel priority, const std::string & msg) const;
-			void vmessagef(LogLevelWriters::const_iterator fl, LogLevel priority, const char * msgfmt, va_list) const;
 			template<typename Arg, typename... OtherArgs>
 			void
 			messagebf(LogLevelWriters::const_iterator fl, LogLevel priority, boost::format & f, const Arg & arg,
@@ -119,7 +118,7 @@ namespace IceTray {
 
 		public:
 			static Domain splitDomain(const std::string &);
-			static void writeDomain(std::ostream &, ssize_t, const Domain &);
+			static void writeDomain(std::ostream &, std::optional<size_t>, const Domain &);
 		};
 
 		using LogWriterFactory = AdHoc::Factory<LogWriter, const Ice::PropertiesPtr &>;
@@ -136,7 +135,8 @@ namespace AdHoc {
 		static void
 		write(stream & s, ssize_t width, const IceTray::Logging::Domain & domain, const Pn &... pn)
 		{
-			IceTray::Logging::AbstractLogWriter::writeDomain(s, width, domain);
+			IceTray::Logging::AbstractLogWriter::writeDomain(
+					s, width >= 0 ? std::make_optional(width) : std::nullopt, domain);
 			StreamWriter::next(s, pn...);
 		}
 	};

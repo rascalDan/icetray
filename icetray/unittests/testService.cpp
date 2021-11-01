@@ -9,4 +9,4 @@ TestService::addObjects(
 	IceTray::OptionsResolver<TestOptions> myOpts;
 }
 
-FACTORY(TestService, IceTray::ServiceFactory);
+FACTORY(TestService, IceTray::ServiceFactory)

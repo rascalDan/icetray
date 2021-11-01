@@ -55,7 +55,7 @@ namespace IceTray::Mime {
 			else if (ch == ' ' || ch == '\t') {
 				if (nextCh == '\r' || nextCh == '\n') {
 					wrapIfNeeded(3);
-					fprintf(ms, "=%02X", (uint8_t)ch);
+					fprintf(ms, "=%02X", static_cast<uint8_t>(ch));
 					line += 3;
 				}
 				else {
@@ -71,7 +71,7 @@ namespace IceTray::Mime {
 			}
 			else {
 				wrapIfNeeded(3);
-				fprintf(ms, "=%02X", (uint8_t)ch);
+				fprintf(ms, "=%02X", static_cast<uint8_t>(ch));
 				line += 3;
 			}
 		}

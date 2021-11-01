@@ -62,7 +62,7 @@ namespace IceTray {
 #define ICETRAY_OPTIONS_DECLARE void ICETRAY_OPTIONS_FUNC override;
 #define ICETRAY_OPTIONS_INLINE(OptsDef) void ICETRAY_OPTIONS_FUNC override ICETRAY_OPTIONS_BODY(OptsDef)
 #define ICETRAY_OPTIONS(Class, OptsDef) \
-	FACTORY(Class, IceTray::OptionsFactory); \
+	FACTORY(Class, IceTray::OptionsFactory) \
 	void Class::ICETRAY_OPTIONS_FUNC ICETRAY_OPTIONS_BODY(OptsDef)
 
 #endif

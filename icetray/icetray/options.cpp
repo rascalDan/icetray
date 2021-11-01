@@ -1,8 +1,8 @@
 #include "options.h"
 #include <factory.impl.h>
 
-INSTANTIATEVOIDFACTORY(IceTray::Options);
-INSTANTIATEPLUGINOF(IceTray::Options);
+INSTANTIATEVOIDFACTORY(IceTray::Options)
+INSTANTIATEPLUGINOF(IceTray::Options)
 
 namespace po = boost::program_options;
 

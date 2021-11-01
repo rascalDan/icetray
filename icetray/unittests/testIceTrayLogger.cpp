@@ -35,7 +35,7 @@ public:
 
 	std::vector<LogEntry> msgs;
 };
-FACTORY(TestLogWriter, LogWriterFactory);
+FACTORY(TestLogWriter, LogWriterFactory)
 
 namespace std {
 	ostream &
@@ -103,7 +103,7 @@ private:
 	Ice::ObjectAdapterPtr adp;
 };
 
-BOOST_FIXTURE_TEST_SUITE(li, TestLogImpl);
+BOOST_FIXTURE_TEST_SUITE(li, TestLogImpl)
 
 BOOST_AUTO_TEST_CASE(no_writers)
 {
@@ -297,9 +297,9 @@ BOOST_AUTO_TEST_CASE(domains_fromProperties_badLevel)
 	BOOST_REQUIRE_THROW({ TestLogWriter tlw("TestLogWriter", p); }, Slicer::InvalidEnumerationSymbol);
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_FIXTURE_TEST_SUITE(ts, TestService);
+BOOST_FIXTURE_TEST_SUITE(ts, TestService)
 
 BOOST_AUTO_TEST_CASE(getLogger)
 {
@@ -322,7 +322,7 @@ BOOST_AUTO_TEST_CASE(getLoggerForType)
 	BOOST_REQUIRE_EQUAL(expected, logger->getDomain());
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_CASE(syslog)
 {

@@ -1,6 +1,7 @@
 #define BOOST_TEST_MODULE TestIceBoxInterface
 #include <boost/test/unit_test.hpp>
 
+#include <Ice/CommunicatorF.h>
 #include <dlfcn.h>
 #include <icetrayService.h>
 

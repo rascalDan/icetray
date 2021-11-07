@@ -1,7 +1,14 @@
 #include "icetrayService.h"
-#include <Ice/Ice.h>
+#include "connectionPool.h"
+#include "logger.h"
+#include <Ice/Communicator.h>
+#include <Ice/ObjectAdapter.h>
+#include <Ice/Optional.h>
+#include <Ice/Properties.h>
+#include <Ice/Proxy.h>
 #include <boost/assert.hpp>
 #include <factory.impl.h>
+#include <type_traits>
 #include <visibility.h>
 
 namespace IceTray {

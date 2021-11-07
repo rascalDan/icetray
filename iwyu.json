@@ -1,0 +1,85 @@
+[
+	{
+		"symbol": [
+			"BIO",
+			"private",
+			"<openssl/bio.h>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/test/(unit_test_suite|framework).hpp>",
+			"private",
+			"<boost/test/unit_test.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/test/(utils|tools|tree)/.*>",
+			"private",
+			"<boost/test/unit_test.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/format/(format_(class|implementation)|alt_sstream).hpp>",
+			"private",
+			"<boost/format.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/test/data/.*>",
+			"private",
+			"<boost/test/data/test_case.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/iostreams/detail/.*>",
+			"private",
+			"<boost/iostreams/stream.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"<boost/lambda/core.hpp>",
+			"private",
+			"<boost/lambda/lambda.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/lambda/detail/.*>",
+			"private",
+			"<boost/lambda/lambda.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/preprocessor/.*>",
+			"private",
+			"<boost/test/unit_test.hpp>",
+			"public"
+		]
+	},
+	{
+		"include": [
+			"@<boost/program_options/detail/.*>",
+			"private",
+			"<boost/program_options.hpp>",
+			"public"
+		]
+	},
+	{
+		"ref": "/usr/lib/llvm/12/share/include-what-you-use/boost-all-private.imp"
+	}
+]

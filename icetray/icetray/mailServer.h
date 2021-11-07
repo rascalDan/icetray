@@ -2,7 +2,9 @@
 #ifndef ICETRAY_MAILSERVER_H
 #define ICETRAY_MAILSERVER_H
 
+#include <cstdio>
 #include <mail.h>
+#include <string>
 #include <visibility.h>
 
 namespace IceTray {

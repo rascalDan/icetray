@@ -1,8 +1,10 @@
 #include "dryice.h"
 #include <Ice/Initialize.h>
 #include <Ice/ObjectAdapter.h>
+#include <Ice/ObjectAdapterF.h>
+#include <Ice/Properties.h>
+#include <Ice/PropertiesF.h>
 #include <boost/assert.hpp>
-#include <factory.h>
 
 namespace IceTray {
 	DryIce * DryIce::currentDryIce = nullptr;

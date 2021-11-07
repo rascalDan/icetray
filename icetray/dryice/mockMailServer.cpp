@@ -1,4 +1,6 @@
 #include "mockMailServer.h"
+#include <mail.h>
+#include <mockMail.h>
 
 namespace IceTray::Mail {
 	void

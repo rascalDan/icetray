@@ -1,5 +1,14 @@
 #include "options.h"
+#include <algorithm>
+#include <boost/program_options/errors.hpp>
+#include <boost/program_options/option.hpp>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/variables_map.hpp>
 #include <factory.impl.h>
+#include <set>
+#include <utility>
+#include <vector>
+// IWYU pragma: no_include <boost/smart_ptr/shared_ptr.hpp>
 
 INSTANTIATEVOIDFACTORY(IceTray::Options)
 INSTANTIATEPLUGINOF(IceTray::Options)

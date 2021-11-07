@@ -2,12 +2,22 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
 
+#include <cstdint>
+#include <cstdio>
 #include <definedDirs.h>
 #include <fileUtils.h>
+#include <iosfwd>
+#include <mail.h>
 #include <mailServer.h>
+#include <memory>
 #include <memstream.h>
+#include <mime.h>
 #include <mimeImpl.h>
 #include <mockMailServer.h>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <vector>
 
 using namespace std::string_literals;
 using namespace IceTray::Mime;

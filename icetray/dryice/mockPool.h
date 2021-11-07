@@ -3,7 +3,9 @@
 
 #include <Ice/Properties.h>
 #include <connectionPool.h>
-#include <mockDatabase.h>
+#include <connection_fwd.h>
+#include <string>
+#include <visibility.h>
 
 namespace IceTray {
 	class DLL_PUBLIC MockPool : public DB::BasicConnectionPool {

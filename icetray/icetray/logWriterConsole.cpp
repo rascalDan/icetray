@@ -1,6 +1,13 @@
 #include "logWriterConsole.h"
+#include <compileTimeFormatter.h>
+#include <factory.h>
+#include <iostream>
 #include <logWriter.h>
+#include <memory>
 #include <slicer/modelPartsTypes.h>
+namespace Ice {
+	struct Current;
+}
 
 // NOLINTNEXTLINE(modernize-concat-nested-namespaces)
 namespace IceTray {

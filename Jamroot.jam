@@ -56,6 +56,7 @@ project
 		<toolset>tidy:<define>ICE_IGNORE_VERSION
 		<toolset>tidy:<librarydef>boost
 		<toolset>tidy:<librarydef>std
+		<toolset>tidy:<mapping>iwyu.json
 		;
 
 build-project icetray ;

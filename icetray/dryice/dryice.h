@@ -3,10 +3,18 @@
 
 #include "icecube.h"
 #include "icetrayService.h"
+#include <Ice/BuiltinSequences.h>
 #include <Ice/Communicator.h>
-#include <IceBox/IceBox.h>
+#include <Ice/ObjectAdapter.h>
+#include <Ice/ObjectF.h>
+#include <Ice/Proxy.h>
 #include <c++11Helpers.h>
+#include <memory>
+#include <string>
+#include <typeinfo>
+#include <utility>
 #include <visibility.h>
+// IWYU pragma: no_include "plugins.impl.h"
 
 namespace IceTray {
 	class DLL_PUBLIC DryIce : private Cube {

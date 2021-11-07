@@ -1,12 +1,16 @@
 #define BOOST_TEST_MODULE TestIceTray
 #include <boost/test/unit_test.hpp>
 
+#include "testIceTrayService.h"
 #include "testIceTrayServiceI.h"
-#include <Ice/Communicator.h>
+#include <Ice/Config.h>
 #include <dryice.h>
-
-#include <definedDirs.h>
-#include <pq-mock.h>
+#include <memory>
+#include <string>
+// IWYU pragma: no_include "plugins.impl.h"
+namespace Ice {
+	struct Current;
+}
 
 namespace TestIceTray {
 	class DummyTestIceTrayServiceI : public TestIceTrayService {

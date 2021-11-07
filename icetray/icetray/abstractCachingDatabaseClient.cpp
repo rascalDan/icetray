@@ -1,5 +1,7 @@
 #include "abstractCachingDatabaseClient.h"
 #include <cache.impl.h>
+#include <connectionPool.h>
+#include <visibility.h>
 
 template DLL_PUBLIC void
 AdHoc::Cache<IceTray::AbstractCachingDatabaseClient::CacheItem, IceTray::AbstractCachingDatabaseClient::CacheKey>::add(

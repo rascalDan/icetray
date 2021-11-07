@@ -1,5 +1,9 @@
 #include "logWriterSyslog.h"
+#include <compileTimeFormatter.h>
+#include <factory.h>
 #include <logWriter.h>
+#include <memory>
+#include <string>
 #include <syslog.h>
 
 // NOLINTNEXTLINE(modernize-concat-nested-namespaces)

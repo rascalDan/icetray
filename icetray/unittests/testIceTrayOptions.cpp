@@ -2,11 +2,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include "dryice.h"
-#include "icetrayService.h"
 #include "testOptions.h"
-#include <Ice/Communicator.h>
-#include <Ice/Initialize.h>
-#include <Ice/ObjectAdapter.h>
+#include <Ice/BuiltinSequences.h>
+#include <options.h>
+#include <string>
+#include <vector>
 
 //
 // TestService is pulled in from libtestService.so

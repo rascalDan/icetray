@@ -1,17 +1,38 @@
+#include <algorithm>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/constants.hpp>
+#include <boost/algorithm/string/detail/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/core/addressof.hpp>
+#include <boost/detail/basic_pointerbuf.hpp>
+#include <boost/function/function_base.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/lexical_cast/bad_lexical_cast.hpp>
 #include <boost/program_options.hpp>
+#include <boost/program_options/errors.hpp>
+#include <boost/program_options/options_description.hpp>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/positional_options.hpp>
+#include <boost/program_options/value_semantic.hpp>
+#include <boost/program_options/variables_map.hpp>
+#include <boost/type_index/type_index_facade.hpp>
+#include <chrono>
 #include <compileTimeFormatter.h>
 #include <filesystem>
-#include <fstream>
+#include <fstream> // IWYU pragma: keep
 #include <iostream>
+#include <iterator>
+#include <string>
+#include <vector>
 
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
 
 AdHocFormatter(CPPHeader,
 		R"C(#include "%?.h"
+#include <staticSqlSource.h>
+#include <string>
 
 const IceTray::StaticSqlSource )C");
 AdHocFormatter(CPPNS, "%?::");

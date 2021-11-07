@@ -2,9 +2,20 @@
 #define ICETRAY_ABSTRACTCACHINGDATABASECLIENT_H
 
 #include "abstractDatabaseClient.h"
+#include "sqlSource.h"
 #include <any>
-#include <cache.h>
+#include <cache.h> // IWYU pragma: keep
+#include <command.h>
+#include <command_fwd.h>
+#include <connectionPool.h>
+#include <ctime>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <typeinfo>
+#include <vector>
+#include <visibility.h>
+// IWYU pragma: no_include "cache.impl.h"
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractCachingDatabaseClient : public AbstractDatabaseClient {

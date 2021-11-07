@@ -5,13 +5,28 @@
 #include <Ice/Communicator.h>
 #include <Ice/Initialize.h>
 #include <Ice/ObjectAdapter.h>
+#include <Ice/Optional.h>
+#include <Ice/Properties.h>
+#include <Ice/PropertiesF.h>
+#include <Ice/Proxy.h>
 #include <boost/format.hpp>
 #include <compileTimeFormatter.h>
-#include <icetrayService.h>
+#include <factory.h>
+#include <logWriter.h>
 #include <logWriterConsole.h>
 #include <logger.h>
-#include <slicer/common.h>
+#include <memory>
+#include <slicer/common.h> // IWYU pragma: keep
 #include <slicer/modelPartsTypes.h>
+#include <string>
+#include <string_view>
+#include <vector>
+namespace Ice {
+	struct Current;
+}
+namespace IceTray {
+	class Service;
+}
 
 using namespace IceTray::Logging;
 

@@ -1,5 +1,5 @@
 #include "sqlSource.h"
-#include <command.h>
+#include <command_fwd.h>
 #include <connection.h>
 
 namespace IceTray {

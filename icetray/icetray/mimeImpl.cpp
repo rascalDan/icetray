@@ -1,7 +1,14 @@
 #include "mimeImpl.h"
+#include "mime.h"
+#include "stream_support.h"
+#include <algorithm>
+#include <cstdint>
+#include <map>
+#include <memory>
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <string_view>
+#include <utility>
 
 namespace IceTray::Mime {
 	static const char * const DIVIDER = "//divider//";

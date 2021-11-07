@@ -1,9 +1,18 @@
 #ifndef TEST_ICETRAY_SERVICE_IMPL_H
 #define TEST_ICETRAY_SERVICE_IMPL_H
 
+#include <Ice/BuiltinSequences.h>
+#include <Ice/CommunicatorF.h>
+#include <Ice/Config.h>
+#include <Ice/ObjectAdapterF.h>
 #include <abstractCachingDatabaseClient.h>
+#include <connectionPool.h>
 #include <icetrayService.h>
+#include <string>
 #include <testIceTrayService.h>
+namespace Ice {
+	struct Current;
+}
 
 namespace TestIceTray {
 	class TestIceTrayServiceI : IceTray::AbstractCachingDatabaseClient, public TestIceTrayService {

@@ -3,6 +3,7 @@
 
 #include <Ice/Properties.h>
 #include <connectionPool.h>
+#include <string>
 
 namespace IceTray {
 	class DefaultPool : public DB::ConnectionPool {

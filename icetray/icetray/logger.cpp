@@ -1,12 +1,29 @@
 #include "logger.h"
+#include "logWriter.h"
+#include <Ice/BuiltinSequences.h>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/constants.hpp>
+#include <boost/algorithm/string/detail/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/split.hpp>
-#include <buffer.h>
+#include <boost/core/addressof.hpp>
+#include <boost/format.hpp>
+#include <boost/function/function_base.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/type_index/type_index_facade.hpp>
+#include <compileTimeFormatter.h>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cxxabi.h>
 #include <factory.impl.h>
 #include <globalStatic.impl.h>
+#include <iterator>
 #include <lockHelpers.h>
+#include <mutex>
 #include <slicer/modelPartsTypes.h>
+#include <utility>
+#include <vector>
 
 INSTANTIATEFACTORY(IceTray::Logging::LogWriter, const Ice::PropertiesPtr &)
 

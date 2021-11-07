@@ -1,6 +1,12 @@
 #include "mockPool.h"
-#include "icetrayService.h"
+#include <Ice/PropertiesF.h>
+#include <connectionPool.h>
+#include <connection_fwd.h>
 #include <factory.impl.h>
+#include <icetrayService.h>
+#include <memory>
+#include <mockDatabase.h>
+#include <utility>
 
 namespace IceTray {
 	MockPool::MockPool(const std::string & name, const std::string &, const Ice::PropertiesPtr & p) :

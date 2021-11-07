@@ -2,6 +2,9 @@
 #define ICETRAY_TEST_TESTOPTIONS_H
 
 #include <options.h>
+#include <string>
+#include <vector>
+#include <visibility.h>
 
 class DLL_PUBLIC TestOptions : public IceTray::Options {
 public:

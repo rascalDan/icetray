@@ -5,10 +5,17 @@
 #include <Ice/BuiltinSequences.h>
 #include <command.h>
 #include <connectionPool.h>
-#include <db/sqlSelectDeserializer.h>
-#include <selectcommand.h>
+#include <db/sqlSelectDeserializer.h> // IWYU pragma: keep
+#include <memory>
+#include <optional>
+#include <resourcePool.impl.h>
+#include <selectcommand.h> // IWYU pragma: keep
 #include <slicer/slicer.h>
+#include <string>
 #include <visibility.h>
+namespace DB {
+	class Connection;
+}
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {

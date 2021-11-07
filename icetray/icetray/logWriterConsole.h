@@ -1,7 +1,15 @@
 #ifndef ICETRAY_LOGGING_CONSOLE_H
 #define ICETRAY_LOGGING_CONSOLE_H
 
+#include "logWriter.h"
 #include "logger.h"
+#include <Ice/Properties.h>
+#include <iosfwd>
+#include <string_view>
+#include <visibility.h>
+namespace Ice {
+	struct Current;
+}
 
 namespace IceTray {
 	namespace Logging {

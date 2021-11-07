@@ -1,15 +1,18 @@
 #define BOOST_TEST_MODULE TestIceTray
 #include <boost/test/unit_test.hpp>
 
-#include "testIceTrayServiceI.h"
-#include <Ice/Communicator.h>
+#include "testIceTrayService.h"
+#include <Ice/Proxy.h>
+#include <definedDirs.h>
 #include <dryice.h>
+#include <filesystem>
+#include <icecube.h>
+#include <icetrayService.h>
+#include <memory>
 #include <mockDatabase.h>
+#include <pq-mock.h>
 #include <staticSqlSource.h>
 #include <testIceTrayServiceTestSql.sql.h>
-
-#include <definedDirs.h>
-#include <pq-mock.h>
 
 class Service : public IceTray::DryIce, DB::PluginMock<PQ::Mock> {
 public:

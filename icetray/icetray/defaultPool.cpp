@@ -1,5 +1,11 @@
 #include "defaultPool.h"
 #include "icetrayService.h"
+#include <Ice/Properties.h>
+#include <Ice/PropertiesF.h>
+#include <connectionPool.h>
+#include <factory.h>
+#include <memory>
+#include <string>
 
 namespace IceTray {
 	DefaultPool::DefaultPool(const std::string & name, const std::string & type, const Ice::PropertiesPtr & p) :

@@ -2,9 +2,14 @@
 #define ICETRAY_OPTIONS_H
 
 #include <Ice/Properties.h>
-#include <boost/program_options.hpp>
+#include <boost/program_options/options_description.hpp>
 #include <c++11Helpers.h>
 #include <factory.h>
+#include <iosfwd>
+#include <memory>
+#include <plugins.impl.h>
+#include <string>
+#include <typeinfo>
 #include <visibility.h>
 
 namespace IceTray {

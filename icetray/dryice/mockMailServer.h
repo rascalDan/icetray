@@ -1,8 +1,10 @@
 #ifndef ICETRAY_MOCKMAILSERVER_H
 #define ICETRAY_MOCKMAILSERVER_H
 
+#include <mail.h>
 #include <mailServer.h>
 #include <mockMail.h>
+#include <visibility.h>
 
 namespace IceTray {
 	namespace Mail {

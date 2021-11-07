@@ -1,9 +1,18 @@
 #ifndef ICETRAY_MIME_IMPL_H
 #define ICETRAY_MIME_IMPL_H
 
-#include <mime.h>
+#include "mime.h"
+#include <Ice/Config.h>
+#include <cstdint>
+#include <cstdio>
+#include <string>
+#include <string_view>
+#include <vector>
 #include <visibility.h>
 
+namespace IceTray {
+	class StreamPtr;
+}
 namespace IceTray::Mime {
 	class DLL_PUBLIC PartHelper {
 	protected:

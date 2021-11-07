@@ -1,5 +1,8 @@
 #include "testService.h"
 #include "testOptions.h"
+#include <factory.h>
+#include <icetrayService.h>
+#include <options.h>
 
 void
 TestService::addObjects(

@@ -1,15 +1,29 @@
 #include "testIceTrayServiceI.h"
 #include "icecube.h"
+#include "testIceTrayService.h"
 #include <Ice/Communicator.h>
-#include <Ice/Initialize.h>
 #include <Ice/ObjectAdapter.h>
+#include <Ice/Optional.h>
+#include <abstractCachingDatabaseClient.h>
 #include <boost/assert.hpp>
-#include <boost/test/test_tools.hpp>
+#include <boost/test/unit_test.hpp>
+#include <command.h>
+#include <connectionPool.h>
 #include <factory.h>
+#include <icetrayService.h>
+#include <iosfwd>
+#include <memory>
+#include <optional>
+#include <staticSqlSource.h>
 #include <subdir/a/more.sql.h>
 #include <subdir/some.sql.h>
 #include <testIceTrayServiceTestSql.sql.h>
+// IWYU pragma: no_include "plugins.impl.h"
+// IWYU pragma: no_include "resourcePool.impl.h"
 
+namespace Ice {
+	struct Current;
+}
 class Foo {
 };
 

@@ -1,6 +1,7 @@
 #include "abstractDatabaseClient.h"
-#include "Ice/Config.h"
-#include "IceUtil/Optional.h"
+#include <command.h>
+#include <connectionPool.h>
+#include <utility>
 
 namespace IceTray {
 	AbstractDatabaseClient::AbstractDatabaseClient(DB::ConnectionPoolPtr d) : db(std::move(d)) { }

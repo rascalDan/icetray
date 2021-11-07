@@ -3,9 +3,11 @@
 
 #include <c++11Helpers.h>
 #include <command_fwd.h>
-#include <connection_fwd.h>
 #include <string>
 #include <visibility.h>
+namespace DB {
+	class Connection;
+}
 
 namespace IceTray {
 	class DLL_PUBLIC SqlSource {

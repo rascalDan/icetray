@@ -1,21 +1,32 @@
 #ifndef ICETRAY_LOGGING_H
 #define ICETRAY_LOGGING_H
 
+#include <Ice/Optional.h>
 #include <Ice/Properties.h>
+#include <array>
 #include <boost/format/format_fwd.hpp>
 #include <buffer.h>
 #include <c++11Helpers.h>
 #include <compileTimeFormatter.h>
+#include <cstddef>
 #include <factory.h>
-#include <globalStatic.h>
 #include <logWriter.h>
 #include <map>
+#include <memory>
+#include <optional>
+#include <set>
 #include <shared_mutex>
+#include <string>
+#include <sys/types.h>
+#include <type_traits>
+#include <typeinfo>
 #include <visibility.h>
+namespace Ice {
+	struct Current;
+}
 
 namespace IceTray {
 	namespace Logging {
-		class LogManager;
 		class LoggerBase;
 
 		using LogWriters = std::set<LogWriterPrxPtr>;

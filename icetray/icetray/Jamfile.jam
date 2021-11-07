@@ -7,8 +7,15 @@ iceobj logWriter : logWriter.ice ;
 iceobj mime : mime.ice ;
 iceobj mail : mail.ice ;
 lib icetray :
-	[ glob *.cpp *.ice : mime.ice mail.ice ]
+	[ glob *.cpp ]
 	logWriter mime mail
+	[ obj logWriter : logWriter.ice :
+		<slicer>pure
+		<include>.
+		<toolset>tidy:<checker>none
+		<implicit-dependency>logWriter
+		<use>..//adhocutil
+		<use>..//slicer ]
 	:
 	<library>..//adhocutil
 	<library>..//dbppcore
@@ -22,7 +29,6 @@ lib icetray :
 	<library>esmtp
 	<library>../..//openssl
 	<implicit-dependency>logWriter
-	<slicer>pure
 	<include>.
 	<toolset>tidy:<xcheckxx>hicpp-vararg
 	: :

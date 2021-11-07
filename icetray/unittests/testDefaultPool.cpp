@@ -3,11 +3,11 @@
 
 #include <Ice/Initialize.h>
 #include <Ice/Properties.h>
+#include <connection.h>
 #include <connectionPool.h>
-#include <error.h>
-#include <factory.h>
-#include <factory.impl.h>
 #include <icetrayService.h>
+#include <memory>
+#include <resourcePool.impl.h>
 
 BOOST_AUTO_TEST_CASE(defaultPool)
 {

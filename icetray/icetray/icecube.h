@@ -4,7 +4,18 @@
 #include "icetrayService.h"
 #include <Ice/Initialize.h>
 #include <Ice/ObjectAdapter.h>
-#include <plugins.h>
+#include <Ice/Proxy.h>
+#include <Ice/ProxyF.h>
+#include <memory>
+#include <plugins.h> // IWYU pragma: keep
+#include <string>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+// IWYU pragma: no_include "plugins.impl.h"
+namespace Ice {
+	class Object;
+}
 
 namespace IceTray {
 	class CubePlugIn : public AdHoc::AbstractPluginImplementation {

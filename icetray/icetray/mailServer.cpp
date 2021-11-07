@@ -1,6 +1,12 @@
 #include "mailServer.h"
+#include "mail.h"
+#include "mime.h"
+#include <array>
 #include <libesmtp.h>
+#include <memory>
 #include <memstream.h>
+#include <ostream>
+#include <utility>
 
 namespace IceTray::Mail {
 	LibesmtpMailServer::LibesmtpMailServer(std::string s) : server(std::move(s)) { }

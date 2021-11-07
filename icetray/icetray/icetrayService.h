@@ -1,12 +1,20 @@
 #ifndef ICETRAY_SERVICE_H
 #define ICETRAY_SERVICE_H
 
-#include "logger.h"
+#include "logWriter.h"
 #include "options.h"
+#include <Ice/BuiltinSequences.h>
+#include <Ice/CommunicatorF.h>
+#include <Ice/ObjectAdapterF.h>
+#include <Ice/PropertiesF.h>
 #include <IceBox/IceBox.h>
 #include <c++11Helpers.h>
 #include <connectionPool.h>
 #include <factory.h>
+#include <memory>
+#include <plugins.h>
+#include <set>
+#include <string>
 #include <visibility.h>
 
 namespace IceTray {

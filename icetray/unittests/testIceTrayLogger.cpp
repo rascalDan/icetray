@@ -21,6 +21,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+// IWYU pragma: no_include "plugins.impl.h"
 namespace Ice {
 	struct Current;
 }

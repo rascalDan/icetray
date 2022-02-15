@@ -7,9 +7,7 @@
 #include <boost/algorithm/string/detail/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/split.hpp>
-#include <boost/core/addressof.hpp>
 #include <boost/format.hpp>
-#include <boost/function/function_base.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/type_index/type_index_facade.hpp>
 #include <compileTimeFormatter.h>

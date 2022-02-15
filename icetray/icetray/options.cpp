@@ -1,5 +1,4 @@
 #include "options.h"
-#include <algorithm>
 #include <boost/program_options/errors.hpp>
 #include <boost/program_options/option.hpp>
 #include <boost/program_options/parsers.hpp>

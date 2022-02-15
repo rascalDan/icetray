@@ -10,12 +10,12 @@
 #include <IceBox/IceBox.h>
 #include <c++11Helpers.h>
 #include <connectionPool.h>
-#include <factory.h>
+#include <factory.h> // IWYU pragma: keep
 #include <memory>
-#include <plugins.h>
 #include <set>
 #include <string>
 #include <visibility.h>
+// IWYU pragma: no_include "factory.impl.h"
 
 namespace IceTray {
 	class DLL_PUBLIC Service : public IceBox::Service, public AdHoc::AbstractPluginImplementation {

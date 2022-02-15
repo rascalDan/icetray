@@ -10,6 +10,7 @@
 #include <Ice/Proxy.h>
 #include <c++11Helpers.h>
 #include <memory>
+#include <plugins.h>
 #include <string>
 #include <typeinfo>
 #include <utility>

@@ -6,6 +6,7 @@
 #include <factory.h>
 #include <memory>
 #include <string>
+// IWYU pragma: no_include "plugins.impl.h"
 
 namespace IceTray {
 	DefaultPool::DefaultPool(const std::string & name, const std::string & type, const Ice::PropertiesPtr & p) :

@@ -16,6 +16,8 @@
 #include <vector>
 #include <visibility.h>
 // IWYU pragma: no_include "cache.impl.h"
+// IWYU pragma: no_include <boost/multi_index/detail/bidir_node_iterator.hpp>
+// IWYU pragma: no_include <boost/operators.hpp>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractCachingDatabaseClient : public AbstractDatabaseClient {

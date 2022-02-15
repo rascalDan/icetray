@@ -4,13 +4,13 @@
 #include <Ice/Properties.h>
 #include <boost/program_options/options_description.hpp>
 #include <c++11Helpers.h>
-#include <factory.h>
+#include <factory.h> // IWYU pragma: keep
 #include <iosfwd>
 #include <memory>
-#include <plugins.impl.h>
 #include <string>
 #include <typeinfo>
 #include <visibility.h>
+// IWYU pragma: no_include "factory.impl.h"
 
 namespace IceTray {
 	using OptionsDescPtr = std::shared_ptr<boost::program_options::options_description>;

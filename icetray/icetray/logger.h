@@ -9,7 +9,7 @@
 #include <c++11Helpers.h>
 #include <compileTimeFormatter.h>
 #include <cstddef>
-#include <factory.h>
+#include <factory.h> // IWYU pragma: keep
 #include <logWriter.h>
 #include <map>
 #include <memory>
@@ -18,9 +18,10 @@
 #include <shared_mutex>
 #include <string>
 #include <sys/types.h>
-#include <type_traits>
 #include <typeinfo>
 #include <visibility.h>
+// IWYU pragma: no_include "factory.impl.h"
+// IWYU pragma: no_include <boost/test/unit_test.hpp>
 namespace Ice {
 	struct Current;
 }

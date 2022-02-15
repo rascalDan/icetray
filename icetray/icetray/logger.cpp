@@ -1,6 +1,7 @@
 #include "logger.h"
 #include "logWriter.h"
 #include <Ice/BuiltinSequences.h>
+#include <algorithm>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/constants.hpp>
 #include <boost/algorithm/string/detail/classification.hpp>
@@ -216,10 +217,12 @@ namespace IceTray {
 		IceUtil::Optional<LogLevel>
 		AbstractLogWriter::level(Domain domain, const Ice::Current &)
 		{
-			for (auto d = logDomains.rbegin(); d != logDomains.rend(); d++) {
-				if (boost::algorithm::starts_with(domain, d->first)) {
-					return d->second;
-				}
+			if (const auto d = std::find_if(logDomains.rbegin(), logDomains.rend(),
+						[&domain](const auto & d) {
+							return boost::algorithm::starts_with(domain, d.first);
+						});
+					d != logDomains.rend()) {
+				return d->second;
 			}
 			return IceUtil::None;
 		}

@@ -2,6 +2,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/constants.hpp>
 #include <boost/algorithm/string/detail/classification.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/detail/basic_pointerbuf.hpp>
@@ -102,9 +103,8 @@ main(int argc, char ** argv)
 	std::ofstream hout(h);
 
 	CPPHeader::write(cppout, sql.filename().string());
-	std::for_each(sqlnsparts.begin(), sqlnsparts.end(), [&cppout](const auto & nsp) {
-		CPPNS::write(cppout, nsp);
-	});
+	const auto fullns {boost::algorithm::join(sqlnsparts, "::")};
+	CPPNS::write(cppout, fullns);
 	CPPOpen::write(cppout, sql.stem().string());
 	std::string buf;
 	std::stringstream map;
@@ -133,13 +133,9 @@ main(int argc, char ** argv)
 	CPPFooter::write(cppout);
 
 	HHeader::write(hout);
-	std::for_each(sqlnsparts.begin(), sqlnsparts.end(), [&hout](const auto & nsp) {
-		OpenNamespace::write(hout, nsp);
-	});
+	OpenNamespace::write(hout, fullns);
 	HDeclartion::write(hout, sql.stem().string());
-	std::for_each(sqlnsparts.begin(), sqlnsparts.end(), [&hout](const auto & nsp) {
-		CloseNamespace::write(hout, nsp);
-	});
+	CloseNamespace::write(hout, fullns);
 	HFooter::write(hout);
 
 	return 0;

@@ -12,6 +12,7 @@ namespace IceTray {
 		public:
 			void sendEmail(const EmailPtr & msg) override;
 			Emails getSentEmails() override;
+			void clear() override;
 
 		private:
 			Emails sentEmails;

@@ -157,6 +157,8 @@ BOOST_AUTO_TEST_CASE(mock_mail_server)
 	auto sent = mms.getSentEmails();
 	BOOST_CHECK_EQUAL(1, sent.size());
 	BOOST_CHECK_EQUAL(sent.front(), e);
+	mms.clear();
+	BOOST_CHECK(mms.getSentEmails().empty());
 }
 
 BOOST_AUTO_TEST_CASE(send_real_mail_fail)

@@ -9,6 +9,7 @@ module IceTray {
 		local sequence<Email> Emails;
 		local interface MockMailServer extends MailServer {
 			Emails getSentEmails();
+			void clear();
 		};
 	};
 };

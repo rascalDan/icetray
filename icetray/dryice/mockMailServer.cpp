@@ -14,4 +14,10 @@ namespace IceTray::Mail {
 	{
 		return sentEmails;
 	}
+
+	void
+	MockMailServerImpl::clear()
+	{
+		sentEmails.clear();
+	}
 }

@@ -13,6 +13,7 @@
 #include <memstream.h>
 #include <mime.h>
 #include <mimeImpl.h>
+#include <mockMail.h>
 #include <mockMailServer.h>
 #include <string>
 #include <string_view>

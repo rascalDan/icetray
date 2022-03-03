@@ -19,7 +19,7 @@ namespace DB {
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractDatabaseClient {
-	protected:
+	public:
 		explicit AbstractDatabaseClient(DB::ConnectionPoolPtr d);
 
 		template<typename Domain, typename... Params>
@@ -54,6 +54,7 @@ namespace IceTray {
 			return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s.get(), typeIdCol);
 		}
 
+	protected:
 		template<typename Param, typename... Params>
 		static void inline bind(unsigned int offset, DB::Command * cmd, const Param & p, const Params &... params)
 		{

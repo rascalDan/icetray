@@ -25,7 +25,7 @@ namespace IceTray {
 		using CacheKey = std::vector<std::size_t>;
 		using CacheItem = std::any;
 
-	protected:
+	public:
 		explicit AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d);
 
 		template<typename Domain, typename... Params>

@@ -51,7 +51,7 @@ namespace IceTray {
 				const Params &... params)
 		{
 			auto s = sql.select(c);
-			bind(0, s.get(), params...);
+			bind(s.get(), params...);
 			return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s.get(), typeIdCol);
 		}
 
@@ -68,19 +68,16 @@ namespace IceTray {
 		modify(DB::Connection * c, const SqlSource & sql, const Params &... params)
 		{
 			auto s = sql.modify(c);
-			bind(0, s.get(), params...);
+			bind(s.get(), params...);
 			return s->execute();
 		}
 
 	protected:
-		template<typename Param, typename... Params>
-		static void inline bind(unsigned int offset, DB::Command * cmd, const Param & p, const Params &... params)
+		template<typename... Params> static void inline bind(DB::Command * cmd, const Params &... params)
 		{
-			cmd->bindParam(offset, p);
-			bind(offset + 1, cmd, params...);
+			unsigned int offset {};
+			(cmd->bindParam(offset++, params), ...);
 		}
-
-		static void inline bind(unsigned int, DB::Command *) { }
 
 		DB::ConnectionPoolPtr db;
 	};

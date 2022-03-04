@@ -72,20 +72,13 @@ namespace IceTray {
 				const auto fl = firstFor(priority);
 				if (fl != logs.end()) {
 					auto fmt = AdHoc::Buffer::getFormat(msgfmt);
-					messagebf(fl, priority, fmt, args...);
+					(fmt % ... % args);
+					messagebf(fl, priority, fmt);
 				}
 			}
 
 		private:
 			void message(LogLevelWriters::const_iterator fl, LogLevel priority, const std::string & msg) const;
-			template<typename Arg, typename... OtherArgs>
-			void
-			messagebf(LogLevelWriters::const_iterator fl, LogLevel priority, boost::format & f, const Arg & arg,
-					const OtherArgs &... otherargs) const
-			{
-				f % arg;
-				messagebf(fl, priority, f, otherargs...);
-			}
 			void messagebf(LogLevelWriters::const_iterator fl, LogLevel priority, const boost::format & f) const;
 
 			LogLevelWriters::const_iterator firstFor(LogLevel priority) const;

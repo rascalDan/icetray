@@ -16,9 +16,4 @@ namespace IceTray {
 		AbstractDatabaseClient(d)
 	{
 	}
-
-	void
-	AbstractCachingDatabaseClient::keyPushParams(CacheKey &)
-	{
-	}
 }

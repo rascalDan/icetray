@@ -18,6 +18,7 @@
 // IWYU pragma: no_include "cache.impl.h"
 // IWYU pragma: no_include <boost/multi_index/detail/bidir_node_iterator.hpp>
 // IWYU pragma: no_include <boost/operators.hpp>
+// IWYU pragma: no_include <variant>
 
 namespace IceTray {
 	class DLL_PUBLIC AbstractCachingDatabaseClient : public AbstractDatabaseClient {
@@ -32,11 +33,8 @@ namespace IceTray {
 		inline Domain
 		fetchCache(const SqlSource & sql, time_t cacheTime, const Params &... params)
 		{
-			CacheKey key;
-			key.reserve(sizeof...(Params) + 2);
-			key.push_back(*sql.getCommandOptions()->hash);
-			key.push_back(typeid(Domain).hash_code());
-			keyPushParams(key, params...);
+			const CacheKey key {sql.getCommandOptions()->hash.value_or(0), typeid(Domain).hash_code(),
+					(std::hash<Params>()(params))...};
 			if (auto cached = cache.get(key)) {
 				return std::any_cast<Domain>(*cached);
 			}
@@ -46,15 +44,6 @@ namespace IceTray {
 		}
 
 	private:
-		template<typename Param, typename... Params>
-		static void inline keyPushParams(CacheKey & k, const Param & p, const Params &... params)
-		{
-			k.push_back(std::hash<Param>()(p));
-			keyPushParams(k, params...);
-		}
-
-		static void keyPushParams(CacheKey &);
-
 		using Cache = AdHoc::Cache<CacheItem, CacheKey>;
 		Cache cache;
 	};

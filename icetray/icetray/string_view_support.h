@@ -1,9 +1,14 @@
 #ifndef ICETRAY_STRING_VIEW_SUPPORT_H
 #define ICETRAY_STRING_VIEW_SUPPORT_H
 
-#include <Ice/OutputStream.h>
+#include <Ice/Exception.h> // IWYU pragma: keep
+#include <Ice/Object.h> // IWYU pragma: keep
 #include <Ice/StreamHelpers.h>
+#include <cstddef>
 #include <string_view>
+namespace Ice {
+	template<typename T, Ice::StreamHelperCategory st> struct StreamHelper;
+}
 
 namespace Ice {
 	template<> struct StreamableTraits<std::string_view> {

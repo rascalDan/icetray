@@ -53,6 +53,7 @@ run
 	testIceTrayService
 	testIceTrayServiceI.cpp
 	testIceTrayServiceTestSql.sql
+	testIceTrayServiceTestSqlUpdate.sql
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :
@@ -77,6 +78,7 @@ run
 	testIceTrayService
 	testIceTrayServiceI.cpp
 	testIceTrayServiceTestSql.sql
+	testIceTrayServiceTestSqlUpdate.sql
 	subdir/some.sql
 	subdir/a/more.sql
 	: : :

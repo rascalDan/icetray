@@ -18,6 +18,7 @@
 #include <subdir/a/more.sql.h>
 #include <subdir/some.sql.h>
 #include <testIceTrayServiceTestSql.sql.h>
+#include <testIceTrayServiceTestSqlUpdate.sql.h>
 // IWYU pragma: no_include "plugins.impl.h"
 // IWYU pragma: no_include "resourcePool.impl.h"
 
@@ -86,6 +87,12 @@ namespace TestIceTray {
 	{
 		BOOST_VERIFY((fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name))
 				== (fetchCache<int>(sql::testIceTrayServiceTestSql, 10, id, name)));
+	}
+
+	Ice::Int
+	TestIceTrayServiceI::method3(const Ice::Current &)
+	{
+		return static_cast<Ice::Int>(modify(sql::testIceTrayServiceTestSqlUpdate, 5));
 	}
 
 	void

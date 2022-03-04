@@ -23,6 +23,11 @@ namespace TestIceTray {
 		method2(Ice::Int, std::string, const Ice::Current &) override
 		{
 		}
+		Ice::Int
+		method3(const Ice::Current &) override
+		{
+			return 0;
+		}
 	};
 }
 

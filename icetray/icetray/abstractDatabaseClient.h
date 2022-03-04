@@ -7,6 +7,7 @@
 #include <connectionPool.h>
 #include <db/sqlSelectDeserializer.h> // IWYU pragma: keep
 #include <memory>
+#include <modifycommand.h> // IWYU pragma: keep
 #include <optional>
 #include <resourcePool.impl.h>
 #include <selectcommand.h> // IWYU pragma: keep
@@ -52,6 +53,23 @@ namespace IceTray {
 			auto s = sql.select(c);
 			bind(0, s.get(), params...);
 			return Slicer::DeserializeAny<Slicer::SqlSelectDeserializer, Domain>(s.get(), typeIdCol);
+		}
+
+		template<typename... Params>
+		inline auto
+		modify(const SqlSource & sql, const Params &... params)
+		{
+			auto c = db->get();
+			return modify(c.get(), sql, params...);
+		}
+
+		template<typename... Params>
+		inline auto
+		modify(DB::Connection * c, const SqlSource & sql, const Params &... params)
+		{
+			auto s = sql.modify(c);
+			bind(0, s.get(), params...);
+			return s->execute();
 		}
 
 	protected:

@@ -39,6 +39,7 @@ BOOST_AUTO_TEST_CASE(services)
 	p->ice_ping();
 	p->method1();
 	p->method2(1, "test");
+	p->method3();
 }
 
 BOOST_AUTO_TEST_CASE(cube_services_proxy)

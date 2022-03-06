@@ -1,4 +1,5 @@
 #include "testIceTrayServiceI.h"
+#include "basicDataClient.h"
 #include "icecube.h"
 #include "testIceTrayService.h"
 #include <Ice/Communicator.h>

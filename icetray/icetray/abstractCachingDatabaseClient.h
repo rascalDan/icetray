@@ -7,7 +7,6 @@
 #include <cache.h> // IWYU pragma: keep
 #include <command.h>
 #include <command_fwd.h>
-#include <connectionPool.h>
 #include <ctime>
 #include <functional>
 #include <memory>
@@ -27,7 +26,9 @@ namespace IceTray {
 		using CacheItem = std::any;
 
 	public:
-		explicit AbstractCachingDatabaseClient(const DB::ConnectionPoolPtr & d);
+		using AbstractDatabaseClient::AbstractDatabaseClient;
+		using AbstractDatabaseClient::fetch;
+		using AbstractDatabaseClient::modify;
 
 		template<typename Domain, typename... Params>
 		inline Domain

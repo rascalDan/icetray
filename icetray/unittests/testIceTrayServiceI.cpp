@@ -2,6 +2,7 @@
 #include "basicDataClient.h"
 #include "icecube.h"
 #include "testIceTrayService.h"
+#include "transactionalDatabaseClient.h"
 #include <Ice/Communicator.h>
 #include <Ice/ObjectAdapter.h>
 #include <Ice/Optional.h>
@@ -93,7 +94,7 @@ namespace TestIceTray {
 	Ice::Int
 	TestIceTrayServiceI::method3(const Ice::Current &)
 	{
-		return static_cast<Ice::Int>(modify(sql::testIceTrayServiceTestSqlUpdate, 5));
+		return static_cast<Ice::Int>(transactional().modify(sql::testIceTrayServiceTestSqlUpdate, 5));
 	}
 
 	void

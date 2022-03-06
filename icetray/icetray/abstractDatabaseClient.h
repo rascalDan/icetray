@@ -2,12 +2,16 @@
 #define ICETRAY_ABSTRACTDATABASECLIENT_H
 
 #include "basicDataClient.h"
+#include "transactionalDatabaseClient.h"
 #include <connectionPool.h>
 #include <memory>
 #include <optional>
 #include <string>
 #include <visibility.h>
 // IWYU pragma: no_include "resourcePool.impl.h"
+namespace DB {
+	class Connection;
+}
 
 namespace IceTray {
 	class SqlSource;
@@ -41,6 +45,8 @@ namespace IceTray {
 			auto c = db->get();
 			return modify(c.get(), sql, params...);
 		}
+
+		TransactionalDatabaseClient<AdHoc::ResourceHandle<DB::Connection>> transactional();
 
 	protected:
 		DB::ConnectionPoolPtr db;

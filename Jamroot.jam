@@ -34,6 +34,7 @@ project
 		<toolset>gcc,<variant>debug:<cflags>-Wuseless-cast
 		<variant>coverage:<coverage>on
 		<variant>coverage:<define>COVERAGE
+		<toolset>tidy:<enable>all
 		<toolset>tidy:<exclude>icetray/bin/logWriter.h
 		<toolset>tidy:<exclude>icetray/bin/mail.h
 		<toolset>tidy:<exclude>icetray/bin/mime.h

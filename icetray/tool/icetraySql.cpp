@@ -55,6 +55,7 @@ AdHocFormatter(OpenNamespace, "namespace %? {\n");
 AdHocFormatter(CloseNamespace, "} // %?\n");
 
 int
+// NOLINTNEXTLINE(bugprone-exception-escape)
 main(int argc, char ** argv)
 {
 	po::options_description opts("IceTray SQL-to-C++ precompiler");

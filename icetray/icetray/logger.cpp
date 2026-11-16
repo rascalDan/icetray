@@ -124,9 +124,11 @@ namespace IceTray {
 		LoggerPtr
 		LogManager::getLogger(const Ice::StringSeq & domainTokens)
 		{
-			auto logger = std::make_shared<Logger>(domainTokens);
-			logger->logs = getLogsForDomain(domainTokens);
-			loggers.emplace(domainTokens, logger);
+			auto & logger = loggers.emplace(domainTokens, nullptr).first->second;
+			if (!logger) {
+				logger = std::make_shared<Logger>(domainTokens);
+				logger->logs = getLogsForDomain(domainTokens);
+			}
 			return logger;
 		}
 

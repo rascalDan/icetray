@@ -16,6 +16,7 @@
 #include <logWriterConsole.h>
 #include <logger.h>
 #include <memory>
+#include <ranges>
 #include <slicer/common.h> // IWYU pragma: keep
 #include <slicer/modelPartsTypes.h>
 #include <string>
@@ -335,17 +336,22 @@ BOOST_AUTO_TEST_CASE(getLogger)
 	ic->destroy();
 }
 
-BOOST_AUTO_TEST_CASE(getLoggerAndDiscard)
+BOOST_AUTO_TEST_CASE(getLoggerMultiTimes)
 {
 	auto ic = Ice::initialize();
 	ic->getProperties()->setProperty("test.Endpoints", "default");
 	ic->getProperties()->setProperty("TestLogWriter.default", "INFO");
 	this->start("test", ic, {});
-	{
+	std::array<Logger *, 5> loggers {};
+	std::ranges::generate(loggers, []() {
 		auto logger = LOGMANAGER()->getLogger("test.domain");
 		BOOST_REQUIRE(logger);
 		BOOST_REQUIRE_EQUAL(testDomain, logger->getDomain());
-	}
+		return logger.get();
+	});
+	BOOST_CHECK(std::ranges::all_of(loggers, [&loggers](auto logger) {
+		return logger = loggers.front();
+	}));
 	this->stop();
 	ic->destroy();
 }

@@ -26,8 +26,7 @@ namespace IceTray {
 		SPECIAL_MEMBERS_DELETE(Service);
 
 		virtual void addObjects(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq &,
-				const Ice::ObjectAdapterPtr &)
-				= 0;
+				const Ice::ObjectAdapterPtr &) = 0;
 
 		void start(const std::string & name, const Ice::CommunicatorPtr & ic, const Ice::StringSeq & args) override;
 

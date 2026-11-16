@@ -12,6 +12,7 @@
 #include <slicer/slicer.h>
 #include <string>
 #include <visibility.h>
+
 namespace DB {
 	class Connection;
 }

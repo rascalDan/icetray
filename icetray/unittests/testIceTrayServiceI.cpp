@@ -27,8 +27,8 @@
 namespace Ice {
 	struct Current;
 }
-class Foo {
-};
+
+class Foo { };
 
 namespace DB {
 	template<>
@@ -44,6 +44,7 @@ namespace TestIceTray {
 		IceTray::AbstractCachingDatabaseClient(d)
 	{
 	}
+
 	template<typename Type>
 	void
 	TestIceTrayServiceI::fetchTest(const Type & value)

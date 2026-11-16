@@ -21,10 +21,12 @@
 #include <string>
 #include <string_view>
 #include <vector>
+
 // IWYU pragma: no_include "plugins.impl.h"
 namespace Ice {
 	struct Current;
 }
+
 namespace IceTray {
 	class Service;
 }
@@ -62,6 +64,7 @@ namespace std {
 		}
 		return s;
 	}
+
 	ostream &
 	operator<<(ostream & s, const LogLevel & ll)
 	{
@@ -74,6 +77,7 @@ class StaticLogTest {
 public:
 	static IceTray::Logging::LoggerPtr staticLog;
 };
+
 IceTray::Logging::LoggerPtr staticLog = LOGMANAGER()->getLogger<IceTray::Service>();
 
 Domain other = {"other"};
@@ -223,6 +227,7 @@ BOOST_AUTO_TEST_CASE(formatter_boost_format)
 }
 
 AdHocFormatter(Plain, "plain %?.");
+
 BOOST_AUTO_TEST_CASE(formatter_adhoc_compiletime)
 {
 	auto d = std::make_shared<TestLogWriter>(LogLevel::DEBUG);

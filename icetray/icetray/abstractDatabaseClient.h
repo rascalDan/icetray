@@ -8,6 +8,7 @@
 #include <optional>
 #include <string>
 #include <visibility.h>
+
 // IWYU pragma: no_include "resourcePool.impl.h"
 namespace DB {
 	class Connection;

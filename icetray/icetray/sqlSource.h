@@ -5,6 +5,7 @@
 #include <command_fwd.h>
 #include <string>
 #include <visibility.h>
+
 namespace DB {
 	class Connection;
 }

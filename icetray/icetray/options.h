@@ -14,6 +14,7 @@
 
 namespace IceTray {
 	using OptionsDescPtr = std::shared_ptr<boost::program_options::options_description>;
+
 	class DLL_PUBLIC Options : public AdHoc::AbstractPluginImplementation {
 	public:
 		explicit Options(std::string name);
@@ -24,6 +25,7 @@ namespace IceTray {
 		OptionsDescPtr getOptions();
 		const std::string optionsName;
 	};
+
 	using OptionsFactory = AdHoc::Factory<Options>;
 	using OptionsPlugin = AdHoc::PluginOf<Options>;
 
@@ -59,6 +61,7 @@ namespace IceTray {
 		boost::program_options::options_description all;
 	};
 }
+
 #define ICETRAY_OPTIONS_FUNC options(boost::program_options::options_description_easy_init && optDesc)
 #define ICETRAY_OPTIONS_BODY(OptsDef) \
 	{ \

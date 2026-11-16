@@ -154,6 +154,7 @@ namespace IceTray {
 			ScopeLock(_lock) {
 				logWriters.insert(writer);
 			}
+
 			SharedLock(_lock);
 			updateLoggerWriters();
 		}
@@ -164,6 +165,7 @@ namespace IceTray {
 			ScopeLock(_lock) {
 				logWriters.erase(writer);
 			}
+
 			SharedLock(_lock);
 			updateLoggerWriters();
 		}
@@ -239,6 +241,7 @@ namespace IceTray {
 		}
 
 		AdHocFormatter(DomainFmt, ".%?");
+
 		void
 		AbstractLogWriter::writeDomain(
 				std::ostream & s, std::optional<size_t> width, const IceTray::Logging::Domain & domain)

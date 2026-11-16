@@ -7,6 +7,7 @@
 #include <dryice.h>
 #include <memory>
 #include <string>
+
 // IWYU pragma: no_include "plugins.impl.h"
 namespace Ice {
 	struct Current;
@@ -19,10 +20,12 @@ namespace TestIceTray {
 		method1(const Ice::Current &) override
 		{
 		}
+
 		void
 		method2(Ice::Int, std::string, const Ice::Current &) override
 		{
 		}
+
 		Ice::Int
 		method3(const Ice::Current &) override
 		{
@@ -45,6 +48,7 @@ BOOST_GLOBAL_FIXTURE(Service);
 class Client : public IceTray::DryIceClient {
 public:
 	Client() : p(getProxy<TestIceTray::TestIceTrayServicePrx>("test")) { }
+
 	TestIceTray::TestIceTrayServicePrxPtr p;
 };
 

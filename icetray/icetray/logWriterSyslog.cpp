@@ -10,6 +10,7 @@
 namespace IceTray {
 	namespace Logging {
 		AdHocFormatter(LogMsg, "%D: %?");
+
 		SyslogLogWriter::SyslogLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("logging.syslog", p),
 			width(p ? p->getPropertyAsIntWithDefault("logging.syslog.width", -1) : -1)

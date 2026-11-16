@@ -5,6 +5,7 @@
 #include <logWriter.h>
 #include <memory>
 #include <slicer/modelPartsTypes.h>
+
 namespace Ice {
 	struct Current;
 }
@@ -13,6 +14,7 @@ namespace Ice {
 namespace IceTray {
 	namespace Logging {
 		AdHocFormatter(LogMsg, "%?: %D: %?\n");
+
 		ConsoleLogWriter::ConsoleLogWriter(const Ice::PropertiesPtr & p) :
 			AbstractLogWriter("logging.console", p),
 			width(p ? p->getPropertyAsIntWithDefault("logging.console.width", -1) : -1)

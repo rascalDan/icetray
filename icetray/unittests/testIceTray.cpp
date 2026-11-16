@@ -34,6 +34,7 @@ BOOST_GLOBAL_FIXTURE(Service);
 class Client : public IceTray::DryIceClient {
 public:
 	Client() : p(getProxy<TestIceTray::TestIceTrayServicePrx>("test")) { }
+
 	TestIceTray::TestIceTrayServicePrxPtr p;
 };
 
@@ -95,8 +96,8 @@ BOOST_AUTO_TEST_CASE(transactional)
 
 BOOST_AUTO_TEST_CASE(transactional_rollback)
 {
-	class OnlyThis : public std::exception {
-	};
+	class OnlyThis : public std::exception { };
+
 	BOOST_CHECK_THROW(
 			{
 				TxMockPool pool;

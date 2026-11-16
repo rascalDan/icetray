@@ -12,6 +12,7 @@ namespace IceTray {
 		{
 			return f;
 		}
+
 		FILE * const f;
 	};
 }

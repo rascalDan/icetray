@@ -6,6 +6,7 @@
 #include <Ice/StreamHelpers.h>
 #include <cstddef>
 #include <string_view>
+
 namespace Ice {
 	template<typename T, Ice::StreamHelperCategory st> struct StreamHelper;
 }

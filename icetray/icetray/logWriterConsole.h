@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <string_view>
 #include <visibility.h>
+
 namespace Ice {
 	struct Current;
 }

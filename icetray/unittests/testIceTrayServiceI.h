@@ -10,6 +10,7 @@
 #include <icetrayService.h>
 #include <string>
 #include <testIceTrayService.h>
+
 namespace Ice {
 	struct Current;
 }

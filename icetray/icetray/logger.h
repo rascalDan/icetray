@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <typeinfo>
 #include <visibility.h>
+
 // IWYU pragma: no_include "factory.impl.h"
 // IWYU pragma: no_include <boost/test/unit_test.hpp>
 namespace Ice {
@@ -56,6 +57,7 @@ namespace IceTray {
 
 			void message(LogLevel priority, const std::string & msg) const;
 			void messagef(LogLevel priority, const char * msgfmt, ...) const __attribute__((format(printf, 3, 4)));
+
 			template<typename fmt, typename... Args>
 			void
 			messagectf(LogLevel priority, const Args &... args) const
@@ -65,6 +67,7 @@ namespace IceTray {
 					message(fl, priority, fmt::get(args...));
 				}
 			}
+
 			template<typename... Args>
 			void
 			messagebf(LogLevel priority, const std::string & msgfmt, const Args &... args) const
@@ -83,6 +86,7 @@ namespace IceTray {
 
 			LogLevelWriters::const_iterator firstFor(LogLevel priority) const;
 		};
+
 		using LoggerPtr = std::shared_ptr<Logger>;
 
 		class DLL_PUBLIC LogManager {
@@ -93,6 +97,7 @@ namespace IceTray {
 			{
 				return getLogger(typeid(T));
 			}
+
 			LoggerPtr getLogger(const std::type_info &);
 			LoggerPtr getLogger(const std::string &);
 			LogLevelWriters getLogsForDomain(const Domain &) const;

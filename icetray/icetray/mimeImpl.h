@@ -13,6 +13,7 @@
 namespace IceTray {
 	class StreamPtr;
 }
+
 namespace IceTray::Mime {
 	class DLL_PUBLIC PartHelper {
 	protected:

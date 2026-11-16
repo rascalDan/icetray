@@ -12,14 +12,14 @@
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+
 // IWYU pragma: no_include "plugins.impl.h"
 namespace Ice {
 	class Object;
 }
 
 namespace IceTray {
-	class CubePlugIn : public AdHoc::AbstractPluginImplementation {
-	};
+	class CubePlugIn : public AdHoc::AbstractPluginImplementation { };
 
 	template<typename I> class CubePlugInOf : public CubePlugIn, public I {
 		using I::I;
@@ -28,6 +28,7 @@ namespace IceTray {
 	class CubeObject : public CubePlugIn {
 	public:
 		explicit inline CubeObject(Ice::ObjectPrxPtr o) : obj(std::move(o)) { }
+
 		Ice::ObjectPrxPtr obj;
 	};
 

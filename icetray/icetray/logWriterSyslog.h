@@ -6,6 +6,7 @@
 #include <Ice/Properties.h>
 #include <c++11Helpers.h>
 #include <string_view>
+
 namespace Ice {
 	struct Current;
 }

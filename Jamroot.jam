@@ -2,11 +2,8 @@ import os ;
 import slice ;
 import testing ;
 
-using gcc : : [ os.environ CXX ] ;
 using pkg-config ;
 import pkg-config ;
-
-variant coverage : debug ;
 
 project icetray-root : requirements
 		<define>ICE_CPP11_MAPPING
@@ -31,8 +28,7 @@ project icetray-root : requirements
 		<toolset>gcc,<variant>debug:<cflags>-Wduplicated-branches
 		<toolset>gcc,<variant>debug:<cflags>-Wlogical-op
 		<toolset>gcc,<variant>debug:<cflags>-Wuseless-cast
-		<variant>coverage:<coverage>on
-		<variant>coverage:<define>COVERAGE
+		<coverage>on:<define>COVERAGE
 		<toolset>tidy:<enable>all
 		<toolset>tidy:<exclude>icetray/bin/logWriter.h
 		<toolset>tidy:<exclude>icetray/bin/mail.h

@@ -33,7 +33,7 @@ namespace IceTray {
 
 		using LogWriters = std::set<LogWriterPrxPtr>;
 		using LogLevelWriters = std::array<LogWriters, 8>;
-		using Loggers = std::set<LoggerBase *>;
+		using Loggers = std::map<Ice::StringSeq, std::shared_ptr<LoggerBase>>;
 
 		class DLL_PUBLIC LoggerBase {
 		public:
@@ -100,6 +100,7 @@ namespace IceTray {
 
 			LoggerPtr getLogger(const std::type_info &);
 			LoggerPtr getLogger(const std::string &);
+			LoggerPtr getLogger(const Ice::StringSeq &);
 			LogLevelWriters getLogsForDomain(const Domain &) const;
 			void addWriter(const LogWriterPrxPtr & writer);
 			void removeWriter(const LogWriterPrxPtr & writer);

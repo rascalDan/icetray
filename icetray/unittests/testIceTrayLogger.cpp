@@ -335,6 +335,21 @@ BOOST_AUTO_TEST_CASE(getLogger)
 	ic->destroy();
 }
 
+BOOST_AUTO_TEST_CASE(getLoggerAndDiscard)
+{
+	auto ic = Ice::initialize();
+	ic->getProperties()->setProperty("test.Endpoints", "default");
+	ic->getProperties()->setProperty("TestLogWriter.default", "INFO");
+	this->start("test", ic, {});
+	{
+		auto logger = LOGMANAGER()->getLogger("test.domain");
+		BOOST_REQUIRE(logger);
+		BOOST_REQUIRE_EQUAL(testDomain, logger->getDomain());
+	}
+	this->stop();
+	ic->destroy();
+}
+
 BOOST_AUTO_TEST_CASE(getLoggerForType)
 {
 	auto logger = LOGMANAGER()->getLogger<IceTray::Service>();

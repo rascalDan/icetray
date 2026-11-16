@@ -118,10 +118,15 @@ namespace IceTray {
 		LoggerPtr
 		LogManager::getLogger(const std::string & domain)
 		{
-			auto domainTokens = AbstractLogWriter::splitDomain(domain);
+			return getLogger(AbstractLogWriter::splitDomain(domain));
+		}
+
+		LoggerPtr
+		LogManager::getLogger(const Ice::StringSeq & domainTokens)
+		{
 			auto logger = std::make_shared<Logger>(domainTokens);
 			logger->logs = getLogsForDomain(domainTokens);
-			loggers.insert(logger.get());
+			loggers.emplace(domainTokens, logger);
 			return logger;
 		}
 
@@ -142,7 +147,7 @@ namespace IceTray {
 		void
 		LogManager::updateLoggerWriters() const
 		{
-			for (auto logger : loggers) {
+			for (const auto & [_, logger] : loggers) {
 				Lock(logger->_lock);
 				logger->logs = getLogsForDomain(logger->domain);
 			}
